@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Personal ignores
+virtenv/
+
+
 # Distribution / packaging
 .Python
 build/
