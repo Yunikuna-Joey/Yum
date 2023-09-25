@@ -8,6 +8,7 @@ __pycache__/
 
 # Personal ignores
 virtenv/
+*.jpg
 
 
 # Distribution / packaging

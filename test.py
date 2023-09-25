@@ -1,1 +1,41 @@
-print('hello')
+from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response
+from flask_sqlalchemy import SQLAlchemy
+from datetime import timedelta
+from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+
+# create app that will be ran 
+app = Flask(__name__, template_folder='templates', static_folder='static')
+
+# create a database for user information
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///logIn.sqlite3"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# set optional bootswatch theme
+app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+
+db = SQLAlchemy(app)
+
+
+# Data Models  
+class Account(db.Model): 
+    id = db.Column(db.Integer, primary_key = True)
+    username = db.Column(db.Srting(100), nullable = False)
+    password = db.Column(db.String(100), nullable = False)
+    # good idea to have tiers of users (possible subscription based for premium / admin)
+    acc_status = db.Column(db.Integer, nullable = False)
+
+    def get_id(self): 
+        return self.id
+    
+    def password_auth(self, password): 
+        return self.password == password
+
+    def acc_status_auth(self): 
+        return self.acc_status
+
+@app.route('/', methods=['POST'])
+def homepage(): 
+    return render_template('login.html')
+
