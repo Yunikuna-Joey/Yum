@@ -35,7 +35,16 @@ class Account(db.Model):
     def acc_status_auth(self): 
         return self.acc_status
 
-@app.route('/', methods=['POST'])
+@app.route('/')
 def homepage(): 
     return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login(): 
+    data = request.json 
+    user = Account.query.filter_by(username = data['username']).first() 
+    if user is None or not user.password_auth(data['password']): 
+        return jsonify({'error': 'Invalid username or password'})
+    # Add more depending on account status 
+
 
