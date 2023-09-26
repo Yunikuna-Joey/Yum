@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 # Data Models  
 class Account(db.Model): 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.Srting(100), nullable = False)
+    username = db.Column(db.String(100), nullable = False)
     password = db.Column(db.String(100), nullable = False)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     acc_status = db.Column(db.Integer, nullable = False)
