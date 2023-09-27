@@ -47,4 +47,8 @@ def login():
         return jsonify({'error': 'Invalid username or password'})
     # Add more depending on account status 
 
-
+# this should create the database upon activating file 
+if __name__ == '__main__': 
+    with app.app_context(): 
+        db.create_all() 
+    app.run(debug=True)

@@ -25,5 +25,8 @@ function login() {
             window.location.href = response.redirect;
         }
     };
+}
 
+function register() {
+    // empty
 }
