@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<link rel="stylesheet" type="text/css" href="../static/register.css">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +10,35 @@
 </head>
 
 <body>
+    <!-- registration box -->
+    <div class="wrapper">
+        <form class="form">
+            <h1>Register for an account</h1>
+
+            <!-- Username -->
+            <div class="input-box">
+                <input id="username" type="text" placeholder="Username" required>
+            </div>
+
+            <!-- Password -->
+            <div class="input-box">
+                <input id="password" type="password" placeholder="Password" required>
+            </div>
+
+            <!-- Re-Enter Password -->
+            <div class="input-box">
+                <input id="password" type="password" placeholder="Re-Enter Password" required>
+            </div>
+
+
+            <button type="submit" class="btn">Create Account</button>
+            
+
+        </form> 
+        <div id="error-response"></div>
+    </div>
     
-    
+
 </body>
 
 </html>
