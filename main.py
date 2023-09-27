@@ -6,6 +6,12 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
 
+# CREATE - POST 
+# READ - GET 
+# UPDATE - PUT
+# DELETE - DELETE 
+
+
 # create app that will be ran 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -24,7 +30,7 @@ class Account(db.Model):
     username = db.Column(db.String(100), nullable = False)
     password = db.Column(db.String(100), nullable = False)
     # good idea to have tiers of users (possible subscription based for premium / admin)
-    acc_status = db.Column(db.Integer, nullable = False)
+    # acc_status = db.Column(db.Integer, nullable = False)
 
     def get_id(self): 
         return self.id
@@ -32,8 +38,8 @@ class Account(db.Model):
     def password_auth(self, password): 
         return self.password == password
 
-    def acc_status_auth(self): 
-        return self.acc_status
+    # def acc_status_auth(self): 
+    #     return self.acc_status
 
 @app.route('/')
 def homepage(): 
@@ -46,6 +52,25 @@ def login():
     if user is None or not user.password_auth(data['password']): 
         return jsonify({'error': 'Invalid username or password'})
     # Add more depending on account status 
+
+@app.route('/register', methods=['POST']) 
+def register(): 
+    if request.method == 'POST': 
+        data = request.json 
+        username = data['username']
+        password = data['password']
+        confirm_password = data['confirmpass']
+        user = Account.query.filter_by(username=username).first() 
+        if user: 
+            return jsonify({'error': 'That name has been taken!'})
+        elif password != confirm_password: 
+            return jsonify({'error': 'Passwords must match!'})
+        else: 
+            user = Account(username=username, password=password)
+            db.session.add(user)
+            db.session.commit()
+            return jsonify({'redirect': url_for('startpage')})
+
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 

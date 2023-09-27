@@ -27,6 +27,44 @@ function login() {
     };
 }
 
+/* 
+CREATE - POST 
+READ - GET 
+UPDATE - PUT
+DELETE - DELETE 
+*/ 
+
 function register() {
-    // empty
+    const username_reg = encodeURIComponent(
+        document.getElementById('username-reg').value
+    );
+
+    const password_reg = encodeURIComponent(
+        document.getElementById('password-reg').value
+    );
+
+    // not sure if this will be needed 
+    const confirm_password_reg = encodeURIComponent(
+        document.getElementById('confirm-password-reg').value
+    );
+
+    const xhttp = new XMLHttpRequest(); 
+    xhttp.open('POST', '/register'); 
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    const data = JSON.stringify({
+        username: username_reg,
+        password: password_reg, 
+        confirmpass: confirm_password_reg,
+    });
+
+    xhttp.send(data);
+    xhttp.onload = function () {
+        const response = JSON.parse(this.responseText);
+        if (response.error) {
+            document.getElementById('error-response').innerHTML = response.error;
+        }
+        else {
+            window.location.href = response.redirect; 
+        }
+    };
 }
