@@ -33,7 +33,25 @@ READ - GET
 UPDATE - PUT
 DELETE - DELETE 
 */ 
+function loadregisterpage() {
 
+    event.preventDefault(); 
+
+    const request = new XMLHttpRequest(); 
+    request.open('GET', '/loadregisterpage'); 
+    request.send() 
+
+    request.onload = function () {
+        if (request.status == 200) {
+            window.location.href = '/loadregisterpage';
+        }
+        else {
+            console.error('Failed to load register page')
+        } 
+    };
+}
+
+// function responsible for action of registering 
 function register() {
     const username_reg = encodeURIComponent(
         document.getElementById('username-reg').value

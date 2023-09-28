@@ -16,7 +16,7 @@ from flask_admin.contrib.sqla import ModelView
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 # create a database for user information
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///logIn.sqlite3"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///storage.sqlite3"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # set optional bootswatch theme
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
@@ -52,6 +52,10 @@ def login():
     if user is None or not user.password_auth(data['password']): 
         return jsonify({'error': 'Invalid username or password'})
     # Add more depending on account status 
+
+@app.route('/loadregisterpage', methods=['GET'])
+def loadregister(): 
+    return render_template('register.html')
 
 @app.route('/register', methods=['POST']) 
 def register(): 
