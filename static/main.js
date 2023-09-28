@@ -34,9 +34,6 @@ UPDATE - PUT
 DELETE - DELETE 
 */ 
 function loadregisterpage() {
-
-    event.preventDefault(); 
-
     const request = new XMLHttpRequest(); 
     request.open('GET', '/loadregisterpage'); 
     request.send() 

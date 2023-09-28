@@ -1,10 +1,14 @@
+import json
+import random
+from urllib import request
 from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-
+from datetime import datetime
+import urllib.parse
 
 # CREATE - POST 
 # READ - GET 
@@ -27,7 +31,7 @@ db = SQLAlchemy(app)
 # Data Models  
 class Account(db.Model): 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(100), nullable = False)
+    username = db.Column(db.String(100), nullable = False, unique=True)
     password = db.Column(db.String(100), nullable = False)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
@@ -64,17 +68,19 @@ def register():
         username = data['username']
         password = data['password']
         confirm_password = data['confirmpass']
+
         user = Account.query.filter_by(username=username).first() 
+
         if user: 
             return jsonify({'error': 'That name has been taken!'})
-        elif password != confirm_password: 
+        elif confirm_password != password: 
             return jsonify({'error': 'Passwords must match!'})
         else: 
-            user = Account(username=username, password=password)
-            db.session.add(user)
+            new_user = Account(username=username, password=password)
+            db.session.add(new_user)
             db.session.commit()
-            return jsonify({'redirect': url_for('startpage')})
-
+            
+            return jsonify({'message': 'Registration successful', 'redirect': '/login'})
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
