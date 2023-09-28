@@ -63,23 +63,42 @@ function register() {
         document.getElementById('confirm-password-reg').value
     );
 
-    const xhttp = new XMLHttpRequest(); 
-    xhttp.open('POST', '/register'); 
-    xhttp.setRequestHeader('Content-Type', 'application/json');
-    const data = JSON.stringify({
-        username: username_reg,
-        password: password_reg, 
-        confirmpass: confirm_password_reg,
-    });
+    if (confirm_password_reg !== password_reg) {
+        document.getElementById('error-response').innerHTML = 'Passwords must match!'; 
+        return;
+    } 
+    
+    const data = {
+        username: username_reg, 
+        password: password_reg
+    };
 
-    xhttp.send(data);
-    xhttp.onload = function () {
-        const response = JSON.parse(this.responseText);
-        if (response.error) {
-            document.getElementById('error-response').innerHTML = response.error;
+    const request = new XMLHttpRequest(); 
+    request.open('POST', '/register', true); 
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) {
+            const data = JSON.parse(request.responseText); 
+            if (data.error) {
+                document.getElementById('error-response').innerHTML = data.error;
+            } 
+            else {
+                window.location.href = data.redirect
+            }
         }
+
         else {
-            window.location.href = response.redirect; 
+            console.error('Error', request.status, request.statusText)
         }
     };
+
+    request.onerror = function () {
+        console.error('Request Failed');
+    };
+
+    request.send(JSON.stringify(data));
+
+    
+
 }

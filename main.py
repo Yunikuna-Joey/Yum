@@ -65,16 +65,15 @@ def loadregister():
 def register(): 
     if request.method == 'POST': 
         data = request.json 
+        print(data)
         username = data['username']
         password = data['password']
-        confirm_password = data['confirmpass']
 
         user = Account.query.filter_by(username=username).first() 
 
         if user: 
             return jsonify({'error': 'That name has been taken!'})
-        elif confirm_password != password: 
-            return jsonify({'error': 'Passwords must match!'})
+
         else: 
             new_user = Account(username=username, password=password)
             db.session.add(new_user)
