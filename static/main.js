@@ -72,6 +72,7 @@ function register() {
         // key = varied name, value = declared values {dictionary}
         username: username,
         password: password,
+        cpass: confirmation,
     });
     
     request.send(data)
@@ -81,6 +82,7 @@ function register() {
         if (response.error) {
             document.getElementById('error-response').innerHTML = response.error;
         } 
+
         else {
             console.log('Ran onload');
             window.location.href = response.redirect;
