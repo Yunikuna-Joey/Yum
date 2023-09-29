@@ -33,6 +33,7 @@ READ - GET
 UPDATE - PUT
 DELETE - DELETE 
 */ 
+
 function loadregisterpage() {
     const request = new XMLHttpRequest(); 
     request.open('GET', '/loadregisterpage'); 
@@ -48,57 +49,42 @@ function loadregisterpage() {
     };
 }
 
-// function responsible for action of registering 
 function register() {
-    const username_reg = encodeURIComponent(
+    const username = encodeURIComponent(
         document.getElementById('username-reg').value
     );
 
-    const password_reg = encodeURIComponent(
+    const password = encodeURIComponent( 
         document.getElementById('password-reg').value
     );
 
-    // not sure if this will be needed 
-    const confirm_password_reg = encodeURIComponent(
+    // not sure if needed 
+    const confirmation = encodeURIComponent( 
         document.getElementById('confirm-password-reg').value
     );
 
-    if (confirm_password_reg !== password_reg) {
-        document.getElementById('error-response').innerHTML = 'Passwords must match!'; 
-        return;
-    } 
-    
-    const data = {
-        username: username_reg, 
-        password: password_reg
-    };
-
     const request = new XMLHttpRequest(); 
-    request.open('POST', '/register', true); 
+    // routes into the Flask file 
+    request.open('POST', '/register');
     request.setRequestHeader('Content-Type', 'application/json');
 
-    request.onload = function () {
-        if (request.status === 200) {
-            const data = JSON.parse(request.responseText); 
-            if (data.error) {
-                document.getElementById('error-response').innerHTML = data.error;
-            } 
-            else {
-                window.location.href = data.redirect
-            }
-        }
-
-        else {
-            console.error('Error', request.status, request.statusText)
-        }
-    };
-
-    request.onerror = function () {
-        console.error('Request Failed');
-    };
-
-    request.send(JSON.stringify(data));
-
+    const data = JSON.stringify({
+        // key = varied name, value = declared values {dictionary}
+        username: username,
+        password: password,
+    });
     
+    request.send(data)
 
-}
+    request.onload = function () {
+        const response = JSON.parse(this.responseText);
+        if (response.error) {
+            document.getElementById('error-response').innerHTML = response.error;
+        } 
+        else {
+            console.log('Ran onload');
+            window.location.href = response.redirect;
+        }
+    };
+
+} 

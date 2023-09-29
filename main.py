@@ -65,9 +65,11 @@ def loadregister():
 def register(): 
     if request.method == 'POST': 
         data = request.json 
-        print(data)
+        # print(data)
         username = data['username']
         password = data['password']
+        print(username)
+        print(password)
 
         user = Account.query.filter_by(username=username).first() 
 
