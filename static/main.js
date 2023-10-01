@@ -8,15 +8,15 @@ function login() {
         document.getElementById('password').value
     );
 
-    const xhttp = new XMLHttpRequest(); 
+    const request = new XMLHttpRequest(); 
 
-    xhttp.open('POST', '/login');
-    xhttp.setRequestHeader('Content-Type', 'application/json');
+    request.open('POST', '/login');
+    request.setRequestHeader('Content-Type', 'application/json');
 
     const data = JSON.stringify({username: username, password: password});
     
 
-    xhttp.onreadystatechange = function () {
+    request.onreadystatechange = function () {
         if (this.readyState === 4) {
             if (this.status === 200) {
                 const response = JSON.parse(this.responseText);
@@ -33,7 +33,7 @@ function login() {
             }
         }
     };
-    xhttp.send(data);
+    request.send(data);
     return false;
 
     // xhttp.onload = function() {
