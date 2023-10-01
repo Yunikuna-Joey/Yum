@@ -14,17 +14,37 @@ function login() {
     xhttp.setRequestHeader('Content-Type', 'application/json');
 
     const data = JSON.stringify({username: username, password: password});
-    xhttp.send(data);
+    
 
-    xhttp.onload = function() {
-        const response = JSON.parse(this.responseText); 
-        if (response.error) {
-            document.getElementById('error-response').innerHTML = response.error;
-        }
-        else {
-            window.location.href = response.redirect;
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                const response = JSON.parse(this.responseText);
+                if (response.error) {
+                    document.getElementById('error-response').innerHTML = response.error;
+                }
+                else {
+                    window.location.href = response.redirect;
+                }
+            }
+
+            else {
+                console.error('Error:', this.status, this.statusText);
+            }
         }
     };
+    xhttp.send(data);
+    return false;
+
+    // xhttp.onload = function() {
+    //     const response = JSON.parse(this.responseText); 
+    //     if (response.error) {
+    //         document.getElementById('error-response').innerHTML = response.error;
+    //     }
+    //     else {
+    //         window.location.href = response.redirect;
+    //     }
+    // };
 }
 
 /* 
