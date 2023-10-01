@@ -94,6 +94,23 @@ function register() {
         password: password,
         cpass: confirmation,
     });
+
+    // request.onreadystatechange = function () {
+    //     if (this.readyState === 4) {
+    //         if (this.status === 200) {
+    //             const response = JSON.parse(this.responseText);
+    //             if (response.error) {
+    //                 document.getElementById('error-response').innerHTML = response.error;
+    //             }
+    //             else {
+    //                 window.location.href = response.redirect;
+    //             }
+    //         }
+    //     }
+    //     else {
+    //         console.error('Error:', this.status, this.statusText);
+    //     }
+    // };
     
     request.send(data)
 
