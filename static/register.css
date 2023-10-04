@@ -107,6 +107,10 @@ body {
     font-weight: 600; 
 }
 
+#error-response {
+    color: red;
+}
+
 /* .wrapper .register-link {
     font-size: 14.5px; 
     text-align: center; 
