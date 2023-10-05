@@ -23,10 +23,37 @@
             </ul>
             <a href="#" class="action">Get Started</a>
             <div class="toggle_btn">
-                
+                <i class='bx bx-list-ul'></i>
             </div>
         </div>
+        <div class="dropdown_menu">
+            <li><a href="hero">Home</a></li>
+            <li><a href="about">Home</a></li>
+            <li><a href="services">Home</a></li>
+            <li><a href="about">Home</a></li>
+            <li> <a href="#" class="action">Get Started</a> </li>
+        </div>
     </header>
+    <main>
+        <section id="hero">
+            <h1>Welcome</h1>
+            <p>Testing</p>
+        </section>
+    </main>
+
+    <script> 
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnicon = document.querySelector('.toggle_btn i')
+    const dropdownMenu = document.querySelector('.dropdown_menu')
+
+    toggleBtn.onclick = function () {
+        dropdownMenu.classList.toggle('open')
+        const isOpen = dropdownMenu.classList.contains('open')
+        toggleBtnicon.classList = isOpen
+            ? 'bx bx-x'
+            : 'bx bx-list-ul'
+    }
+    </script>
 </body>
 
 

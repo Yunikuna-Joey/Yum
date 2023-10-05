@@ -45,9 +45,13 @@ class Account(db.Model):
     # def acc_status_auth(self): 
     #     return self.acc_status
 
+# @app.route('/')
+# def homepage(): 
+#     return render_template('login.html')
+
 @app.route('/')
 def homepage(): 
-    return render_template('login.html')
+    return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
 def login(): 
