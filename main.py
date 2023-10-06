@@ -45,12 +45,12 @@ class Account(db.Model):
     # def acc_status_auth(self): 
     #     return self.acc_status
 
-# @app.route('/')
-# def homepage(): 
-#     return render_template('login.html')
-
 @app.route('/')
 def homepage(): 
+    return render_template('login.html')
+
+@app.route('/home')
+def home(): 
     return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
@@ -59,7 +59,9 @@ def login():
     user = Account.query.filter_by(username = data['username']).first() 
     if user is None or not user.password_auth(data['password']): 
         return jsonify({'error': 'Invalid username or password'})
-    # Add more depending on account status 
+    else: 
+        return jsonify({'message': 'Login successful', 'redirect': '/home'})
+    
 
 @app.route('/loadregisterpage', methods=['GET'])
 def loadregister(): 
@@ -86,7 +88,7 @@ def register():
             db.session.add(new_user)
             db.session.commit()
             
-            return jsonify({'message': 'Registration successful', 'redirect': '/login'})
+            return jsonify({'message': 'Registration successful', 'redirect': '/'})
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 

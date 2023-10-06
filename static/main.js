@@ -115,16 +115,5 @@ function register() {
     request.send(data)
     return false;
 
-    // request.onload = function () {
-    //     const response = JSON.parse(this.responseText);
-    //     if (response.error) {
-    //         document.getElementById('error-response').innerHTML = response.error;
-    //     } 
-
-    //     else {
-    //         console.log('Ran onload');
-    //         window.location.href = response.redirect;
-    //     }
-    // };
 
 } 
