@@ -51,6 +51,7 @@ def homepage():
 
 @app.route('/home')
 def home(): 
+    # test
     # username = current_user.username
     # return render_template('home.html', username=username)
     return render_template('home.html')
