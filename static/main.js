@@ -21,11 +21,19 @@ function login() {
             if (this.status === 200) {
                 const response = JSON.parse(this.responseText);
                 if (response.error) {
+                    console.log('Error 1');
                     document.getElementById('error-response').innerHTML = response.error;
                 }
                 else {
-                    window.location.href = response.redirect;
+                    console.log('Error 2');
+                    document.open();
+                    document.write(response);
+                    console.log(response);
+                    document.close();
                 }
+                // else {
+                //     window.location.href = response.redirect;
+                // }
             }
 
             else {

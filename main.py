@@ -51,6 +51,8 @@ def homepage():
 
 @app.route('/home')
 def home(): 
+    # username = current_user.username
+    # return render_template('home.html', username=username)
     return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
@@ -61,6 +63,7 @@ def login():
         return jsonify({'error': 'Invalid username or password'})
     else: 
         return jsonify({'message': 'Login successful', 'redirect': '/home'})
+        # return render_template('home.html')
     
 
 @app.route('/loadregisterpage', methods=['GET'])
