@@ -58,10 +58,12 @@ def load_user(user_id):
 def loadloginpage(): 
     return render_template('login.html')
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 @login_required 
 def logout(): 
-    return render_template('login.html')
+    logout_user()
+    # return render_template('login.html')
+    return redirect(url_for('login'))
 
 @app.route('/home')
 @login_required
