@@ -21,19 +21,13 @@ function login() {
             if (this.status === 200) {
                 const response = JSON.parse(this.responseText);
                 if (response.error) {
-                    console.log('Error 1');
+                    console.log('Error: ', response.error);
                     document.getElementById('error-response').innerHTML = response.error;
                 }
                 else {
-                    console.log('Error 2');
-                    document.open();
-                    document.write(response);
-                    console.log(response);
-                    document.close();
+                    console.log('Redirecting to: ', response.redirect);
+                    window.location.href = response.redirect;
                 }
-                // else {
-                //     window.location.href = response.redirect;
-                // }
             }
 
             else {

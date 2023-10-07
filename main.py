@@ -27,9 +27,14 @@ app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 db = SQLAlchemy(app)
 
+# initialize Flask-Login
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+app.secret_key = 'Temporarily'
+
 
 # Data Models  
-class Account(db.Model): 
+class Account(UserMixin, db.Model): 
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(100), nullable = False, unique=True)
     password = db.Column(db.String(100), nullable = False)
@@ -45,16 +50,21 @@ class Account(db.Model):
     # def acc_status_auth(self): 
     #     return self.acc_status
 
+@login_manager.user_loader
+def load_user(user_id): 
+    return Account.query.get(int(user_id))
+
 @app.route('/')
-def homepage(): 
+def loadloginpage(): 
     return render_template('login.html')
 
 @app.route('/home')
+@login_required
 def home(): 
     # test
-    # username = current_user.username
-    # return render_template('home.html', username=username)
-    return render_template('home.html')
+    username = current_user.username
+    return render_template('home.html', username=username)
+    # return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
 def login(): 
@@ -63,6 +73,7 @@ def login():
     if user is None or not user.password_auth(data['password']): 
         return jsonify({'error': 'Invalid username or password'})
     else: 
+        login_user(user)
         return jsonify({'message': 'Login successful', 'redirect': '/home'})
         # return render_template('home.html')
     
