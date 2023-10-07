@@ -116,6 +116,23 @@ function register() {
     
     request.send(data)
     return false;
-
-
 } 
+
+function logout() {
+    const request = new XMLHttpRequest();
+
+    request.open('GET', '/logout');
+    // onreadystatechange is an event listener
+    request.onreadystatechange = function () {
+        // 4 represents a complete request
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                window.location.href = '/login';
+            }
+            else {
+                console.error('Logout failed:', request.statusText);
+            }
+        }
+    };
+    request.send();
+}
