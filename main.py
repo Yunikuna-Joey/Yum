@@ -58,12 +58,13 @@ def load_user(user_id):
 def loadloginpage(): 
     return render_template('login.html')
 
-@app.route('/logout', methods=['GET', 'POST'])
+
+@app.route('/logout', methods=['POST'])
 @login_required 
 def logout(): 
     logout_user()
-    # return render_template('login.html')
-    return redirect(url_for('login'))
+    return jsonify({'redirect': url_for('loadloginpage')})
+    
 
 @app.route('/home')
 @login_required

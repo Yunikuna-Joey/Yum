@@ -119,20 +119,20 @@ function register() {
 } 
 
 function logout() {
+    // debugging here 
+    console.log('Javascript logout');
+    
     const request = new XMLHttpRequest();
+    request.open('POST', '/logout');
+    request.send(); 
 
-    request.open('GET', '/logout');
-    // onreadystatechange is an event listener
-    request.onreadystatechange = function () {
-        // 4 represents a complete request
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                window.location.href = '/login';
-            }
-            else {
-                console.error('Logout failed:', request.statusText);
-            }
+    request.onload = function () {
+        const response = JSON.parse(this.responseText);
+        if (response.error) {
+            document.getElementById('error-response').innerHTML = response.error;
         }
-    };
-    request.send();
+        else {
+            window.location.href = response.redirect;
+        }
+    }
 }
