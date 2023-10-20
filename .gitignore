@@ -9,6 +9,7 @@ __pycache__/
 # Personal ignores
 virtenv/
 *.jpg
+test.py
 
 
 # Distribution / packaging
