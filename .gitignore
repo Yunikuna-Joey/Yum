@@ -10,6 +10,7 @@ __pycache__/
 virtenv/
 *.jpg
 test.py
+.env
 
 
 # Distribution / packaging

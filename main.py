@@ -10,6 +10,12 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 import urllib.parse
 
+# API settings for google maps 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 # CREATE - POST 
 # READ - GET 
 # UPDATE - PUT
