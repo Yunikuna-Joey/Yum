@@ -16,6 +16,9 @@ import os
 
 load_dotenv()
 
+# grabs info from another file 
+# key = os.getenv('KEY')
+
 # CREATE - POST 
 # READ - GET 
 # UPDATE - PUT
@@ -77,7 +80,8 @@ def logout():
 def home(): 
     # test
     username = current_user.username
-    return render_template('home.html', username=username)
+    key = os.getenv('KEY')
+    return render_template('home.html', username=username, key=key)
     # return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
