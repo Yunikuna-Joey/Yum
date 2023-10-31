@@ -119,63 +119,65 @@ function register() {
 } 
 
 // Google Maps Functions located here 
+
+// *************** DISPLAY INITIAL MAP ***************
 function initMap() {
-    // creating the instance of a map within the provided html tag / position
-    const map = new google.maps.Map(document.getElementById('map-section'), {
-        // default values of 0, 0 
-        center: {user_lat: 43.400344826187, user_lng: -80.3250596245924},
-        zoom: 12 
+    // create the initial map 
+    const map = new google.maps.Map(document.getElementById('hero'), {
+        center: { lat: 43.400344826187, lng: -80.3250596245924}, 
+        zoom: 12
     });
-    // error seems to be in this first portion with center being declared 
 
+    // this just ecentuates the center for now 
+    const marker = new google.maps.Marker({
+        position: {lat: 43.400344826187, lng: -80.3250596245924}, 
+        map: map, 
+        title: 'Boba'
+    });
 
-    // // Using 'geolocation' support as a way to parse user lat and long 
-    // if (navigator.geolocation) {        // I think this is when the user is prompted && presses allow location premissions
-    //     navigator.geolocation.getCurrentPosition(function (position) {
-    //         const user_coordinates = {
-    //             user_lat: position.coords.latitude,
-    //             user_lng: position.coords.longitude
-    //         };
+    // making use of geolocation to automatically determine user location 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            // we can see  that user_coordinates is in dictionary form 
+            const user_coordinates = {
+                user_lat: position.coords.latitude,
+                user_long: position.coords.longitude
+            };
             
-    //         // DEBUGGING PLEASE LAT AND LONG
-    //         console.log('*************************************');
-    //         console.log('Lat: ', user_coordinates.user_lat);
-    //         console.log('Long: ', user_coordinates.user_lng);
+            // debugging user coordinates here 
+            console.log('*********************'); 
+            console.log('Lat: ', user_coordinates.user_lat); 
+            console.log('Long: ', user_coordinates.user_long);
 
-    //         // Allow us to center the map on user location
-    //         map.setCenter(user_coordinates);
+            // allow for center on user location? 
+            // map.setCenter(user_coordinates);
 
-    //         // Creating a marker to distinctly see where user is 
-    //         const marker = new google.maps.Marker({
-    //             position: user_coordinates, 
-    //             map: map, 
-    //             title: 'Current Location'
-    //         });
+            // Create a new map instance? 
+            const map = new google.maps.Map(document.getElementById('hero'), {
+                center: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long}, 
+                zoom: 12 
+            });
 
-    //     }, function(error) {
-    //         // In the event that user denies access 
-    //         console.error('Geolocation error: ', error)
-    //     });
-    // }
+            // Creating the marker 
+            const marker = new google.maps.Marker({
+                position: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long}, 
+                map: map, 
+                title: 'Canadia land restaurant'
+            }); 
 
-    // else {
-    //     // In the event that geolocation is not supported by the browser
-    //     console.error('Geolocation is not supported by your browser.');
-    // } 
-}
+        }, function(error) {
+            // In the event that user denies access to location
+            console.error('Geolocation error: ', error);
+        });
 
-// function initMap() {
-//     const map = new google.maps.Map(document.getElementById('hero'), {
-//         center: { lat: 38.42510222646131, lng: -121.39244868818646}, 
-//         zoom: 15
-//     });
+    } // end of if statement block
 
-//     const marker = new google.maps.Marker({
-//         position: {lat: 38.42510222646131 , lng: -121.39244868818646}, 
-//         map: map, 
-//         title: 'Boba'
-//     });
-// } 
+    else {
+        // In the event that geolocation is not supported by the browser
+        console.error('Geolocation is not supported by your browser');
+    } 
+
+} // end of display map function  
 
 
 function logout() {
