@@ -132,6 +132,19 @@ section#hero {
     margin-bottom: 1rem;
 }
 
+
+/* MAP */
+#map {
+    height: calc(100vh - 90px);
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
 /* Responsive Portion */
 @media(max-width: 992px) {
     .navbar .links, 

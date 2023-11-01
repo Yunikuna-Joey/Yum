@@ -145,7 +145,7 @@ function initMap() {
     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
 
     // create the initial map 
-    const map = new google.maps.Map(document.getElementById('hero'), {
+    const map = new google.maps.Map(document.getElementById('map'), {
         center: initial_coords,
         zoom: 12
     });
