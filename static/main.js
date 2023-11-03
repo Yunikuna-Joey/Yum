@@ -181,6 +181,9 @@ function initMap() {
             marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
             marker.setTitle('Current Location')
 
+            // using the helper function below to search nearby restaurants 
+            searchPOI(user_coordinates);
+
 
         }, function(error) {
             // In the event that user denies access to location
@@ -195,3 +198,49 @@ function initMap() {
     } 
 
 } // end of display map function  
+
+// Helper to look for nearby POI based off user location
+function searchPOI(user_coordinates) {
+    const googPlaceService = new google.maps.places.PlacesService(map);
+
+    const request = {
+        location: user_coordinates,     // this will be automatically parsed 
+        radius: 100,                    // going to try and make this adjustable 
+        type: 'restaurant'              // going to see if I can make buttons to change this category 
+    };
+
+    googPlaceService.nearbySearch(request, callback);
+    console.log('Search function');
+} // end of search function 
+
+
+// Experiment with this function to determine another way to display results 
+function callback(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (let i = 0; i < results.length; i++) {
+            createRestMarker(results[i]);
+        }
+        console.log('function');
+    }
+} // end of marker list function 
+
+function createRestMarker(place) {
+    const marker = new google.maps.Marker({
+        map: map, 
+        position: place.geometry.location,
+        title: place.name
+    });
+
+    // 'place' information window 
+    const infowindow = new google.maps.InfoWindow({
+        content: place.name
+    });
+    
+    console.log('Before marker');
+
+    marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    });
+
+    console.log('After marker');
+} // end of marker creation function 
