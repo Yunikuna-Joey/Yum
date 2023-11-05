@@ -138,6 +138,8 @@ function logout() {
 }
 
 // Google Maps Functions located here 
+let map; 
+let googPlaceService;
 
 // *************** DISPLAY INITIAL MAP ***************
 function initMap() {
@@ -145,7 +147,7 @@ function initMap() {
     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
 
     // create the initial map 
-    const map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: initial_coords,
         zoom: 12
     });
@@ -201,7 +203,8 @@ function initMap() {
 
 // Helper to look for nearby POI based off user location
 function searchPOI(user_coordinates) {
-    const googPlaceService = new google.maps.places.PlacesService(map);
+    // this is supposedly creating a new instance of Places... so we are removing to test functionality 
+    googPlaceService = new google.maps.places.PlacesService(map);
 
     const request = {
         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
