@@ -217,11 +217,14 @@ function searchPOI(user_coordinates) {
 // Experiment with this function to determine another way to display results 
 function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
+        // so far the loop is finishing with errors essentially 
         for (let i = 0; i < results.length; i++) {
             createRestMarker(results[i]);
+            // debugging here 
             console.log('Found', i, 'places');
         }
-        console.log(' call back function');
+        // debugging here 
+        console.log('call back function');
     } // if statement end 
 
     else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
@@ -235,22 +238,45 @@ function callback(results, status) {
 } // end of marker list function 
 
 function createRestMarker(place) {
-    const marker = new google.maps.Marker({
-        map: map, 
-        position: place.geometry.location,
-        title: place.name
-    });
+    if (map instanceof google.maps.Map) {
+        const marker = new google.maps.Marker({
+            map: map, 
+            position: place.geometry.location, 
+            title: place.name
+        }); 
 
-    // 'place' information window 
-    const infowindow = new google.maps.InfoWindow({
-        content: place.name
-    });
+        // 'place' information window 
+        const infowindow = new google.maps.InfoWindow({
+            content: place.name
+        }); 
+
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+    } // end of if statement 
+
+    else {
+        console.error('Map is not a valid instance of google.maps.Map.');
+    }
+} 
+
+// function createRestMarker(place) {
+//     const marker = new google.maps.Marker({
+//         map: map, 
+//         position: place.geometry.location,
+//         title: place.name
+//     });
+
+//     // 'place' information window 
+//     const infowindow = new google.maps.InfoWindow({
+//         content: place.name
+//     });
     
-    console.log('Before marker');
+//     console.log('Before marker');
 
-    marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    });
+//     marker.addListener('click', function() {
+//         infowindow.open(map, marker);
+//     });
 
-    console.log('After marker');
-} // end of marker creation function 
+//     console.log('After marker');
+// } // end of marker creation function 
