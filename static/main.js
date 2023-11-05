@@ -240,6 +240,37 @@ function callback(results, status) {
 
 } // end of marker list function 
 
+// tester function to find out more about locations 
+// function searchPOI(user_coordinates) {
+//     const request = {
+//         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long}, 
+//         radius: 8047, 
+//     }; 
+
+//     googPlaceService.nearbySearch(request, (results, status) => {
+//         if (status === google.maps.places.PlaceServiceStatus.OK) {
+//             const placesData = []; 
+            
+//             for (let i = 0; i < results.length; i++) {
+//                 const place = results[i];
+//                 const placeData = {
+//                     name: place.name,
+//                     types: place.types.join(', '),
+//                 };
+//                 placesData.push(placeData);
+//             }
+
+//             console.log(placesData);
+//         }
+//         else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+//             console.log('No results found.');
+//         }
+//         else if (status === google.maps.places.PlacesServiceStatus.ERROR) {
+//             console.log('Error processing the request.');
+//         }
+//     });
+// }
+
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
         const marker = new google.maps.Marker({
