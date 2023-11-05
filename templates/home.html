@@ -41,7 +41,10 @@
 
     <main>
         <div id="map"> 
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script>
+            <!-- ***** Retired line to call upon api *****  
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script> 
+            -->
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&callback=initMap"></script>
         </div>
     </main>
 

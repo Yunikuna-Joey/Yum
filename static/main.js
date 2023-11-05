@@ -204,9 +204,9 @@ function searchPOI(user_coordinates) {
     const googPlaceService = new google.maps.places.PlacesService(map);
 
     const request = {
-        location: user_coordinates,     // this will be automatically parsed 
-        radius: 100,                    // going to try and make this adjustable 
-        type: 'restaurant'              // going to see if I can make buttons to change this category 
+        location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
+        radius: 8047,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
+        type: 'restaurant'                                                                  // going to see if I can make buttons to change this category 
     };
 
     googPlaceService.nearbySearch(request, callback);
@@ -219,9 +219,19 @@ function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (let i = 0; i < results.length; i++) {
             createRestMarker(results[i]);
+            console.log('Found', i, 'places');
         }
-        console.log('function');
-    }
+        console.log(' call back function');
+    } // if statement end 
+
+    else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        console.log('No results found');
+    } // else if statement end 
+
+    else if (status === google.maps.places.PlacesServiceStatus.ERROR) {
+        console.log('Error processing that request');
+    } // else if statement end 
+
 } // end of marker list function 
 
 function createRestMarker(place) {
