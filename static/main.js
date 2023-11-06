@@ -209,7 +209,8 @@ function searchPOI(user_coordinates) {
     const request = {
         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
         radius: 8047,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
-        type: 'restaurant'                                                                  // going to see if I can make buttons to change this category 
+        // refer to Places API documenatation for more categories to insert (possibly make buttons to change out the categories as per user request)
+        types: ['food', 'restaurant', 'cafe', 'bakery', 'bar'],                              
     };
 
     googPlaceService.nearbySearch(request, callback);
@@ -240,37 +241,6 @@ function callback(results, status) {
 
 } // end of marker list function 
 
-// tester function to find out more about locations 
-// function searchPOI(user_coordinates) {
-//     const request = {
-//         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long}, 
-//         radius: 8047, 
-//     }; 
-
-//     googPlaceService.nearbySearch(request, (results, status) => {
-//         if (status === google.maps.places.PlaceServiceStatus.OK) {
-//             const placesData = []; 
-            
-//             for (let i = 0; i < results.length; i++) {
-//                 const place = results[i];
-//                 const placeData = {
-//                     name: place.name,
-//                     types: place.types.join(', '),
-//                 };
-//                 placesData.push(placeData);
-//             }
-
-//             console.log(placesData);
-//         }
-//         else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-//             console.log('No results found.');
-//         }
-//         else if (status === google.maps.places.PlacesServiceStatus.ERROR) {
-//             console.log('Error processing the request.');
-//         }
-//     });
-// }
-
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
         const marker = new google.maps.Marker({
@@ -292,25 +262,4 @@ function createRestMarker(place) {
     else {
         console.error('Map is not a valid instance of google.maps.Map.');
     }
-} 
-
-// function createRestMarker(place) {
-//     const marker = new google.maps.Marker({
-//         map: map, 
-//         position: place.geometry.location,
-//         title: place.name
-//     });
-
-//     // 'place' information window 
-//     const infowindow = new google.maps.InfoWindow({
-//         content: place.name
-//     });
-    
-//     console.log('Before marker');
-
-//     marker.addListener('click', function() {
-//         infowindow.open(map, marker);
-//     });
-
-//     console.log('After marker');
-// } // end of marker creation function 
+} // end of createRestMarker function 
