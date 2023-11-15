@@ -82,7 +82,8 @@ def home():
     username = current_user.username
     # passing in the key in order to utilize api on the homepage
     key = os.getenv('KEY')
-    return render_template('home.html', username=username, key=key)
+    mapid = os.getenv('MAPID')
+    return render_template('home.html', username=username, key=key, map_id=mapid)
     # return render_template('home.html')
 
 @app.route('/login', methods=['POST'])

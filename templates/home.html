@@ -44,22 +44,25 @@
             <!-- ***** Retired line to call upon api *****  
                 <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script> 
             -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&callback=initMap"></script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&map_ids={{ map_id }}&callback=initMap"></script>
         </div>
     </main>
 
     <div id="error-response"></div>
+</body>
 
-    <!-- *********** (DO NOT TOUCH UNLESS SOMETHING GOES WRONG) ***********
+
+
+<!-- *********** (DO NOT TOUCH UNLESS SOMETHING GOES WRONG) ***********
         
-        This is responsible for the behavior of the drop down menu     
+    This is responsible for the behavior of the drop down menu     
         
-    -->
-    <script> 
+-->
+<script> 
     const toggleBtn = document.querySelector('.toggle_btn')
     const toggleBtnicon = document.querySelector('.toggle_btn i')
     const dropdownMenu = document.querySelector('.dropdown_menu')
-
+    
     toggleBtn.onclick = function () {
         dropdownMenu.classList.toggle('open')
         const isOpen = dropdownMenu.classList.contains('open')
@@ -68,7 +71,6 @@
             : 'bx bx-list-ul'
     }
     </script>
-</body>
 
 
 </html>
