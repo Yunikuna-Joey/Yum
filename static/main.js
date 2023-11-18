@@ -140,7 +140,7 @@ function logout() {
 // Google Maps Functions located here 
 let map; 
 let googPlaceService;
-const map_id = '{{ map_id }}';
+const map_id = '{{ mapid }}';
 
 // *************** DISPLAY INITIAL MAP ***************
 function initMap() {
@@ -153,6 +153,8 @@ function initMap() {
         zoom: 12,
         mapId: map_id
     });
+
+    console.log(map_id)
 
     // this just ecentuates the center for now 
     const marker = new google.maps.Marker({
