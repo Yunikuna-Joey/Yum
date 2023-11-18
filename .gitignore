@@ -11,6 +11,8 @@ virtenv/
 *.jpg
 test.py
 .env
+.vscode
+
 
 
 # Distribution / packaging
