@@ -154,8 +154,6 @@ function initMap() {
         mapId: map_id
     });
 
-    console.log(map_id)
-
     // this just ecentuates the center for now 
     const marker = new google.maps.Marker({
         position: initial_coords, 
