@@ -143,65 +143,75 @@ let googPlaceService;
 const map_id = '{{ mapid }}';
 
 // *************** DISPLAY INITIAL MAP ***************
-function initMap() {
-    // initial coordinates 
-    const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
+// function initMap() {
+//     // initial coordinates 
+//     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
 
-    // create the initial map 
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: initial_coords,
-        zoom: 12,
-        mapId: map_id
-    });
+//     // create the initial map 
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: initial_coords,
+//         zoom: 12,
+//         mapId: map_id
+//     });
 
-    // this just ecentuates the center for now 
-    const marker = new google.maps.Marker({
-        position: initial_coords, 
-        map: map, 
-        title: 'Canadia Land restaurant'
-    });
+//     // this just ecentuates the center for now 
+//     const marker = new google.maps.Marker({
+//         position: initial_coords, 
+//         map: map, 
+//         title: 'Canadia Land restaurant'
+//     });
 
-    // making use of geolocation to automatically determine user location 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+//     // making use of geolocation to automatically determine user location 
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(function (position) {
             
-            // data being packed after prompt confirmation
-            const user_coordinates = {
-                user_lat: position.coords.latitude,
-                user_long: position.coords.longitude
-            };
+//             // data being packed after prompt confirmation
+//             const user_coordinates = {
+//                 user_lat: position.coords.latitude,
+//                 user_long: position.coords.longitude
+//             };
             
-            // User Coordinates are here 
-            console.log('*********************'); 
-            console.log('Lat: ', user_coordinates.user_lat); 
-            console.log('Long: ', user_coordinates.user_long);
+//             // User Coordinates are here 
+//             console.log('*********************'); 
+//             console.log('Lat: ', user_coordinates.user_lat); 
+//             console.log('Long: ', user_coordinates.user_long);
 
   
 
-            // Modifies the center of user location 
-            map.setCenter({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
+//             // Modifies the center of user location 
+//             map.setCenter({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
 
-            // Modifies the marker
-            marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
-            marker.setTitle('Current Location')
+//             // Modifies the marker
+//             marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
+//             marker.setTitle('Current Location')
 
-            // using the helper function below to search nearby restaurants 
-            searchPOI(user_coordinates);
+//             // using the helper function below to search nearby restaurants 
+//             searchPOI(user_coordinates);
 
 
-        }, function(error) {
-            // In the event that user denies access to location
-            console.error('Geolocation error: ', error);
-        });
+//         }, function(error) {
+//             // In the event that user denies access to location
+//             console.error('Geolocation error: ', error);
+//         });
 
-    } // end of if statement block
+//     } // end of if statement block
 
-    else {
-        // In the event that geolocation is not supported by the browser
-        console.error('Geolocation is not supported by your browser');
-    } 
+//     else {
+//         // In the event that geolocation is not supported by the browser
+//         console.error('Geolocation is not supported by your browser');
+//     } 
 
-} // end of display map function  
+// } // end of display map function  
+
+function initMap() {
+    const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924}; 
+
+//     map = new google.maps.Map(document.getElementById('map'), {
+//         center: initial_coords,
+//         zoom: 12,
+//         mapId: map_id
+//     });
+}
 
 // Helper to look for nearby POI based off user location
 function searchPOI(user_coordinates) {
