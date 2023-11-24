@@ -172,7 +172,7 @@ function initMap() {
             };
             
             // User Coordinates are here 
-            console.log('*********************'); 
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
             console.log('Lat: ', user_coordinates.user_lat); 
             console.log('Long: ', user_coordinates.user_long);
 
@@ -203,15 +203,6 @@ function initMap() {
 
 } // end of display map function  
 
-// function initMap() {
-//     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924}; 
-
-//     map = new google.maps.Map(document.getElementById('map'), {
-//         center: initial_coords,
-//         zoom: 12,
-//         mapId: map_id 
-//     });
-// }
 
 // Helper to look for nearby POI based off user location
 function searchPOI(user_coordinates) {
@@ -220,9 +211,12 @@ function searchPOI(user_coordinates) {
 
     const request = {
         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
-        radius: 8047,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
+        radius: 100000,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
         // refer to Places API documenatation for more categories to insert (possibly make buttons to change out the categories as per user request)
-        types: ['food', 'restaurant', 'cafe', 'bakery', 'bar'],                              
+        types: ['food', 'restaurant', 'cafe', 'bakery', 'bar'], 
+
+        // * keywords is used for looking for specific restaurant names 'Bob's RESTAURANT', 'John's RESTAURANT' and etc
+        // keyword: 'restaurant'                          
     };
 
     googPlaceService.nearbySearch(request, callback);
@@ -231,14 +225,25 @@ function searchPOI(user_coordinates) {
 
 
 // Experiment with this function to determine another way to display results 
-function callback(results, status) {
+function callback(results, status, pagination) {
+    total = 0;
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         // so far the loop is finishing with errors essentially 
         for (let i = 0; i < results.length; i++) {
             createRestMarker(results[i]);
             // debugging here 
             console.log('Found', i, 'places');
+            total++;
         }
+
+        // * logic to handle multiple markers within x radius
+        if (pagination.hasNextPage) {
+            pagination.nextPage();
+        }
+        else {
+            console.log('No more pages')
+        }
+
         // debugging here 
         console.log('call back function');
     } // if statement end 
@@ -250,6 +255,8 @@ function callback(results, status) {
     else if (status === google.maps.places.PlacesServiceStatus.ERROR) {
         console.log('Error processing that request');
     } // else if statement end 
+
+    console.log('Total places found', total);
 
 } // end of marker list function 
 

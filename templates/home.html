@@ -4,11 +4,12 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link rel="stylesheet" type="text/css" href="../static/home.css">
 <script src="../static/main.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&libraries=places&callback=initMap"></script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yum Home</title>
+    <title>Home</title>
 </head>
 
 <body>
@@ -50,7 +51,6 @@
                 * this line without libraries will not show markers around a location 
                 <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&callback=initMap"></script>
             -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&callback=initMap"></script>
         </div>
     </main>
 
