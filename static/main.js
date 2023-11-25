@@ -140,12 +140,7 @@ function logout() {
 // *Google Maps Functions located here 
 let map; 
 let googPlaceService;
-<<<<<<< HEAD
-const map_id = '{{mapid}}';
-let markers = []
-=======
 const map_id = '{{ mapid }}';
->>>>>>> parent of 92a3af6 ([MISC] Modifying radius NOT WORKING)
 
 // *************** DISPLAY INITIAL MAP ***************
 function initMap() {
@@ -166,7 +161,6 @@ function initMap() {
         title: 'Canadia Land restaurant'
     });
 
-    const markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
     // making use of geolocation to automatically determine user location 
     if (navigator.geolocation) {
@@ -279,9 +273,6 @@ function createRestMarker(place) {
             position: place.geometry.location, 
             title: place.name
         }); 
-        
-        // * Add marker in to the array
-        markers.push(marker);
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
