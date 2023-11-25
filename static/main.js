@@ -140,15 +140,17 @@ function logout() {
 // *Google Maps Functions located here 
 let map; 
 let googPlaceService;
+<<<<<<< HEAD
 const map_id = '{{mapid}}';
 let markers = []
+=======
+const map_id = '{{ mapid }}';
+>>>>>>> parent of 92a3af6 ([MISC] Modifying radius NOT WORKING)
 
 // *************** DISPLAY INITIAL MAP ***************
 function initMap() {
     // initial coordinates 
     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
-
-    // console.log(map_id);
 
     // create the initial map 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -216,7 +218,7 @@ function searchPOI(user_coordinates) {
 
     const request = {
         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
-        radius: (50 * 1609.34),                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
+        radius: 100000,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
         // refer to Places API documenatation for more categories to insert (possibly make buttons to change out the categories as per user request)
         types: ['food', 'restaurant', 'cafe', 'bakery', 'bar'], 
 
