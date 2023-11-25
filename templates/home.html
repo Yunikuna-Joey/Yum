@@ -3,8 +3,7 @@
 
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <link rel="stylesheet" type="text/css" href="../static/home.css">
-<script src="../static/main.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&libraries=places&callback=initMap"></script>
+
 
 <head>
     <meta charset="UTF-8">
@@ -55,6 +54,11 @@
     </main>
 
     <div id="error-response"></div>
+
+    <script src="../static/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&libraries=places&callback=initMap"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    
 </body>
 
 
@@ -76,7 +80,8 @@
             ? 'bx bx-x'
             : 'bx bx-list-ul'
     }
-    </script>
+</script>
+
 
 
 </html>

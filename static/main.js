@@ -137,10 +137,11 @@ function logout() {
     }
 }
 
-// Google Maps Functions located here 
+// *Google Maps Functions located here 
 let map; 
 let googPlaceService;
 const map_id = '{{mapid}}';
+let markers = []
 
 // *************** DISPLAY INITIAL MAP ***************
 function initMap() {
@@ -163,6 +164,8 @@ function initMap() {
         title: 'Canadia Land restaurant'
     });
 
+    const markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
     // making use of geolocation to automatically determine user location 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -173,7 +176,7 @@ function initMap() {
                 user_long: position.coords.longitude
             };
             
-            // User Coordinates are here 
+            // * User Coordinates are here [DEBUGGING]
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
             console.log('Lat: ', user_coordinates.user_lat); 
             console.log('Long: ', user_coordinates.user_long);
@@ -222,6 +225,7 @@ function searchPOI(user_coordinates) {
     };
 
     googPlaceService.nearbySearch(request, callback);
+    // * [DEBUGGING]
     console.log('Search function');
 } // end of search function 
 
@@ -233,7 +237,7 @@ function callback(results, status, pagination) {
         // so far the loop is finishing with errors essentially 
         for (let i = 0; i < results.length; i++) {
             createRestMarker(results[i]);
-            // debugging here 
+            // * [DEBUGGING] 
             console.log('Found', i, 'places');
             total++;
         }
@@ -243,21 +247,25 @@ function callback(results, status, pagination) {
             pagination.nextPage();
         }
         else {
+            // * [DEBUGGING]
             console.log('No more pages')
         }
 
-        // debugging here 
+        // * [DEBUGGING]
         console.log('call back function');
     } // if statement end 
 
     else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+        // * [DEBUGGING]
         console.log('No results found');
     } // else if statement end 
 
     else if (status === google.maps.places.PlacesServiceStatus.ERROR) {
+        // * [DEBUGGING]
         console.log('Error processing that request');
     } // else if statement end 
 
+    // * [DEBUGGING]
     console.log('Total places found', total);
 
 } // end of marker list function 
@@ -269,6 +277,9 @@ function createRestMarker(place) {
             position: place.geometry.location, 
             title: place.name
         }); 
+        
+        // * Add marker in to the array
+        markers.push(marker);
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
