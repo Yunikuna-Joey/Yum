@@ -201,6 +201,8 @@ function initMap() {
         // In the event that geolocation is not supported by the browser
         console.error('Geolocation is not supported by your browser');
     } 
+    // * [DEBUGGING]
+    console.log('Map id is: ', map_id)
 
 } // end of display map function  
 
