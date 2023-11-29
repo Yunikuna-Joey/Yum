@@ -47,6 +47,7 @@ class Account(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(100), nullable = False, unique=True)
     password = db.Column(db.String(100), nullable = False)
+    reviews = db.relationship('Review', backref='author', lazy=True)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
 
@@ -58,6 +59,13 @@ class Account(UserMixin, db.Model):
 
     # def acc_status_auth(self): 
     #     return self.acc_status
+
+class Review(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    marker_id = db.Column(db.String(255), nullable=False)
 
 @login_manager.user_loader
 def load_user(user_id): 

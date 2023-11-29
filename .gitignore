@@ -12,7 +12,8 @@ virtenv/
 test.py
 .env
 .vscode
-
+/alembic.ini
+alembic/
 
 
 # Distribution / packaging
