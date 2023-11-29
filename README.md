@@ -1,6 +1,3 @@
-# yum
-Flask
-
 # Alembic Database Upgrading [Testing in progress not sure if it will be kept] 
 1) To start off: 'pip install alembic' 
 2) Initialize alembic: 'alembic init alembic' 
