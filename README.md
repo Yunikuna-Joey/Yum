@@ -18,3 +18,8 @@
     - 'alembic upgrade head' 
 
 7) That should do it! Repeat steps 5 / 6 for any future changes with the database! 
+
+8) [MISC] If you would like to see the history / rollback a change: 
+    - 'alembic history' to display the unique version ID's of your revisions 
+
+    - 'alembic downgrade unique_id'  
