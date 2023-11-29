@@ -201,7 +201,7 @@ function initMap() {
         // In the event that geolocation is not supported by the browser
         console.error('Geolocation is not supported by your browser');
     } 
-    
+
     // * [DEBUGGING]
     console.log('Map id is: ', map_id);
 
@@ -292,3 +292,37 @@ function createRestMarker(place) {
         console.error('Map is not a valid instance of google.maps.Map.');
     }
 } // end of createRestMarker function 
+
+// * [TESTING IN PROGRESS] STILL NEED FLASK ENDPOINT
+function handleMarkerClick(marker) {
+    const reviewContent = prompt('Leave a review: ');
+    const rating = prompt('Rate it (1-5): ');
+
+    const request = new XMLHttpRequest();
+
+    request.open('POST', '/submit_review', true); 
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) {
+            const data = JSON.parse(request.responseText); 
+            // *[DEBUGGING]
+            console.log(data)
+        }
+        else {
+            console.error('Request failed. Status: ', request.status);
+        } 
+    }
+
+    request.onerror = function () {
+        console.error('Network error occurred');
+    }
+
+    const requestData = {
+        content: reviewContent, 
+        rating: rating, 
+        markerId: marker.getID(), 
+    };
+
+    request.send(JSON.stringify(requestData));
+}
