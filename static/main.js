@@ -142,7 +142,7 @@ let map;
 let googPlaceService;
 const map_id = '{{ mapid }}';
 
-// *************** DISPLAY INITIAL MAP ***************
+// *************** DISPLAY INITIAL MAP *************** Commented out our const map id variable and added to the function to accept the variable instead 
 function initMap() {
     // initial coordinates 
     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
@@ -201,8 +201,9 @@ function initMap() {
         // In the event that geolocation is not supported by the browser
         console.error('Geolocation is not supported by your browser');
     } 
+    
     // * [DEBUGGING]
-    console.log('Map id is: ', map_id)
+    console.log('Map id is: ', map_id);
 
 } // end of display map function  
 

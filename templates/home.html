@@ -9,6 +9,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <!-- Ensures that all resources are loaded  -->
+    <script src="../static/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&map_ids={{ mapid }}&callback=initMap"></script>
 </head>
 
 <body>
@@ -40,10 +43,8 @@
 
 
     <main>
-        <div id="map"> 
-            <!-- ***** Retired line to call upon api *****  
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap"></script> 
-
+        <div id="map" data-mapid="{{ mapid }}"> 
+            <!-- 
                 * this line with libraries being explicitly stated will show the markers around a location 
                 <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&map_ids={{ mapid }}&callback=initMap"></script>
 
@@ -54,10 +55,6 @@
     </main>
 
     <div id="error-response"></div>
-
-    <script src="../static/main.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&libraries=places&callback=initMap"></script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     
 </body>
 
