@@ -23,3 +23,14 @@
     - 'alembic history' to display the unique version ID's of your revisions 
 
     - 'alembic downgrade unique_id'  
+
+# [METHOD #2] Using Python shell to drop the entire base and recreate with blank values (P.W.C)
+1) Important to note that if we proceed with this, the entire data model WILL be deleted 
+
+2) use 'python' keyword within your terminal to enter the python shell 
+
+3) use 'from flask_app_python_file import app, db' and press enter 
+
+4) then type 'app.app_context().push()' 
+    - 'db.drop_all()' [this will delete everything]
+    - 'db.create_all()' [this will recreate the tables with blank values]
