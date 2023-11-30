@@ -133,6 +133,20 @@ def register():
             
             return jsonify({'message': 'Registration successful', 'redirect': '/'})
 
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review(): 
+    data = request.json
+    content = data.get('content')
+    rating = data.get('rating')
+    marker_id = data.get('markerId')
+
+    review = Review(content=content, rating=rating, marker_id=marker_id, account=current_user)
+    db.session.add(review)
+    db.session.commit()
+
+    return jsonify({'message': 'Review submitted successfully'})
+
 # this should create the database upon activating file 
 if __name__ == '__main__': 
     with app.app_context(): 
