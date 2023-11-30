@@ -142,7 +142,6 @@ section#hero {
     align-items: center;
     justify-content: center;
     text-align: center;
-
 }
 
 /* Responsive Portion */
@@ -168,14 +167,17 @@ section#hero {
 }
 
 #markerwindow {
+    display: none; /* Set to none to hide it initially */
     position: absolute;
-    top: 60px; /* Adjust the top position as needed */
-    right: 20px; /* Adjust the right position as needed */
-    width: 325px; /* Adjust the width as needed */
-    height: 500px; /* Adjust the height as needed */
-    background-color: white;
+    top: 5%;
+    right: 5%;
+    width: 30%;
+    height: 90%;
+    max-width: 400px; /* Set a maximum width to prevent it from becoming too wide */
+    background-color: rgba(255, 255, 255, 0.75);
     border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 10px;
-    overflow: auto; /* Enable scrolling if content exceeds the div height */
-    display: 'block';
+    overflow: auto;
 }

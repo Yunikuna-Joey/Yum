@@ -187,7 +187,8 @@ function initMap() {
             marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
             marker.setTitle('Current Location')
 
-            // using the helper function below to search nearby restaurants 
+            // * using the helper function below to search nearby restaurants 
+            // * comment out if you want to see the website without triggering the API 
             searchPOI(user_coordinates);
 
 
