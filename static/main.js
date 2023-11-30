@@ -314,7 +314,7 @@ function createRestMarker(place) {
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
-            content: place.name
+            content: `<strong>${place.name}</strong><br>Rating: ${place.rating || 'Not available'}`,
         }); 
 
         marker.addListener('click', function() {
