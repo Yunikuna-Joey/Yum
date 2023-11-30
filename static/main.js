@@ -271,6 +271,37 @@ function callback(results, status, pagination) {
 
 } // end of marker list function 
 
+function addMarkerModel(markerData) {
+    const request = new XMLHttpRequest();
+    
+    request.open('POST', '/add_marker', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        // Successful request
+        if (request.status === 200) {
+            const data = JSON.parse(request.responseText); 
+            // * [DEBUGGING]
+            console.log(data)
+        }
+        else {
+            console.error('Request Failed. Status: ', request.status);
+        }
+    };
+
+    request.onerror = function() {
+        console.error('Error adding marker');
+    };
+
+    const requestData = {
+        lat: markerData.geometry.location.lat(), 
+        lng: markerData.geometry.location.lng(), 
+        title: markerData.name,
+    };
+
+    request.send(JSON.stringify(requestData));
+}
+
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
         const marker = new google.maps.Marker({
@@ -278,6 +309,8 @@ function createRestMarker(place) {
             position: place.geometry.location, 
             title: place.name, 
         }); 
+
+        addMarkerModel(place);
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({

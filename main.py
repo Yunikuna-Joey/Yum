@@ -9,6 +9,8 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 import urllib.parse
+from sqlalchemy.exc import IntegrityError
+
 
 # API settings for google maps 
 from dotenv import load_dotenv
@@ -69,7 +71,19 @@ class Review(db.Model):
     marker = db.relationship('Marker', backref=db.backref('reviews', lazy='dynamic'))
 
 class Marker(db.Model): 
-    id = db.Column(db.String, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
+    title = db.Column(db.String, nullable=False)
+
+    def to_dict(self): 
+        return {
+            'id': self.id,
+            'lat': self.lat, 
+            'lng': self.lng, 
+            'title': self.title,
+        }
+
 
 @login_manager.user_loader
 def load_user(user_id): 
@@ -136,6 +150,30 @@ def register():
             db.session.commit()
             
             return jsonify({'message': 'Registration successful', 'redirect': '/'})
+
+@app.route('/add_marker', methods=['POST'])
+def add_marker(): 
+    data = request.json
+
+    # ensure if fields are valid
+    if 'lat' not in data or 'lng' not in data: 
+        return jsonify({'error': 'Lat and long are required'}), 400
+    
+    exist_marker = Marker.query.filter_by(lat=data['lat'], lng=data['lng']).first()
+    if exist_marker: 
+        return jsonify({'message': 'Marker already exists', 'marker_id': exist_marker.id})
+    
+    new_marker = Marker(lat=data['lat'], lng=data['lng'], title=data.get('title'))
+
+    try: 
+        db.session.add(new_marker)
+        db.session.commit()
+        return jsonify({'message': 'Marker added successfully', 'marker_id': new_marker.id})
+
+    except IntegrityError: 
+        db.session.rollback()
+        existing_marker = Marker.query.filter_by(lat=data['lat'], lng=data['lng']).first()
+        return jsonify({'message': 'Marker already exists', 'marker_id': existing_marker.id})
 
 
 # this should create the database upon activating file 
