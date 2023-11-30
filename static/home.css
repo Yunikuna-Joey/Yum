@@ -166,3 +166,16 @@ section#hero {
         width: unset;
     }
 }
+
+#markerwindow {
+    position: absolute;
+    top: 60px; /* Adjust the top position as needed */
+    right: 20px; /* Adjust the right position as needed */
+    width: 325px; /* Adjust the width as needed */
+    height: 500px; /* Adjust the height as needed */
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow: auto; /* Enable scrolling if content exceeds the div height */
+    display: 'block';
+}

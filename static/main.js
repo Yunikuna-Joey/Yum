@@ -317,8 +317,21 @@ function createRestMarker(place) {
             content: `<strong>${place.name}</strong><br>Rating: ${place.rating || 'Not available'}`,
         }); 
 
+        let isOpen = false;
+
         marker.addListener('click', function() {
-            infowindow.open(map, marker);
+            const markerWindow = document.getElementById('markerwindow');
+            if (!isOpen) {
+                infowindow.open(map, marker);
+                markerWindow.innerHTML = infowindow.getContent();
+                markerWindow.style.display = 'block';
+                isOpen = true;
+            }
+            else {
+                infowindow.close();
+                markerWindow.style.display = 'none';
+                isOpen = false;
+            }
         });
     } // end of if statement 
 

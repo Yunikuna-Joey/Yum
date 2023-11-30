@@ -44,14 +44,8 @@
 
     <main>
         <div id="map" data-mapid="{{ mapid }}"> 
-            <!-- 
-                * this line with libraries being explicitly stated will show the markers around a location 
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&libraries=places&map_ids={{ mapid }}&callback=initMap"></script>
-
-                * this line without libraries will not show markers around a location 
-                <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ key }}&map_ids={{ mapid }}&callback=initMap"></script>
-            -->
         </div>
+        <div id="markerwindow"></div>
     </main>
 
     <div id="error-response"></div>
