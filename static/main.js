@@ -142,6 +142,7 @@ let map;
 let googPlaceService;
 const map_id = '{{ mapid }}';
 
+
 // *************** DISPLAY INITIAL MAP *************** Commented out our const map id variable and added to the function to accept the variable instead 
 function initMap() {
     // initial coordinates 
@@ -275,7 +276,7 @@ function createRestMarker(place) {
         const marker = new google.maps.Marker({
             map: map, 
             position: place.geometry.location, 
-            title: place.name
+            title: place.name, 
         }); 
 
         // 'place' information window 
@@ -293,36 +294,3 @@ function createRestMarker(place) {
     }
 } // end of createRestMarker function 
 
-// * [TESTING IN PROGRESS] STILL NEED FLASK ENDPOINT
-function handleMarkerClick(marker) {
-    const reviewContent = prompt('Leave a review: ');
-    const rating = prompt('Rate it (1-5): ');
-
-    const request = new XMLHttpRequest();
-
-    request.open('POST', '/submit_review', true); 
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.onload = function () {
-        if (request.status === 200) {
-            const data = JSON.parse(request.responseText); 
-            // *[DEBUGGING]
-            console.log(data)
-        }
-        else {
-            console.error('Request failed. Status: ', request.status);
-        } 
-    }
-
-    request.onerror = function () {
-        console.error('Network error occurred');
-    }
-
-    const requestData = {
-        content: reviewContent, 
-        rating: rating, 
-        markerId: marker.getID(), 
-    };
-
-    request.send(JSON.stringify(requestData));
-}

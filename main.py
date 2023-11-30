@@ -65,7 +65,11 @@ class Review(db.Model):
     content = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
-    marker_id = db.Column(db.String(255), nullable=False)
+    marker_id = db.Column(db.String, db.ForeignKey('marker.id'))
+    marker = db.relationship('Marker', backref=db.backref('reviews', lazy='dynamic'))
+
+class Marker(db.Model): 
+    id = db.Column(db.String, primary_key=True)
 
 @login_manager.user_loader
 def load_user(user_id): 
