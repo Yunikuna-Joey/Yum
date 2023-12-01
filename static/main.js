@@ -303,13 +303,20 @@ function addMarkerModel(markerData) {
     request.send(JSON.stringify(requestData));
 }
 
+// * Ongoing list to add in restaurants with custom typings for user to see 
 const customTypeMappings = {
     "Leatherby's Family Creamery" : "Ice Cream Shop", 
 }; 
-
-
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
+        let customType = customTypeMappings[place.name];
+
+        if (!customType && place.types && place.types.length > 0) {
+            customType = place.types[0];
+        }
+
+        customType = customType || 'Restaurant';
+
         const marker = new google.maps.Marker({
             map: map, 
             position: place.geometry.location, 
@@ -318,15 +325,13 @@ function createRestMarker(place) {
 
         addMarkerModel(place);  
 
-        
-
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
             // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
             content: `<strong>${place.name}</strong><br>
               Rating: ${place.rating || 'Not available'}<br>
               Reviews: ${place.reviewCount || 0}<br>
-              Types: ${place.types ? place.types[0] : 'Not available'}`,
+              Types: ${customType}`,
         }); 
 
         let isOpen = false;
