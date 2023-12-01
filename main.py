@@ -84,6 +84,12 @@ class Marker(db.Model):
             'title': self.title,
         }
 
+class Following(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    friend_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    
+
 
 @login_manager.user_loader
 def load_user(user_id): 
