@@ -307,6 +307,8 @@ function addMarkerModel(markerData) {
 const customTypeMappings = {
     "Leatherby's Family Creamery" : "Ice Cream Shop", 
 }; 
+let currentWindow = null; 
+let currentMarker = null; 
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
         let customType = customTypeMappings[place.name];
@@ -331,23 +333,42 @@ function createRestMarker(place) {
             content: `<strong>${place.name}</strong><br>
               Rating: ${place.rating || 'Not available'}<br>
               Reviews: ${place.reviewCount || 0}<br>
-              Types: ${customType}`,
+              Type: ${customType}`,
+
+            // * this will list the other types associated with a marker 
+            // * [work with this to achieve targeted behavior]
+            // content: `<strong>${place.name}</strong><br>
+            //   Rating: ${place.rating || 'Not available'}<br>
+            //   Reviews: ${place.reviewCount || 0}<br>
+            //   Type: ${place.types ? place.types[0] : 'Not available'}`,
         }); 
 
-        let isOpen = false;
+        // let isOpen = false;
 
         marker.addListener('click', function() {
             const markerWindow = document.getElementById('markerwindow');
-            if (!isOpen) {
+            if (currentMarker === marker) {
+                currentWindow.close();
+                markerWindow.style.display = 'none';
+                currentMarker = currentInfoWindow = null;
+            } 
+            else {
+                if (currentWindow) {
+                    currentWindow.close();
+                    markerWindow.style.display = 'none';
+                }
+    
                 infowindow.open(map, marker);
                 markerWindow.innerHTML = infowindow.getContent();
                 markerWindow.style.display = 'block';
-                isOpen = true;
-            }
-            else {
-                infowindow.close();
-                markerWindow.style.display = 'none';
-                isOpen = false;
+    
+                currentMarker = marker;
+                currentWindow = infowindow;
+    
+                infowindow.addListener('closeclick', function () {
+                    markerWindow.style.display = 'none';
+                    currentMarker = currentInfoWindow = null;
+                });
             }
         });
     } // end of if statement 
