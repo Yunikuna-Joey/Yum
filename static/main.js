@@ -303,6 +303,11 @@ function addMarkerModel(markerData) {
     request.send(JSON.stringify(requestData));
 }
 
+const customTypeMappings = {
+    "Leatherby's Family Creamery" : "Ice Cream Shop", 
+}; 
+
+
 function createRestMarker(place) {
     if (map instanceof google.maps.Map) {
         const marker = new google.maps.Marker({
@@ -311,11 +316,17 @@ function createRestMarker(place) {
             title: place.name, 
         }); 
 
-        addMarkerModel(place);
+        addMarkerModel(place);  
+
+        
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
-            content: `<strong>${place.name}</strong><br>Rating: ${place.rating || 'Not available'}`,
+            // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
+            content: `<strong>${place.name}</strong><br>
+              Rating: ${place.rating || 'Not available'}<br>
+              Reviews: ${place.reviewCount || 0}<br>
+              Types: ${place.types ? place.types[0] : 'Not available'}`,
         }); 
 
         let isOpen = false;
