@@ -10,6 +10,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 import urllib.parse
 from sqlalchemy.exc import IntegrityError
+# from flask_migrate import Migrate
 
 
 # API settings for google maps 
@@ -37,6 +38,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 db = SQLAlchemy(app)
+# migrate = Migrate(app, db)
 
 # initialize Flask-Login
 login_manager = LoginManager(app)
@@ -88,7 +90,7 @@ class Following(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
-    
+
 
 
 @login_manager.user_loader
