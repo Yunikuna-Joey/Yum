@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yum Buddies</title>
+    <script src="../static/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/friends.css">
+</head>
+
+<header>
+    <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
+    <div class="navbar">
+        <div class="logo"><a href="#">Yum!</a></div>
+        <ul class="links">
+            <li><a href="hero">Home</a></li>
+            <li><a href="friends">Friends</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+        <!-- Top right corner -->
+        <a href="#" class="action">{{ username }}</a>
+        <div class="toggle_btn">
+            <i class='bx bx-list-ul'></i>
+        </div>
+    </div>
+    <!-- Navigation Menu -->
+    <div class="dropdown_menu">
+        <li> <a href="#" class="action">{{ username }}</a> </li>
+        <li><a href="hero">Home</a></li>
+        <li><a href="friends">Friends</a></li>
+        <li><a href="about">About</a></li>
+        <li><a href="settings">Settings</a></li>
+        <li><a href="logout" onclick="logout()">Log Out</a></li>
+    </div>
+</header>
+
+
+<body>
+    
+</body>
+
+<script> 
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnicon = document.querySelector('.toggle_btn i')
+    const dropdownMenu = document.querySelector('.dropdown_menu')
+    
+    toggleBtn.onclick = function () {
+        dropdownMenu.classList.toggle('open')
+        const isOpen = dropdownMenu.classList.contains('open')
+        toggleBtnicon.classList = isOpen
+            ? 'bx bx-x'
+            : 'bx bx-list-ul'
+    }
+</script>
+
+</html>
