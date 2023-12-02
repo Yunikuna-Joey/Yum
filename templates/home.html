@@ -26,9 +26,13 @@
             </ul>
             <!-- Top right corner -->
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Search users...">
-                <button class="search-button">Search</button>
+                <input type="text" id="term" class="search-input" placeholder="Search users...">
+                <button onclick="searchUser()" class="search-button">Find</button>
+                <div id="search-results" class="search-results"></div>
             </div>
+
+
+
             <a href="#" class="action">{{ username }}</a>
             <div class="toggle_btn">
                 <i class='bx bx-list-ul'></i>

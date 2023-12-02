@@ -118,6 +118,57 @@ function register() {
     return false;
 } 
 
+function displaySearchResults(users, container) {
+    container.innerHTML = '';
+
+    if (users.length > 0) {
+        users.forEach(user => {
+            const userElement = document.createElement('div');
+            userElement.textContent = user.username;
+            container.appendChild(userElement);
+        }); 
+    } 
+    else {
+        container.innerHTML = 'No matching users.';
+    }
+}
+
+function searchUser() {
+    const searchInput = document.getElementById('term');
+    const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm !== '') {
+            const request = new XMLHttpRequest();
+            request.open('GET', `/search_users?term=$(searchTerm)`, true);
+
+            request.onload = function () {
+                if (request.status === 200) {
+                    const data = JSON.parse(request.responseText);
+                    displaySearchResults(data, searchResults);
+                }
+                else {
+                    console.error('Error: ', request.status);
+                }
+            };
+
+            request.onerror = function () {
+                console.error('Network error occurred');
+            };
+
+            request.send();
+        }
+
+        else {
+            searchResults.innerHTML = '';
+        }
+    });
+    
+    console.log('Search function called');
+}
+
+
 function logout() {
     // debugging here 
     console.log('Javascript logout');

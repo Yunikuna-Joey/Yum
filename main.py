@@ -229,6 +229,17 @@ def unfollow_user():
     else: 
         return jsonify({'message': 'Error DNE'})
 
+@app.route('/search_users')
+def search_user(): 
+    search_term = request.args.get('term')
+
+    match = Account.query.filter(Account.username.ilike(f'%{search_term}%')).all()
+    user_list = [{'id': user.id, 'username': user.username} for user in match]
+
+    print(user_list)
+
+    return jsonify(user_list)
+
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
