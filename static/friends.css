@@ -12,8 +12,6 @@ body {
     background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg');
     background-size: cover;
     background-position: center;
-    
-
 }
 
 li {
@@ -153,4 +151,9 @@ section#hero {
         left: 2rem;
         width: unset;
     }
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
 }

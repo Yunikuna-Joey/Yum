@@ -1,3 +1,8 @@
+/* 
+    '.' = class selector 
+    '#' = id selector
+*/
+
 * {
     margin: 0; 
     padding: 0; 
@@ -181,3 +186,27 @@ section#hero {
     padding: 10px;
     overflow: auto;
 }
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.search-button {
+    padding: 10px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+} 
