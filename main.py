@@ -91,6 +91,12 @@ class Following(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     friend_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
 
+    def to_dict(self):
+        return {
+            'user_id': self.user_id,
+            'friend_id': self.friend_id,
+        }
+
 
 
 @login_manager.user_loader
@@ -182,6 +188,46 @@ def add_marker():
         db.session.rollback()
         existing_marker = Marker.query.filter_by(lat=data['lat'], lng=data['lng']).first()
         return jsonify({'message': 'Marker already exists', 'marker_id': existing_marker.id})
+
+@app.route('/follow', methods=['POST'])
+def folow_user(): 
+    data = request.json
+
+    if 'follower_id' not in data or 'followed_id' not in data: 
+        return jsonify({'error': 'Invalid request, user is not specified'})
+    
+    follower_id = data['follower_id']
+    followed_id = data['followed_id']
+
+    exist = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
+
+    if exist: 
+        return jsonify({'message': 'You are already following this user'}), 200 
+    
+    new = Following(user_id=follower_id, friend_id=followed_id)
+    db.session.add(new)
+    db.session.commit()
+
+    return jsonify({'message': 'You are now following this user'}), 201
+
+@app.route('/unfollow', methods=['DELETE'])
+def unfollow_user(): 
+    data = request.json
+
+    if 'follower_id' not in data or 'followed_id' not in data: 
+        return jsonify({'error': 'Invalid request, user is not specified'}), 400
+    
+    follower_id = data['follower_id']
+    followed_id = data['followed_id']
+
+    delete = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
+
+    if delete:
+        db.session.delete(delete)
+        db.session.commit()
+        return jsonify({'message': 'Unfollow success'}), 200 
+    else: 
+        return jsonify({'message': 'Error DNE'})
 
 
 # this should create the database upon activating file 
