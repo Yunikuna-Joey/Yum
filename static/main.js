@@ -139,9 +139,10 @@ function searchUser() {
 
     searchInput.addEventListener('input', function() {
         const searchTerm = searchInput.value.trim();
+        console.log(searchTerm);
         if (searchTerm !== '') {
             const request = new XMLHttpRequest();
-            request.open('GET', `/search_users?term=$(searchTerm)`, true);
+            request.open('GET', `/search_users?term=${searchTerm}`, true);
 
             request.onload = function () {
                 if (request.status === 200) {
