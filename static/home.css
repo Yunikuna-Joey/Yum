@@ -49,6 +49,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between; 
+    z-index: 2;
 }
 
 .navbar .logo a {
@@ -184,22 +185,23 @@ section#hero {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 10px;
-    overflow: auto;
 }
 
 .search-bar {
     position: relative;
-    width: fit-content;
+    display: flex;
+    align-items: center;
 }
 
 .search-input {
     padding: 10px;
     box-sizing: border-box;
     border: none;
-    border-top-left-radius: 20px; /* Adjust this value for the desired roundness */
-    border-bottom-left-radius: 20px; /* Adjust this value for the desired roundness */
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    width: 200px;
 }
 
 .search-button {
@@ -209,21 +211,23 @@ section#hero {
     color: #fff;
     cursor: pointer;
     position: absolute;
+    top: 0; 
     right: 0;
-    top: 0;
-    border-top-right-radius: 20px; /* Adjust this value for the desired roundness */
-    border-bottom-right-radius: 20px; /* Adjust this value for the desired roundness */
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+
 }
 
-.result-box {
+.search-results {
     position: absolute;
-    top: 100%;  /* Adjust this value as needed */
+    top: 100%;  /* Position it below the search bar */
     left: 0;
-    width: 100%;
+    width: 200px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 1;
+    border-radius: 10px;
 }
 
 .result-item {
