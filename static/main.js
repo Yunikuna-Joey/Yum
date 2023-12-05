@@ -168,6 +168,7 @@ function displaySearchResults(data, searchResults) {
 
 
 
+
 function logout() {
     // debugging here 
     console.log('Javascript logout');
@@ -278,6 +279,7 @@ function searchPOI(user_coordinates) {
     googPlaceService.nearbySearch(request, callback);
     // * [DEBUGGING]
     console.log('Search function');
+    searchUser();
 } // end of search function 
 
 
@@ -427,4 +429,5 @@ function createRestMarker(place) {
         console.error('Map is not a valid instance of google.maps.Map.');
     }
 } // end of createRestMarker function 
+
 
