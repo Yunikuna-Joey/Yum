@@ -11,6 +11,7 @@ from datetime import datetime
 import urllib.parse
 from sqlalchemy.exc import IntegrityError
 # from flask_migrate import Migrate
+from sqlalchemy import or_
 
 
 # API settings for google maps 
@@ -233,7 +234,10 @@ def unfollow_user():
 def search_user(): 
     search_term = request.args.get('term')
 
-    match = Account.query.filter(Account.username.ilike(f'%{search_term}%')).all()
+    match = Account.query.filter(or_(Account.username.like(f'(search_term%')))
+    # match = Account.query.filter(or_(Account.username.like(f'(search_term%'), 
+    #         Account.username.like(f'(search_term.capitalize())%')
+    # )).all()
     user_list = [{'id': user.id, 'username': user.username} for user in match]
 
     print(user_list)
