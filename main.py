@@ -12,6 +12,7 @@ import urllib.parse
 from sqlalchemy.exc import IntegrityError
 # from flask_migrate import Migrate
 from sqlalchemy import or_
+from  flask_wtf.csrf import CSRFProtect
 
 
 # API settings for google maps 
@@ -38,6 +39,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # set optional bootswatch theme
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
+# csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
 # migrate = Migrate(app, db)
 
@@ -109,11 +111,20 @@ def loadloginpage():
     return render_template('login.html')
 
 
+
 @app.route('/logout', methods=['POST'])
 @login_required 
 def logout(): 
+    # token = request.form.get('token')
+
+    # if csrf.validate_csrf_token(token): 
+    #     logout_user() 
+    #     return jsonify({'redirect': url_for('loadloginpage')})
+    # else: 
+    #     return jsonify({'error': 'Invalid token. Nice try.'})
     logout_user()
-    return jsonify({'redirect': url_for('loadloginpage')})
+    # return jsonify({'redirect': url_for('loadloginpage')})
+    return render_template('login.html')
     
 
 @app.route('/home')
@@ -234,10 +245,12 @@ def unfollow_user():
 def search_user(): 
     search_term = request.args.get('term')
 
-    match = Account.query.filter(or_(Account.username.like(f'(search_term%')))
-    # match = Account.query.filter(or_(Account.username.like(f'(search_term%'), 
-    #         Account.username.like(f'(search_term.capitalize())%')
-    # )).all()
+    # match = Account.query.filter(Account.username.ilike(f'%{search_term}%')).all()
+    match = Account.query.filter(or_(
+        Account.username.like(f'{search_term}%'),
+        Account.username.like(f'{search_term.capitalize()}%')
+    )).all()
+
     user_list = [{'id': user.id, 'username': user.username} for user in match]
 
     print(user_list)

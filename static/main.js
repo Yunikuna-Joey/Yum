@@ -166,27 +166,70 @@ function displaySearchResults(data, searchResults) {
     }
 }
 
+function getCSRFToken() {
+    const name = 'token';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
 
-
-
-function logout() {
-    // debugging here 
-    console.log('Javascript logout');
-    
-    const request = new XMLHttpRequest();
-    request.open('POST', '/logout');
-    request.send(); 
-
-    request.onload = function () {
-        const response = JSON.parse(this.responseText);
-        if (response.error) {
-            document.getElementById('error-response').innerHTML = response.error;
-        }
-        else {
-            window.location.href = response.redirect;
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i].trim();
+        if (cookie.indexOf(name) == 0) {
+            return cookie.substring(name.length, cookie.length);
         }
     }
+    return '';
 }
+
+
+// logout function to handle the anchor tag 
+function logout(event) {
+    // default behavior of anchor is GET requests and we are trying to create a POST request
+    event.preventDefault(); 
+
+    // Create form element 
+    const form = document.createElement('form');
+    form.method = 'post'; 
+    form.action = '/logout'; 
+
+    // * CSRF token (Cross Site Request Forgery) prevents malicious events [IMPLEMENT LATER]
+    // const token = document.createElement('input');
+    // token.type = 'hidden';
+    // token.name = 'token';
+    // token.value = getCSRFToken();
+
+    // Create a submit button 
+    const submitButton = document.createElement('input');
+    submitButton.type = 'submit';
+
+    // add the submit button into the form 
+    // form.appendChild(token);
+    form.appendChild(submitButton);
+
+    // add the form into the body of main html document
+    document.body.appendChild(form); 
+
+    form.submit();
+}
+
+
+// function logout() {
+//     // debugging here 
+//     console.log('Javascript logout');
+    
+//     const request = new XMLHttpRequest();
+//     request.open('POST', '/logout');
+//     request.send(); 
+
+//     request.onload = function () {
+//         const response = JSON.parse(this.responseText);
+//         if (response.error) {
+//             document.getElementById('error-response').innerHTML = response.error;
+//         }
+//         else {
+//             window.location.href = response.redirect;
+//         }
+//     }
+// }
 
 // *Google Maps Functions located here 
 let map; 
