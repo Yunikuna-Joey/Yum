@@ -53,6 +53,7 @@ header {
 }
 
 .navbar .logo a {
+    position: relative;
     font-size: 1.5rem;
     font-weight: bold;
 }
@@ -148,6 +149,8 @@ section#hero {
     align-items: center;
     justify-content: center;
     text-align: center;
+    /* this fixed the centering issue [rule: ceneters this div horizontally] */
+    margin: 0 auto;
 }
 
 /* Responsive Portion */
