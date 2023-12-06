@@ -46,7 +46,8 @@ db = SQLAlchemy(app)
 # initialize Flask-Login
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-app.secret_key = 'Temporarily'
+key = os.getenv('FLASK_KEY')
+app.secret_key = key
 
 
 # Data Models  
