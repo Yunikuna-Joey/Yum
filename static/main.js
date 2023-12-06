@@ -212,25 +212,6 @@ function logout(event) {
 }
 
 
-// function logout() {
-//     // debugging here 
-//     console.log('Javascript logout');
-    
-//     const request = new XMLHttpRequest();
-//     request.open('POST', '/logout');
-//     request.send(); 
-
-//     request.onload = function () {
-//         const response = JSON.parse(this.responseText);
-//         if (response.error) {
-//             document.getElementById('error-response').innerHTML = response.error;
-//         }
-//         else {
-//             window.location.href = response.redirect;
-//         }
-//     }
-// }
-
 // *Google Maps Functions located here 
 let map; 
 let googPlaceService;
