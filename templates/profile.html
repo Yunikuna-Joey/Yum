@@ -23,7 +23,6 @@
             <button onclick="searchUser()" class="search-button">Find</button>
             <div id="search-results" class="search-results"></div>
         </div>
-        
         <div class="user-drop">
             <label for="menu-toggle" id="username">{{ username }}</label>
             <input type="checkbox" id="menu-toggle" class="hidden">
@@ -36,24 +35,16 @@
                 <li><a href="logout" onclick="logout(event)">Log Out</a></li>
             </div>
         </div>
-
     </div>
-
 </header>
 
-
-<main>
-    <div id="map" data-mapid="{{ mapid }}"> 
-    </div>
-    <div id="markerwindow">
-    </div>
-</main>
-
-<div id="error-response"></div>
-
-
 <body>
-    
+    <div class="main">
+        
+    </div>
+
+    <div id="error-response"></div>
+
 </body>
 
 </html>
