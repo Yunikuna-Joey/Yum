@@ -30,21 +30,22 @@
                 <button onclick="searchUser()" class="search-button">Find</button>
                 <div id="search-results" class="search-results"></div>
             </div>
-
-            <a href="#" class="action">{{ username }}</a>
-            <div class="toggle_btn">
-                <i class='bx bx-list-ul'></i>
+            
+            <div class="user-drop">
+                <a href="#" onclick="toggleDrop(event)" class="action">{{ username }}</a>
+                <!-- Navigation Menu -->
+                <div id="dropdown_menu" class="dropdown_menu">
+                    <li><a href="#" class="action">{{ username }}</a> </li>
+                    <li><a href="hero">Home</a></li>
+                    <li><a href="friends">Friends</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="settings">Settings</a></li>
+                    <li><a href="logout" onclick="logout(event)">Log Out</a></li>
+                </div>
             </div>
+
         </div>
-        <!-- Navigation Menu -->
-        <div class="dropdown_menu">
-            <li><a href="#" class="action">{{ username }}</a> </li>
-            <li><a href="hero">Home</a></li>
-            <li><a href="friends">Friends</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="settings">Settings</a></li>
-            <li><a href="logout" onclick="logout(event)">Log Out</a></li>
-        </div>
+
     </header>
 
 
@@ -58,28 +59,10 @@
     <div id="error-response"></div>
     
 </body>
-
-
-
-<!-- *********** (DO NOT TOUCH UNLESS SOMETHING GOES WRONG) ***********
-        
-    This is responsible for the behavior of the drop down menu     
-        
--->
-<script> 
-    const toggleBtn = document.querySelector('.toggle_btn')
-    const toggleBtnicon = document.querySelector('.toggle_btn i')
-    const dropdownMenu = document.querySelector('.dropdown_menu')
-    
-    toggleBtn.onclick = function () {
-        dropdownMenu.classList.toggle('open')
-        const isOpen = dropdownMenu.classList.contains('open')
-        toggleBtnicon.classList = isOpen
-            ? 'bx bx-x'
-            : 'bx bx-list-ul'
-    }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleDrop();
+    });
 </script>
-
-
 
 </html>

@@ -154,8 +154,8 @@ section#hero {
     border-radius: 20px;
 }
 
-/* Responsive Portion */
-@media(max-width: 992px) {
+/*  *Responsive Portion */
+/* @media(max-width: 992px) {
     .navbar .links, 
     .navbar .action_btn {
         display: none;
@@ -174,8 +174,9 @@ section#hero {
         left: 2rem;
         width: unset;
     }
-}
+} */
 
+/* *Info window styling */
 #markerwindow {
     display: none; /* Set to none to hide it initially */
     position: absolute;
@@ -191,6 +192,7 @@ section#hero {
     padding: 10px;
 }
 
+/* *Search bar styling here */
 .search-bar {
     position: relative;
     display: flex;
