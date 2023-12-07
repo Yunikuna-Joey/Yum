@@ -12,7 +12,7 @@ import urllib.parse
 from sqlalchemy.exc import IntegrityError
 # from flask_migrate import Migrate
 from sqlalchemy import or_
-from  flask_wtf.csrf import CSRFProtect
+# from  flask_wtf.csrf import CSRFProtect
 
 
 # API settings for google maps 
