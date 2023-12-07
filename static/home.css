@@ -91,7 +91,62 @@ header {
 .action_btn:active {
     scale: 0.95;
 }
-/* Drop down menu */
+.user-drop {
+    position: relative;
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgb(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+}
+
+.user-drop:hover #menu {
+    display: block;
+}
+
+/* Additional styling for clarity */
+#username {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+}
+
+#menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgb(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+}
+
+#menu li {
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu .action_btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Hide the checkbox input */
+.hidden {
+    display: none;
+}
+
+/* Drop down menu
 .dropdown_menu {
     display: none;
     position: absolute;
@@ -121,7 +176,7 @@ header {
     width: 100%;
     display: flex;
     justify-content: center;
-}
+} */
 
 /* HERO */
 section#hero {

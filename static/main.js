@@ -202,30 +202,6 @@ function logout(event) {
     form.submit();
 }
 
-function toggleDrop(event) {
-    event.preventDefault(); // Prevents the default behavior of the anchor
-    event.stopPropagation(); // Stops the event from propagating to the window
-
-    const userDrop = document.querySelector('.user-drop');
-    const menu = document.getElementById('dropdown_menu');
-    menu.classList.toggle('open');
-
-    // Toggle the menu when clicking outside
-    window.addEventListener('click', function closeMenu() {
-        menu.classList.remove('open');
-        window.removeEventListener('click', closeMenu); // Remove the event listener to avoid memory leaks
-    });
-}
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     toggleDrop();
-// });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     toggleDrop();
-// });
-
-
 // *Google Maps Functions located here 
 let map; 
 let googPlaceService;
