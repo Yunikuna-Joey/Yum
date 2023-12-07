@@ -258,6 +258,18 @@ def search_user():
 
     return jsonify(user_list)
 
+@app.route('/profile', methods=['GET']) 
+def profile(): 
+    username = current_user.username
+    return render_template('profile.html', username=username)
+
+@app.route('/upload-profile-picture', methods=['POST']) 
+def upload_picture(): 
+    if 'profilePicture' in request.files: 
+        file = request.files['profilePicture']
+    
+    return redirect('/profile')
+
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
