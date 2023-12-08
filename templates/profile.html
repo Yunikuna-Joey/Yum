@@ -40,8 +40,16 @@
 
 <body>
     <div class="main">
-        
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <input type="file" name="profile_picture" accept="image/*" required>
+            <input type="submit" value="Upload Picture">
+        </form>
     </div>
+
+    <div class="profile_picture">
+        <img src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
+    </div>
+
 
     <div id="error-response"></div>
 

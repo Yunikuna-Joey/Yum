@@ -41,7 +41,9 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///storage.sqlite3"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # set optional bootswatch theme
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
+# maybe allow gifs (not yet)
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
@@ -105,8 +107,6 @@ class Following(db.Model):
             'user_id': self.user_id,
             'friend_id': self.friend_id,
         }
-
-
 
 @login_manager.user_loader
 def load_user(user_id): 
@@ -268,6 +268,34 @@ def profile():
     username = current_user.username
     return render_template('profile.html', username=username)
 
+def allowed_file(filename): 
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        if 'profile_picture' not in request.files:
+            flash('No file available')
+            return redirect(request.url)
+
+        file = request.files['profile_picture']
+
+        if file.filename == '':
+            flash('No file selected')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            current_user.picture = filename
+            db.session.commit()
+
+            flash('Profile picture uploaded successfully.')
+
+    return redirect(url_for('profile'))
+    
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
