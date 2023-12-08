@@ -1,7 +1,7 @@
 import json
 import random
 from urllib import request
-from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response
+from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
@@ -13,6 +13,9 @@ from sqlalchemy.exc import IntegrityError
 # from flask_migrate import Migrate
 from sqlalchemy import or_
 # from  flask_wtf.csrf import CSRFProtect
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
+from werkzeug.utils import secure_filename
 
 
 # API settings for google maps 
@@ -38,6 +41,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///storage.sqlite3"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # set optional bootswatch theme
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+app.config['UPLOAD_FOLDER'] = 'uploads'
 
 # csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
@@ -56,6 +60,7 @@ class Account(UserMixin, db.Model):
     username = db.Column(db.String(100), nullable = False, unique=True)
     password = db.Column(db.String(100), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True)
+    picture = db.Column(db.String(255))
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
 
@@ -262,13 +267,6 @@ def search_user():
 def profile(): 
     username = current_user.username
     return render_template('profile.html', username=username)
-
-@app.route('/upload-profile-picture', methods=['POST']) 
-def upload_picture(): 
-    if 'profilePicture' in request.files: 
-        file = request.files['profilePicture']
-    
-    return redirect('/profile')
 
 
 # this should create the database upon activating file 

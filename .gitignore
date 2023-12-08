@@ -15,6 +15,7 @@ test.py
 /alembic.ini
 alembic/
 /storage.sqlite3
+uploads/
 
 
 
