@@ -13,8 +13,8 @@ from sqlalchemy.exc import IntegrityError
 # from flask_migrate import Migrate
 from sqlalchemy import or_
 # from  flask_wtf.csrf import CSRFProtect
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
+# from flask_wtf import FlaskForm
+# from flask_wtf.file import FileField, FileAllowed
 from werkzeug.utils import secure_filename
 
 
@@ -62,7 +62,7 @@ class Account(UserMixin, db.Model):
     username = db.Column(db.String(100), nullable = False, unique=True)
     password = db.Column(db.String(100), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True)
-    picture = db.Column(db.String(255))
+    picture = db.Column(db.String(255), nullable=True)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
 

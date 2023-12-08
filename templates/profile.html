@@ -47,7 +47,21 @@
     </div>
 
     <div class="profile_picture">
-        <img src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
+        {% if current_user.picture %}
+            <div class="image-container">
+                <img class="profile-image" src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
+                <div class="image-overlay">
+                    <button class="upload-btn">Upload</button>
+                </div>
+            </div>
+        {% else %}
+            <div class="image-container">
+                <img class="profile-image" src="{{ url_for('static', filename='uploads/default.png') }}" alt="Default Picture">
+                <div class="image-overlay">
+                    <button class="upload-btn">Upload</button>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
 
