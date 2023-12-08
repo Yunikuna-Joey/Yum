@@ -251,7 +251,9 @@ section#hero {
     background-color: #f5f5f5;
 }
 
+
 .image-container {
+    position: relative;
     overflow: hidden;
     border-radius: 50%;
     width: 100px;
@@ -278,6 +280,7 @@ section#hero {
     background-color: rgba(255, 255, 255, 0);
     opacity: 0;
     transition: opacity 0.3s ease;
+    margin: 10px;
 }
 
 .upload-btn {

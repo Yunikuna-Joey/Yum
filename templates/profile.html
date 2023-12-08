@@ -39,26 +39,30 @@
 </header>
 
 <body>
-    <div class="main">
-        <form method="POST" action="/upload" enctype="multipart/form-data">
-            <input type="file" name="profile_picture" accept="image/*" required>
-            <input type="submit" value="Upload Picture">
-        </form>
-    </div>
 
     <div class="profile_picture">
         {% if current_user.picture %}
             <div class="image-container">
                 <img class="profile-image" src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
                 <div class="image-overlay">
-                    <button class="upload-btn">Upload</button>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <!-- <label for="file-input" class="upload-btn">Change Picture</label> -->
+                        <input type="file" id="file-input" name="profile_picture" accept="image/*">
+                        <br>
+                        <input type="submit" value="Upload">
+                    </form>
                 </div>
             </div>
         {% else %}
             <div class="image-container">
-                <img class="profile-image" src="{{ url_for('static', filename='uploads/default.png') }}" alt="Default Picture">
+                <img class="profile-image" src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Default Picture">
                 <div class="image-overlay">
-                    <button class="upload-btn">Upload</button>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <!-- <label for="file-input" class="upload-btn">Upload</label> -->
+                        <input type="file" id="file-input" name="profile_picture" accept="image/*">
+                        <br>
+                        <input type="submit" value="Upload">
+                    </form>
                 </div>
             </div>
         {% endif %}

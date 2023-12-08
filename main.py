@@ -295,7 +295,8 @@ def upload():
             flash('Profile picture uploaded successfully.')
 
     return redirect(url_for('profile'))
-    
+
+
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
