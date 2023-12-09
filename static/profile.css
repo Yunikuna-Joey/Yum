@@ -337,18 +337,21 @@ section#hero {
 #status-container {
     max-width: 600px;
     margin: 0 auto;
+    border: 1px solid #fff;
     border-radius: 10px;
     overflow: hidden;
 }
 
 #status-table {
     width: 100%; 
+    border-collapse: collapse;
 }
 
 .status-update {
-    width: 100%;
-    border: 1px solid #ddd; 
+    /* width: 100%; */
+    /* border: 1px solid #ddd; */
     margin-bottom: 10px;
+    overflow: hidden;
 }
 
 .status-update td {
