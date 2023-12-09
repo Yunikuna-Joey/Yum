@@ -254,11 +254,14 @@ section#hero {
 .profile-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin: 20px auto;
 }
 
 .profile-info {
     /* margin(top, right, bottom, left) */
-    margin-left: 20px;
+    margin: 0 20px;
+    /* margin-right: 20px; */
     border: 1px solid #ccc; 
     border-radius: 25px; 
     padding: 10px; 
@@ -296,7 +299,9 @@ section#hero {
     height: 100px;
     /* Move the circle down from the top and centered horizontally */
     /* margin: 20px 300px;  */
-    margin: 20px 20px 20px 300px;
+    /* margin(top, right, bottom, left) */
+    /* margin: 20px 20px 20px 300px; */
+    margin: 20px auto;  
 }
 /* The image itself in the circle */
 .profile-image {
