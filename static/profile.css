@@ -281,14 +281,14 @@ section#hero {
     font-size: 1.2rem;
     color: #3498db;
     /* Control the spacing left and right */
-    margin-right: 75px;
+    margin-right: 80px;
 }
 
 .stat-label {
     font-size: 0.8rem; 
     color: #555;
     /* Control the spacing left and right */
-    margin-right: 75px;
+    margin-right: 80px;
 }
 
 .image-container {
