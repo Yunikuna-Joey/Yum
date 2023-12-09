@@ -333,3 +333,29 @@ section#hero {
 .image-container:hover .image-overlay {
     opacity: 1;
 }
+
+#status-container {
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#status-table {
+    width: 100%; 
+}
+
+.status-update {
+    width: 100%;
+    border: 1px solid #ddd; 
+    margin-bottom: 10px;
+}
+
+.status-update td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-update:last-child td {
+    border-bottom: none;
+}
