@@ -264,24 +264,28 @@ section#hero {
     padding: 10px; 
 }
 
-.profile-info .follow-stats {
-    display: flex;
-    justify-content: center;
+.follow-stats {
+    display: flex; 
+    gap: 20px;
 }
 
-.profile-info .stat {
+.stat {
     text-align: center;
 }
 
-.profile-info .stat-count {
-    font-weight: bond;
+.stat-count { 
+    font-weight: bold;
     font-size: 1.2rem;
     color: #3498db;
+    /* Control the spacing left and right */
+    margin-right: 75px;
 }
 
-.profile-info .stat-label {
-    font-size: 0.8rem;
-    color: #555; /* Use a subdued color for labels */
+.stat-label {
+    font-size: 0.8rem; 
+    color: #555;
+    /* Control the spacing left and right */
+    margin-right: 75px;
 }
 
 .image-container {

@@ -248,6 +248,7 @@ def unfollow_user():
         return jsonify({'message': 'Error DNE'})
 
 @app.route('/search_users')
+@login_required
 def search_user(): 
     search_term = request.args.get('term')
 
@@ -264,6 +265,7 @@ def search_user():
     return jsonify(user_list)
 
 @app.route('/profile', methods=['GET']) 
+@login_required
 def profile(): 
     username = current_user.username
     return render_template('profile.html', username=username)
