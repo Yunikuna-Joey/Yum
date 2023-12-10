@@ -1,28 +1,27 @@
-# Alembic Database Upgrading [Testing in progress not sure if it will be kept] 
-1) To start off: 'pip install alembic' 
-2) Initialize alembic: 'alembic init alembic' 
+# Utilize Flask-Migrate to track database modifications [Assuming you are using SQLAlchemy]
+1) Ensure the top of your app.py file has the following: 
+    *** if needed run 'pip install Flask-Migrate
+    - from flask import Flask 
+    - from flask_sqlalchemy import SQLAlchemy 
+    - from flask_migrate import Migrate
 
-3) Navigate to the file 'alembic.ini': 
-    - look for the line 'sqlalchemy.url = driver://user:pass@localhost/dbname' 
-    - then replace everything after the '=' with your database file or within your Flask Application, it should be everything after the '=' that contains the substring DATABASE_URI 
+2) Your app.py file should look something like this: 
+    - app = Flask(__name__)
+    - app.config['SQLALCHEMY_DATABASE_URI'] = 'your_database_uri_here'
+    - db = SQLAlchemy(app)
+    - migrate = Migrate(app, db)
 
-4) Navigate to the file 'env.py' within the newly created alembic folder and add in: 
-    - from 'your Flask application name' import app, db  
-        (i.e index.py) then it would be 'from index import app, db' respectively or whatever you named your app / database in your Flask file 
+3) In your terminal type: 
+    - 'flask db init' 
 
-5) Now you're ready, create an initial revision of your database with 
-    - 'alembic revision -- autogenerate -m "Initial" ' (Note: everything after the -m is essentially a comment about the revision push)
-    - [This will create a file in the alembic folder under 'versions']
+4) Then create your first migration of your database: 
+    - 'flask db migrate -m 'insert-your-caption-here' 
 
-6) To apply the migrations, we will use: 
-    - 'alembic upgrade head' 
+5) Then apply your migration with this: 
+    - 'flask db upgrade' 
 
-7) That should do it! Repeat steps 5 / 6 for any future changes with the database! 
+6) Any subsequent changes should be a repeat of steps 4 & 5 
 
-8) [MISC] If you would like to see the history / rollback a change: 
-    - 'alembic history' to display the unique version ID's of your revisions 
-
-    - 'alembic downgrade unique_id'  
 
 # [METHOD #2] Using Python shell to drop the entire base and recreate with blank values (P.W.C)
 1) Important to note that if we proceed with this, the entire data model WILL be deleted 

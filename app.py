@@ -10,7 +10,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 import urllib.parse
 from sqlalchemy.exc import IntegrityError
-# from flask_migrate import Migrate
+from flask_migrate import Migrate
 from sqlalchemy import or_
 # from  flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
@@ -47,7 +47,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 # csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
-# migrate = Migrate(app, db)
+migrate = Migrate(app, db)
 
 # initialize Flask-Login
 login_manager = LoginManager(app)

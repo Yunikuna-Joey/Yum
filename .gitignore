@@ -16,6 +16,7 @@ test.py
 alembic/
 /storage.sqlite3
 uploads/
+migrations/
 
 
 
