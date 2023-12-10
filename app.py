@@ -207,6 +207,31 @@ def add_marker():
         existing_marker = Marker.query.filter_by(lat=data['lat'], lng=data['lng']).first()
         return jsonify({'message': 'Marker already exists', 'marker_id': existing_marker.id})
 
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review(): 
+    data = request.json 
+    
+    marker_id = data.get('marker_id')
+    content = data.get('content')
+    rating = data.get('rating')
+
+    # Determine if marker is in db 
+    marker = Marker.query.get(marker_id)
+    if not marker: 
+        response = {'status': 'error', 'message': 'Invalid marker'}
+        return jsonify(response), 400 
+    
+    # save review into db [left var is db = right var is variable within function]
+    new = Review(content=content, rating=rating, author=current_user, marker=marker)
+    db.session.add(new)
+    db.session.commit()
+
+    response = {'status': 'success', 'message': 'Review submitted successfully'}
+    return jsonify(response)
+
+
+
 @app.route('/follow', methods=['POST'])
 def folow_user(): 
     data = request.json

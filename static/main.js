@@ -396,10 +396,24 @@ function createRestMarker(place) {
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
             // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
-            content: `<strong>${place.name}</strong><br>
-              Rating: ${place.rating || 'Not available'}<br>
-              Reviews: ${place.reviewCount || 0}<br>
-              Type: ${customType}`,
+            content: `
+                <strong>${place.name}</strong><br>
+                Rating: ${place.rating || 'Not available'}<br>
+                Reviews: ${place.reviewCount || 0}<br>
+                Type: ${customType}
+
+                <form id=review-form>
+                    <label for="review-content"> Leave a Review:</label>
+                    <textarea id="review-content name="review-content" rows="4" cols="50"></textarea><br>
+
+                    <label for="review-rating"> Rating: </label>
+                    <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
+
+                    <button type="button" onclick="submitReview($(place.id))"> Submit Review </button>
+                </form>
+            `,
+
+
 
             // * this will list the other types associated with a marker 
             // * [work with this to achieve targeted behavior]
@@ -443,5 +457,33 @@ function createRestMarker(place) {
         console.error('Map is not a valid instance of google.maps.Map.');
     }
 } // end of createRestMarker function 
+
+function submitReview(markerId) {
+    const content = document.getElementById('review-content').value; 
+    const rating = document.getElementById('review-rating').value;
+
+    const request = new XMLHttpRequest(); 
+    request.open('POST', '/submit_review', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                const response = JSON.parse(request.responseText);
+            }
+            else {
+                console.error('Error submitting review: ', request.status);
+            }
+        }
+    }; 
+
+    const data = JSON.stringify({
+        marker_id: markerId, 
+        content: content, 
+        rating: rating, 
+    }); 
+
+    request.send(data);
+}
 
 
