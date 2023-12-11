@@ -349,7 +349,7 @@ function addMarkerModel(markerData) {
         if (request.status === 200) {
             const data = JSON.parse(request.responseText); 
             // * [DEBUGGING]
-            console.log(data)
+            console.log(data);
         }
         else {
             console.error('Request Failed. Status: ', request.status);
@@ -368,6 +368,7 @@ function addMarkerModel(markerData) {
 
     request.send(JSON.stringify(requestData));
 }
+
 
 // * Ongoing list to add in restaurants with custom typings for user to see 
 const customTypeMappings = {
@@ -430,6 +431,7 @@ function createRestMarker(place) {
                 currentWindow.close();
                 markerWindow.style.display = 'none';
                 currentMarker = currentInfoWindow = null;
+                // currentMarker = currentWindow = null;
             } 
             else {
                 if (currentWindow) {
@@ -442,7 +444,8 @@ function createRestMarker(place) {
                 infowindow.addListener('domready', function () {
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
-                        submitReview(place);
+                        console.log("The submission button", place.id);
+                        submitReview(place.id);
                     });
                 });
 
@@ -466,6 +469,7 @@ function createRestMarker(place) {
                 infowindow.addListener('closeclick', function () {
                     markerWindow.style.display = 'none';
                     currentMarker = currentInfoWindow = null;
+                    // currentMarker = currentWindow = null;
                 });
             }
         });
@@ -477,13 +481,14 @@ function createRestMarker(place) {
 } // end of createRestMarker function 
 
 function submitReview(place) {
-    // * the issue is that content is reading NULL 
 
     const content = document.getElementById('review-content').value; 
     const rating = document.getElementById('review-rating').value;
 
+    // * DEBUGGING in console
     console.log('Review is ', content);
     console.log('Rating is ', rating);
+    console.log('The marker id is: ', place)
 
     const request = new XMLHttpRequest(); 
     request.open('POST', '/submit_review', true);
@@ -493,6 +498,7 @@ function submitReview(place) {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 const response = JSON.parse(request.responseText);
+                console.log('Review submitted successfully: ', response);
             }
             else {
                 console.error('Error submitting review: ', request.status);
@@ -501,7 +507,7 @@ function submitReview(place) {
     }; 
 
     const data = JSON.stringify({
-        marker_id: place.id, 
+        marker_id: place, 
         content: content, 
         rating: rating, 
     }); 
