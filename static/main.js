@@ -405,12 +405,12 @@ function createRestMarker(place) {
 
                 <form id=review-form>
                     <label for="review-content"> Leave a Review:</label>
-                    <textarea id="review-content name="review-content" rows="4" cols="50"></textarea><br>
+                    <textarea id="review-content" name="review-content" rows="4" cols="50"></textarea><br>
 
                     <label for="review-rating"> Rating: </label>
                     <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
 
-                    <button type="button" onclick="submitReview($(place.id))"> Submit Review </button>
+                    <button type="button" id="submit-review-btn">Submit Review</button>
                 </form>
             `,
 
@@ -438,7 +438,26 @@ function createRestMarker(place) {
                 }
     
                 infowindow.open(map, marker);
-                markerWindow.innerHTML = infowindow.getContent();
+
+                infowindow.addListener('domready', function () {
+                    const button = document.getElementById('submit-review-btn');
+                    button.addEventListener('click', function () {
+                        submitReview(place);
+                    });
+                });
+
+                // const button = document.getElementById('submit-review-btn');
+                // button.addEventListener('click', function () {
+                //     submitReview(place);
+                // });
+                
+                markerContent = `                
+                    <strong>${place.name}</strong><br>
+                    Rating: ${place.rating || 'Not available'}<br>
+                    Reviews: ${place.reviewCount || 0}<br>
+                    Type: ${customType}
+                `
+                markerWindow.innerHTML = markerContent;
                 markerWindow.style.display = 'block';
     
                 currentMarker = marker;
@@ -457,9 +476,14 @@ function createRestMarker(place) {
     }
 } // end of createRestMarker function 
 
-function submitReview(markerId) {
+function submitReview(place) {
+    // * the issue is that content is reading NULL 
+
     const content = document.getElementById('review-content').value; 
     const rating = document.getElementById('review-rating').value;
+
+    console.log('Review is ', content);
+    console.log('Rating is ', rating);
 
     const request = new XMLHttpRequest(); 
     request.open('POST', '/submit_review', true);
@@ -477,12 +501,10 @@ function submitReview(markerId) {
     }; 
 
     const data = JSON.stringify({
-        marker_id: markerId, 
+        marker_id: place.id, 
         content: content, 
         rating: rating, 
     }); 
 
     request.send(data);
 }
-
-
