@@ -389,6 +389,7 @@ function createRestMarker(place) {
             map: map, 
             position: place.geometry.location, 
             title: place.name, 
+            animation: google.maps.Animation.DROP, 
         }); 
 
         addMarkerModel(place);  
@@ -412,8 +413,6 @@ function createRestMarker(place) {
                     <button type="button" onclick="submitReview($(place.id))"> Submit Review </button>
                 </form>
             `,
-
-
 
             // * this will list the other types associated with a marker 
             // * [work with this to achieve targeted behavior]
