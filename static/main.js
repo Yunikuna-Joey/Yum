@@ -447,6 +447,38 @@ function createRestMarker(locationData) {
                     currentWindow.close();
                     markerWindow.style.display = 'none';
                 }
+                const markerId = locationData.place_id;
+                const reviewCheckData = JSON.stringify({ place_id: markerId});
+
+                const reviewCheckRequest = new XMLHttpRequest(); 
+                reviewCheckRequest.open('POST', '/check_review_status', true);
+                reviewCheckRequest.setRequestHeader('Content-Type', 'application/json');
+
+                reviewCheckRequest.onload = function () {
+                    if (reviewCheckRequest.status === 200) {
+                        const reviewStatus = JSON.parse(reviewCheckRequest.responseText);
+
+                        if (reviewStatus.status === 'reviewed') {
+                            const prevRating = document.createElement('div');
+                            prevRating.innerHTML = `Your rating: ${reviewStatus.rating}`;
+                            markerWindow.appendChild(prevRating);
+                        } 
+                        else {
+                            infowindow.open(map, marker);
+                            infowindow.addListener('domready', function () {
+                                const button = document.getElementById('submit-review-btn');
+                                button.addEventListener('click', function () {
+                                    submitReview(locationData.place_id);
+                                });
+                            });
+                        }
+                    }
+                    else {
+                        console.error('Error checking review status: ', reviewCheckRequest.status);
+                    }
+                };
+
+                reviewCheckRequest.send(reviewCheckData);
     
                 infowindow.open(map, marker);
 
@@ -519,6 +551,19 @@ function submitReview(markerId) {
             if (request.status === 200) {
                 const response = JSON.parse(request.responseText);
                 console.log('Review submitted successfully: ', response);
+                
+                const button = document.getElementById('submit-review-btn');
+                button.removeEventListener('click', submitReview);
+
+                // replaces the review form content with this
+                const markerWindow = document.getElementById('markerwindow');
+                const currentRating = document.createElement('div');
+                currentRating.innerHTML = `Your Rating: ${rating}`;
+                markerWindow.appendChild(currentRating);
+
+                // hide the review form 
+                const reviewForm = document.getElementById('review-form');
+                reviewForm.style.display = 'none';
             }
             else {
                 console.error('Error submitting review: ', request.status);

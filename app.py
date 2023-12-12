@@ -242,6 +242,21 @@ def submit_review():
     response = {'status': 'success', 'message': 'Review submitted successfully'}
     return jsonify(response)
 
+@app.route('/check_review_status', methods=['POST'])
+@login_required
+def check_review_status(): 
+        data = request.json
+        place_id = data.get('place_id')
+
+        # check if current_user has submitted a review
+        user_review = Review.query.filter_by(account_id=current_user.id, place_id=place_id).first()
+
+        if user_review: 
+            response = {'status': 'reviewed', 'rating': user_review.rating}
+        else: 
+            response = {'status': 'not_reviewed'}
+        
+        return jsonify(response)
 
 
 @app.route('/follow', methods=['POST'])
