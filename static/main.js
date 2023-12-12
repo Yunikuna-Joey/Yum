@@ -369,36 +369,11 @@ function addMarkerModel(markerData) {
         lat: markerData.geometry.location.lat(), 
         lng: markerData.geometry.location.lng(), 
         title: markerData.name,
+        place_id: markerData.place_id,
     };
 
     request.send(JSON.stringify(requestData));
 }
-
-function queryMarkerId(markerData, callback) {
-    const request = new XMLHttpRequest(); 
-    request.open('GET', `/query_marker_id?lat=${markerData.geometry.location.lat()}&lng=${markerData.geometry.location.lng()}&title=${encodeURIComponent(markerData.name)}`, true);
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.onload = function () {
-        if (request.status === 200) {
-            const data = JSON.parse(request.responseText);
-
-            if (data.marker_id) {
-                callback(data.marker_id);
-            }
-            
-            else {
-                console.log('No marker ID found');
-                callback(null);
-            }
-        }
-        else { 
-            console.error('Failed to fetch marker ID. Status: ', request.status);
-            callback(null);
-        }
-    };
-}
-
 
 // * Ongoing list to add in restaurants with custom typings for user to see 
 const customTypeMappings = {
@@ -426,6 +401,8 @@ function createRestMarker(locationData) {
         }); 
 
         addMarkerModel(locationData);  
+        // locationData.marker_id is undefined
+        console.log("This is locationData", locationData);
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
@@ -435,7 +412,7 @@ function createRestMarker(locationData) {
                 Rating: ${locationData.rating || 'Not available'}<br>
                 Reviews: ${locationData.reviewCount || 0}<br>
                 Type: ${customType}
-                <div id="marker-id" style="display: block;">${locationData.marker_id}</div>
+                <div id="marker-id" style="display: block;">${locationData.id}</div>
                 
 
                 <form id=review-form>
@@ -476,8 +453,9 @@ function createRestMarker(locationData) {
                 infowindow.open(map, marker);
 
                 infowindow.addListener('domready', function () {
-                    const id = locationData.marker_id;
+                    const id = locationData.place_id;
                     console.log('This id is', id);
+                    // ** PREV 
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
                         submitReview(locationData.marker_id);

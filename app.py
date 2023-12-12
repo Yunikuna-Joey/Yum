@@ -85,6 +85,7 @@ class Review(db.Model):
 
 class Marker(db.Model): 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    place_id = db.Column(db.String)
     lat = db.Column(db.Float, nullable=False)
     lng = db.Column(db.Float, nullable=False)
     title = db.Column(db.String, nullable=False)
@@ -92,6 +93,7 @@ class Marker(db.Model):
     def to_dict(self): 
         return {
             'id': self.id,
+            'place_id': self.place_id,
             'lat': self.lat, 
             'lng': self.lng, 
             'title': self.title,
@@ -195,7 +197,7 @@ def add_marker():
     if exist_marker: 
         return jsonify({'message': 'Marker already exists', 'marker_id': exist_marker.id})
     
-    new_marker = Marker(lat=data['lat'], lng=data['lng'], title=data.get('title'))
+    new_marker = Marker(lat=data['lat'], lng=data['lng'], title=data.get('title'), place_id=data.get('place_id'))
 
     try: 
         db.session.add(new_marker)
