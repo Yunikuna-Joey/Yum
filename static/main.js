@@ -349,11 +349,11 @@ function addMarkerModel(markerData) {
         if (request.status === 200) {
             const data = JSON.parse(request.responseText); 
             // * [DEBUGGING]
-            console.log(data);
+            console.log("this is the data being printed: ", data);
             
             // ** DEBUGGING for submission review
-            const markerId = data.marker_id; 
-            console.log("Javascript states this is the marker id in my Flask DB: ", markerId)
+            // const markerId = data.marker_id; 
+            // console.log("Javascript states this is the marker id in my Flask DB: ", markerId)
 
         }
         else {
@@ -373,6 +373,7 @@ function addMarkerModel(markerData) {
 
     request.send(JSON.stringify(requestData));
 }
+
 
 
 // * Ongoing list to add in restaurants with custom typings for user to see 
@@ -410,6 +411,8 @@ function createRestMarker(locationData) {
                 Rating: ${locationData.rating || 'Not available'}<br>
                 Reviews: ${locationData.reviewCount || 0}<br>
                 Type: ${customType}
+                <div id="marker-id" style="display: block;">${locationData.marker_id}</div>
+                
 
                 <form id=review-form>
                     <label for="review-content"> Leave a Review:</label>
@@ -449,9 +452,11 @@ function createRestMarker(locationData) {
                 infowindow.open(map, marker);
 
                 infowindow.addListener('domready', function () {
+                    const id = locationData.marker_id;
+                    console.log('This id is', id);
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
-                        submitReview(place);
+                        submitReview(locationData.marker_id);
                     });
                 });
 
