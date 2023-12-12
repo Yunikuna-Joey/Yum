@@ -374,6 +374,30 @@ function addMarkerModel(markerData) {
     request.send(JSON.stringify(requestData));
 }
 
+function queryMarkerId(markerData, callback) {
+    const request = new XMLHttpRequest(); 
+    request.open('GET', `/query_marker_id?lat=${markerData.geometry.location.lat()}&lng=${markerData.geometry.location.lng()}&title=${encodeURIComponent(markerData.name)}`, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) {
+            const data = JSON.parse(request.responseText);
+
+            if (data.marker_id) {
+                callback(data.marker_id);
+            }
+            
+            else {
+                console.log('No marker ID found');
+                callback(null);
+            }
+        }
+        else { 
+            console.error('Failed to fetch marker ID. Status: ', request.status);
+            callback(null);
+        }
+    };
+}
 
 
 // * Ongoing list to add in restaurants with custom typings for user to see 
