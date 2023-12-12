@@ -444,8 +444,7 @@ function createRestMarker(place) {
                 infowindow.addListener('domready', function () {
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
-                        console.log("The submission button", place.id);
-                        submitReview(place.id);
+                        submitReview(place);
                     });
                 });
 
@@ -480,37 +479,40 @@ function createRestMarker(place) {
     }
 } // end of createRestMarker function 
 
-function submitReview(place) {
+// *** REVIEW LATER
 
-    const content = document.getElementById('review-content').value; 
-    const rating = document.getElementById('review-rating').value;
+// function submitReview(markerId) {
 
-    // * DEBUGGING in console
-    console.log('Review is ', content);
-    console.log('Rating is ', rating);
-    console.log('The marker id is: ', place)
+//     const content = document.getElementById('review-content').value; 
+//     const rating = document.getElementById('review-rating').value;
 
-    const request = new XMLHttpRequest(); 
-    request.open('POST', '/submit_review', true);
-    request.setRequestHeader('Content-Type', 'application/json');
+//     // * DEBUGGING in console
+//     console.log('Review is ', content);
+//     console.log('Rating is ', rating);
+//     console.log('The marker id is: ', markerId)
 
-    request.onreadystatechange = function () {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            if (request.status === 200) {
-                const response = JSON.parse(request.responseText);
-                console.log('Review submitted successfully: ', response);
-            }
-            else {
-                console.error('Error submitting review: ', request.status);
-            }
-        }
-    }; 
+    
+//     const data = JSON.stringify({
+//         marker_id: markerId, 
+//         content: content, 
+//         rating: rating, 
+//     }); 
 
-    const data = JSON.stringify({
-        marker_id: place, 
-        content: content, 
-        rating: rating, 
-    }); 
+//     const request = new XMLHttpRequest(); 
+//     request.open('POST', '/submit_review', true);
+//     request.setRequestHeader('Content-Type', 'application/json');
 
-    request.send(data);
-}
+//     request.onreadystatechange = function () {
+//         if (request.readyState === XMLHttpRequest.DONE) {
+//             if (request.status === 200) {
+//                 const response = JSON.parse(request.responseText);
+//                 console.log('Review submitted successfully: ', response);
+//             }
+//             else {
+//                 console.error('Error submitting review: ', request.status);
+//             }
+//         }
+//     }; 
+
+//     request.send(data);
+// }
