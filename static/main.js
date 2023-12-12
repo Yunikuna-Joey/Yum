@@ -350,6 +350,11 @@ function addMarkerModel(markerData) {
             const data = JSON.parse(request.responseText); 
             // * [DEBUGGING]
             console.log(data);
+            
+            // ** DEBUGGING for submission review
+            const markerId = data.marker_id; 
+            console.log("Javascript states this is the marker id in my Flask DB: ", markerId)
+
         }
         else {
             console.error('Request Failed. Status: ', request.status);
@@ -374,34 +379,36 @@ function addMarkerModel(markerData) {
 const customTypeMappings = {
     "Leatherby's Family Creamery" : "Ice Cream Shop", 
 }; 
+
 let currentWindow = null; 
 let currentMarker = null; 
-function createRestMarker(place) {
-    if (map instanceof google.maps.Map) {
-        let customType = customTypeMappings[place.name];
 
-        if (!customType && place.types && place.types.length > 0) {
-            customType = place.types[0];
+function createRestMarker(locationData) {
+    if (map instanceof google.maps.Map) {
+        let customType = customTypeMappings[locationData.name];
+
+        if (!customType && locationData.types && locationData.types.length > 0) {
+            customType = locationData.types[0];
         }
 
         customType = customType || 'Restaurant';
 
         const marker = new google.maps.Marker({
             map: map, 
-            position: place.geometry.location, 
-            title: place.name, 
+            position: locationData.geometry.location, 
+            title: locationData.name, 
             animation: google.maps.Animation.DROP, 
         }); 
 
-        addMarkerModel(place);  
+        addMarkerModel(locationData);  
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
             // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
             content: `
-                <strong>${place.name}</strong><br>
-                Rating: ${place.rating || 'Not available'}<br>
-                Reviews: ${place.reviewCount || 0}<br>
+                <strong>${locationData.name}</strong><br>
+                Rating: ${locationData.rating || 'Not available'}<br>
+                Reviews: ${locationData.reviewCount || 0}<br>
                 Type: ${customType}
 
                 <form id=review-form>
@@ -417,10 +424,10 @@ function createRestMarker(place) {
 
             // * this will list the other types associated with a marker 
             // * [work with this to achieve targeted behavior]
-            // content: `<strong>${place.name}</strong><br>
-            //   Rating: ${place.rating || 'Not available'}<br>
-            //   Reviews: ${place.reviewCount || 0}<br>
-            //   Type: ${place.types ? place.types[0] : 'Not available'}`,
+            // content: `<strong>${locationData.name}</strong><br>
+            //   Rating: ${locationData.rating || 'Not available'}<br>
+            //   Reviews: ${locationData.reviewCount || 0}<br>
+            //   Type: ${locationData.types ? locationData.types[0] : 'Not available'}`,
         }); 
 
         // let isOpen = false;
@@ -454,9 +461,9 @@ function createRestMarker(place) {
                 // });
                 
                 markerContent = `                
-                    <strong>${place.name}</strong><br>
-                    Rating: ${place.rating || 'Not available'}<br>
-                    Reviews: ${place.reviewCount || 0}<br>
+                    <strong>${locationData.name}</strong><br>
+                    Rating: ${locationData.rating || 'Not available'}<br>
+                    Reviews: ${locationData.reviewCount || 0}<br>
                     Type: ${customType}
                 `
                 markerWindow.innerHTML = markerContent;
@@ -481,38 +488,38 @@ function createRestMarker(place) {
 
 // *** REVIEW LATER
 
-// function submitReview(markerId) {
+function submitReview(markerId) {
 
-//     const content = document.getElementById('review-content').value; 
-//     const rating = document.getElementById('review-rating').value;
+    const content = document.getElementById('review-content').value; 
+    const rating = document.getElementById('review-rating').value;
 
-//     // * DEBUGGING in console
-//     console.log('Review is ', content);
-//     console.log('Rating is ', rating);
-//     console.log('The marker id is: ', markerId)
+    // * DEBUGGING in console
+    console.log('Review is ', content);
+    console.log('Rating is ', rating);
+    console.log('The marker id is: ', markerId)
 
     
-//     const data = JSON.stringify({
-//         marker_id: markerId, 
-//         content: content, 
-//         rating: rating, 
-//     }); 
+    const data = JSON.stringify({
+        marker_id: markerId, 
+        content: content, 
+        rating: rating, 
+    }); 
 
-//     const request = new XMLHttpRequest(); 
-//     request.open('POST', '/submit_review', true);
-//     request.setRequestHeader('Content-Type', 'application/json');
+    const request = new XMLHttpRequest(); 
+    request.open('POST', '/submit_review', true);
+    request.setRequestHeader('Content-Type', 'application/json');
 
-//     request.onreadystatechange = function () {
-//         if (request.readyState === XMLHttpRequest.DONE) {
-//             if (request.status === 200) {
-//                 const response = JSON.parse(request.responseText);
-//                 console.log('Review submitted successfully: ', response);
-//             }
-//             else {
-//                 console.error('Error submitting review: ', request.status);
-//             }
-//         }
-//     }; 
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                const response = JSON.parse(request.responseText);
+                console.log('Review submitted successfully: ', response);
+            }
+            else {
+                console.error('Error submitting review: ', request.status);
+            }
+        }
+    }; 
 
-//     request.send(data);
-// }
+    request.send(data);
+}
