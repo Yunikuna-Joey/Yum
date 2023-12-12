@@ -412,8 +412,6 @@ function createRestMarker(locationData) {
                 Rating: ${locationData.rating || 'Not available'}<br>
                 Reviews: ${locationData.reviewCount || 0}<br>
                 Type: ${customType}
-                <div id="marker-id" style="display: block;">${locationData.id}</div>
-                
 
                 <form id=review-form>
                     <label for="review-content"> Leave a Review:</label>
