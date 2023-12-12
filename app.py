@@ -80,8 +80,17 @@ class Review(db.Model):
     content = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
-    marker_id = db.Column(db.Integer, db.ForeignKey('marker.id'), nullable=False)
-    marker = db.relationship('Marker', backref=db.backref('reviews', lazy='dynamic'))
+    account = db.relationship('Account', backref=db.backref('user_reviews', lazy=True))
+    place_id = db.Column(db.String, nullable=False)
+
+    def to_dict(self):
+        return {
+            'id': self.id, 
+            'content': self.content,
+            'rating': self.rating, 
+            'account_id': self.account_id, 
+            'place_id': self.place_id,
+        }
 
 class Marker(db.Model): 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -214,18 +223,19 @@ def add_marker():
 def submit_review(): 
     data = request.json 
     
-    marker_id = data.get('marker_id')
+    place_id = data.get('place_id')
     content = data.get('content')
     rating = data.get('rating')
 
     # Determine if marker is in db 
-    marker = Marker.query.get(marker_id)
+    marker = Marker.query.filter_by(place_id=place_id).first()
+    print('The place_id is', marker)
     if not marker: 
         response = {'status': 'error', 'message': 'Invalid marker'}
         return jsonify(response), 400 
     
     # save review into db [left var is db = right var is variable within function]
-    new = Review(content=content, rating=rating, author=current_user, marker=marker)
+    new = Review(content=content, rating=rating, account_id=current_user.id, place_id=marker.place_id)
     db.session.add(new)
     db.session.commit()
 

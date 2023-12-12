@@ -458,7 +458,7 @@ function createRestMarker(locationData) {
                     // ** PREV 
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
-                        submitReview(locationData.marker_id);
+                        submitReview(locationData.place_id);
                     });
                 });
 
@@ -507,7 +507,7 @@ function submitReview(markerId) {
 
     
     const data = JSON.stringify({
-        marker_id: markerId, 
+        place_id: markerId, 
         content: content, 
         rating: rating, 
     }); 
