@@ -524,8 +524,15 @@ function createRestMarker(locationData) {
 } // end of createRestMarker function 
 
 // *** REVIEW LATER
+let isSubmitting = false;  
 
 function submitReview(markerId) {
+    if (isSubmitting) {
+        console.log('Currently submitting. Wait.');
+        return;
+    }
+
+    isSubmitting = true;
 
     const content = document.getElementById('review-content').value; 
     const rating = document.getElementById('review-rating').value;
@@ -534,6 +541,15 @@ function submitReview(markerId) {
     console.log('Review is ', content);
     console.log('Rating is ', rating);
     console.log('The marker id is: ', markerId)
+
+    // * NEW 
+    // check if the review has already been submitted 
+    const markerWindow = document.getElementById('markerwindow');
+    const existingRating = markerWindow.querySelector('.user-rating');
+    if (existingRating) {
+        console.log('Review already submitted');
+        return;
+    }
 
     
     const data = JSON.stringify({
@@ -549,9 +565,11 @@ function submitReview(markerId) {
     request.onreadystatechange = function () {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
+                isSubmitting = false;
                 const response = JSON.parse(request.responseText);
                 console.log('Review submitted successfully: ', response);
                 
+                // * OLD
                 const button = document.getElementById('submit-review-btn');
                 button.removeEventListener('click', submitReview);
 
@@ -560,6 +578,11 @@ function submitReview(markerId) {
                 const currentRating = document.createElement('div');
                 currentRating.innerHTML = `Your Rating: ${rating}`;
                 markerWindow.appendChild(currentRating);
+                
+                // *Revised change but not working yet
+                // const currentRating = document.createElement('div');
+                // currentRating.className = 'user-rating';
+                // currentRating.innerHTML = `Your Rating: ${rating}`;
 
                 // hide the review form 
                 const reviewForm = document.getElementById('review-form');
