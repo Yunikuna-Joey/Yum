@@ -454,8 +454,6 @@ function createRestMarker(locationData) {
                 reviewCheckRequest.open('POST', '/check_review_status', true);
                 reviewCheckRequest.setRequestHeader('Content-Type', 'application/json');
 
-                let reviewStatus = 'not_reviewed';
-
                 reviewCheckRequest.onload = function () {
                     if (reviewCheckRequest.status === 200) {
                         const reviewStatus = JSON.parse(reviewCheckRequest.responseText);
@@ -464,6 +462,9 @@ function createRestMarker(locationData) {
                             const prevRating = document.createElement('div');
                             prevRating.innerHTML = `Your rating: ${reviewStatus.rating}`;
                             markerWindow.appendChild(prevRating);
+
+                            const reviewForm = document.getElementById('review-form');
+                            reviewForm.style.display = 'none';
                         } 
                         else {
                             infowindow.open(map, marker);
@@ -492,10 +493,6 @@ function createRestMarker(locationData) {
                     button.addEventListener('click', function () {
                         submitReview(locationData.place_id);
                     });
-
-                    if (reviewStatus.status === 'reviewed') {
-                        reviewForm.style.display = 'none';
-                    }
                 });
 
                 // const button = document.getElementById('submit-review-btn');
@@ -597,13 +594,8 @@ function submitReview(markerId) {
                 const currentRating = document.createElement('div');
                 currentRating.innerHTML = `Your Rating: ${ratingValue}`;
                 markerWindow.appendChild(currentRating);
-                
-                // *Revised change but not working yet
-                // const currentRating = document.createElement('div');
-                // currentRating.className = 'user-rating';
-                // currentRating.innerHTML = `Your Rating: ${rating}`;
 
-                // hide the review form 
+                // hides the review form after submitting review
                 const reviewForm = document.getElementById('review-form');
                 reviewForm.style.display = 'none';
             }
