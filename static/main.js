@@ -454,6 +454,8 @@ function createRestMarker(locationData) {
                 reviewCheckRequest.open('POST', '/check_review_status', true);
                 reviewCheckRequest.setRequestHeader('Content-Type', 'application/json');
 
+                let reviewStatus = 'not_reviewed';
+
                 reviewCheckRequest.onload = function () {
                     if (reviewCheckRequest.status === 200) {
                         const reviewStatus = JSON.parse(reviewCheckRequest.responseText);
@@ -490,6 +492,10 @@ function createRestMarker(locationData) {
                     button.addEventListener('click', function () {
                         submitReview(locationData.place_id);
                     });
+
+                    if (reviewStatus.status === 'reviewed') {
+                        reviewForm.style.display = 'none';
+                    }
                 });
 
                 // const button = document.getElementById('submit-review-btn');
@@ -527,15 +533,28 @@ function createRestMarker(locationData) {
 let isSubmitting = false;  
 
 function submitReview(markerId) {
+
+    const content = document.getElementById('review-content').value; 
+    const rating = document.getElementById('review-rating'); 
+    const ratingValue = parseInt(rating.value, 10); 
+
+    if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'err-msg';
+        errorMessage.textContent = 'Please enter a valid rating (1 - 5)';
+        errorMessage.style.color = 'red';
+
+        const reviewForm = document.getElementById('review-form');
+        reviewForm.appendChild(errorMessage);
+        return;
+    }
+
     if (isSubmitting) {
         console.log('Currently submitting. Wait.');
         return;
     }
 
     isSubmitting = true;
-
-    const content = document.getElementById('review-content').value; 
-    const rating = document.getElementById('review-rating').value;
 
     // * DEBUGGING in console
     console.log('Review is ', content);
@@ -555,7 +574,7 @@ function submitReview(markerId) {
     const data = JSON.stringify({
         place_id: markerId, 
         content: content, 
-        rating: rating, 
+        rating: ratingValue, 
     }); 
 
     const request = new XMLHttpRequest(); 
@@ -576,7 +595,7 @@ function submitReview(markerId) {
                 // replaces the review form content with this
                 const markerWindow = document.getElementById('markerwindow');
                 const currentRating = document.createElement('div');
-                currentRating.innerHTML = `Your Rating: ${rating}`;
+                currentRating.innerHTML = `Your Rating: ${ratingValue}`;
                 markerWindow.appendChild(currentRating);
                 
                 // *Revised change but not working yet
