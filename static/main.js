@@ -607,3 +607,42 @@ function submitReview(markerId) {
 
     request.send(data);
 }
+
+function queryReview() {
+    var request = new XMLHttpRequest();
+    request.open('/GET', '/query_review', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) { 
+            // an array with all the content
+            var reviews = JSON.parse(request.responseText);
+
+            // * DEBUGGING
+            console.log('User Reviews: ', reviews);
+            displayReview(reviews);
+        }
+        else {
+            console.error('Error fetching user reviews: ', request.statusText);
+        }
+    };
+
+    request.onerror = function () {
+        console.error('Network error while fetching user reviews');
+    };
+
+    request.send();
+}
+
+function displayReview(reviews) {
+    var table = document.getElementById('status-table');
+
+    table.innerHTML = '';
+
+    reviews.forEach(function (review) {
+        var row = table.insertRow(); 
+        var cell = row.insertCell(0);
+
+        cell.innerHTML = `${reviews.username}: ${review.content}<br> <<i class='bx bx-like'></i> <i class='bx bx-repost'></i>`;
+    });
+}

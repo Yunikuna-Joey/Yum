@@ -350,6 +350,13 @@ def upload():
 
     return redirect(url_for('profile'))
 
+@app.route('/query_reviews', methods=['GET']) 
+def query_review(): 
+    review = Review.query.filter_by(account_id=current_user.id).all()
+    review_data = [{'content': review.content, 'rating': review.rating} for item in review]
+
+    return jsonify(review_data)
+
 
 
 # this should create the database upon activating file 
