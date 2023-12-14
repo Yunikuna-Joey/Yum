@@ -316,13 +316,8 @@ def search_user():
 
     return jsonify(user_list)
 
-# @app.route('/query_reviews', methods=['GET']) 
-# def query_review(): 
-#     review = Review.query.filter_by(account_id=current_user.id).all()
-#     review_data = [{'content': review.content, 'rating': review.rating} for item in review]
 
-#     return jsonify(review_data)
-
+# *This is going to be for current user
 @app.route('/profile', methods=['GET']) 
 @login_required
 def profile(): 
@@ -345,6 +340,26 @@ def profile():
 
     print(review_data)
     return render_template('profile.html', username=username, reviews=review_data)
+
+# *This is going to be for loading OTHER users
+@app.route('/profile/<username>')
+@login_required 
+def loadProfile(username): 
+    user = Account.query.filter_by(username=username).first_or_404() 
+    review = Review.query.filter_by(account_id=user.id).all() 
+    review_data = []
+
+    for item in review: 
+        marker = Marker.query.filter_by(place_id=item.place_id).first() 
+        if marker: 
+            review_data.append({
+                'content': item.content,
+                'rating': item.rating, 
+                'place_title': marker.title,
+            })
+
+    return render_template('userprofile.html', user=user, reviews=review_data)
+
 
 # function to check if the file extension is allowed
 def allowed_file(filename): 

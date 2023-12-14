@@ -151,7 +151,17 @@ function displaySearchResults(data, searchResults) {
         data.forEach(user => {
             const resultItem = document.createElement('div');
             resultItem.classList.add('result-item');
+
+            // * Proposed new change
+            // const resultLink = document.createElement('a');
+            // resultLink.href = `/profile/${user.username}`;
+            // resultLink.textContent = user.username;
+            // resultItem.appendChild(resultLink); 
+            // searchResults.appendChild(resultItem);
+            
+            // * Old one that was displaying results
             resultItem.textContent = user.username;
+        // makes the link clickable b/c of href property
             searchResults.appendChild(resultItem);
         });
     } 

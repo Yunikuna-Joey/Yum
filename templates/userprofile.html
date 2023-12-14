@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yum Buddies</title>
+    <script src="../static/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/profile.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script>
+        window.onload = function () {
+            searchUser();
+        }
+    </script>
+</head>
+
+<header>
+    <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
+    <div class="navbar">
+        <div class="logo"><a href="/home">Yum!</a></div>
+        <ul class="links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+        <!-- Top right corner -->
+        <div class="search-bar">
+            <input type="text" id="term" class="search-input" placeholder="Search users...">
+            <button class="search-button">Find</button>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        <div class="user-drop">
+            <label for="menu-toggle" id="username">{{ current_user.username }}</label>
+            <input type="checkbox" id="menu-toggle" class="hidden">
+            <div id="menu" class="dropdown_menu">
+                <li><a href="#" class="action">{{ current_user.username }}</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="about">About</a></li>
+                <li><a href="settings">Settings</a></li>
+                <li><a href="logout" onclick="logout(event)">Log Out</a></li>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+    <div class="profile-container">
+        <div class="profile_picture">
+            {% if user.picture %}
+                <div class="image-container">
+                    <img class="profile-image" src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
+                </div>
+            {% else %}
+                <div class="image-container">
+                    <img class="profile-image" src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Default Picture">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="profile-info">
+            <div class="follow-stats">
+                <div class="stat">
+                    <p class="stat-label">Reviews</p>
+                    <p class="stat-count"> 32 </p>
+                </div>
+                <div class="stat">
+                    <p class="stat-label">Followers</p>
+                    <p class="stat-count"> 112 </p>
+                </div>
+                <div class="stat">
+                    <p class="stat-label">Following</p>
+                    <p class="stat-count"> 43 </p>
+                </div>
+            </div>
+            <br>
+            <p>Name: {{ user.username }}</p>
+            <p>Bio: I am a great foodie that loves leaving reviews </p>
+        </div>
+    </div>
+
+    <div id="status-container">
+        <table id="status-table">
+            {% for item in reviews %}
+                <tr class="status-update">
+                    <td> {{ item.content }} <br> Rating: {{ item.rating }} <br> At: {{ item.place_title }} </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+     
+
+    <div id="error-response"></div>
+
+</body>
+
+</html>
