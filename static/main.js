@@ -174,6 +174,21 @@ function displaySearchResults(data, searchResults) {
     }
 }
 
+function toggleUploadForm() {
+    const uploadContainer = document.getElementById('upload-container');
+    const form = document.getElementById('upload-form');
+
+    if (uploadContainer.style.display === 'none') {
+        uploadContainer.style.display = 'block';
+    }
+    else {
+        uploadContainer.style.display = 'none';
+    }
+
+    // uploadContainer.style.display = uploadContainer.style.display === 'none' ? 'block' : 'none';
+    console.log('Toggle form');
+}
+
 
 // * WORK ON THIS
 function getCSRFToken() {

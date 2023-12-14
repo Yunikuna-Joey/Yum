@@ -313,16 +313,22 @@ section#hero {
 
 .image-overlay {
     position: absolute;
-    top: 0;
+    bottom: 0; /* Adjusted to place the overlay at the bottom */
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 30%; /* Adjusted the height of the overlay */
     display: flex;
-    align-items: center;
+    justify-content: center; /* Center the icon horizontally */
+    align-items: flex-end; /* Align the icon to the bottom */
     background-color: rgba(255, 255, 255, 0);
     opacity: 0;
     transition: opacity 0.3s ease;
-    margin: 10px;
+}
+
+.bx.bxs-edit-alt { 
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 8px; /* Adjust the margin to position the icon within the circle */
 }
 
 .upload-btn {

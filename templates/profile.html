@@ -51,14 +51,18 @@
                 <div class="image-container">
                     <img class="profile-image" src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
                     <div class="image-overlay">
-                        <form action="/upload" method="POST" enctype="multipart/form-data">
-                            <!-- <label for="file-input" class="upload-btn">Change Picture</label> -->
-                            <input type="file" id="file-input" name="profile_picture" accept="image/*">
-                            <br>
-                            <input type="submit" value="Upload">
-                        </form>
+                        <i class='bx bxs-edit-alt' onclick="toggleUploadForm()"></i>
                     </div>
                 </div>
+                
+                <div id="upload-container" style="display: none;">
+                    <form action="/upload" method="POST" id="upload-form" enctype="multipart/form-data">
+                        <input type="file" id="file-input" name="profile_picture" accept="image/*">
+                        <br>
+                        <input type="submit" value="Upload">
+                    </form>
+                </div>
+
             {% else %}
                 <div class="image-container">
                     <img class="profile-image" src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Default Picture">
