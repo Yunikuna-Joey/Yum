@@ -49,7 +49,7 @@
         <div class="profile_picture">
             {% if user.picture %}
                 <div class="image-container">
-                    <img class="profile-image" src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="Profile Picture">
+                    <img class="profile-image" src="{{ url_for('static', filename='uploads/' + user.picture) }}" alt="Profile Picture">
                 </div>
             {% else %}
                 <div class="image-container">

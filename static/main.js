@@ -161,7 +161,11 @@ function displaySearchResults(data, searchResults) {
             
             // * Old one that was displaying results
             resultItem.textContent = user.username;
-        // makes the link clickable b/c of href property
+            resultItem.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                window.location.href = `/profile/${user.username}`;
+            });
+
             searchResults.appendChild(resultItem);
         });
     } 
