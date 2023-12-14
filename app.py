@@ -316,12 +316,37 @@ def search_user():
 
     return jsonify(user_list)
 
+# @app.route('/query_reviews', methods=['GET']) 
+# def query_review(): 
+#     review = Review.query.filter_by(account_id=current_user.id).all()
+#     review_data = [{'content': review.content, 'rating': review.rating} for item in review]
+
+#     return jsonify(review_data)
+
 @app.route('/profile', methods=['GET']) 
 @login_required
 def profile(): 
+    # username will show on the page
     username = current_user.username
-    return render_template('profile.html', username=username)
 
+    # query the reviews associated with the current-user
+    review = Review.query.filter_by(account_id=current_user.id).all() 
+    # review_data = [{'content': item.content, 'rating': item.rating} for item in review]
+    review_data = []
+    # packs all the necessary data into the object 
+    for item in review: 
+        marker = Marker.query.filter_by(place_id=item.place_id).first()
+        if marker: 
+            review_data.append({
+                'content': item.content, 
+                'rating': item.rating, 
+                'place_title': marker.title,
+            })
+
+    print(review_data)
+    return render_template('profile.html', username=username, reviews=review_data)
+
+# function to check if the file extension is allowed
 def allowed_file(filename): 
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -350,12 +375,7 @@ def upload():
 
     return redirect(url_for('profile'))
 
-@app.route('/query_reviews', methods=['GET']) 
-def query_review(): 
-    review = Review.query.filter_by(account_id=current_user.id).all()
-    review_data = [{'content': review.content, 'rating': review.rating} for item in review]
 
-    return jsonify(review_data)
 
 
 

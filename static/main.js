@@ -157,6 +157,7 @@ function displaySearchResults(data, searchResults) {
     }
 }
 
+// * WORK ON THIS
 function getCSRFToken() {
     const name = 'token';
     const decodedCookie = decodeURIComponent(document.cookie);
@@ -275,7 +276,7 @@ function initMap() {
 } // end of display map function  
 
 
-// Helper to look for nearby POI based off user location
+// * Helper function to look for nearby POI based off user location
 function searchPOI(user_coordinates) {
     // this is supposedly creating a new instance of Places... so we are removing to test functionality 
     googPlaceService = new google.maps.places.PlacesService(map);
@@ -297,7 +298,7 @@ function searchPOI(user_coordinates) {
 } // end of search function 
 
 
-// Experiment with this function to determine another way to display results 
+// * Displays the results of the businesses
 function callback(results, status, pagination) {
     total = 0;
     if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -338,6 +339,7 @@ function callback(results, status, pagination) {
 
 } // end of marker list function 
 
+// * Adds the business into the server database
 function addMarkerModel(markerData) {
     const request = new XMLHttpRequest();
     
@@ -383,6 +385,7 @@ const customTypeMappings = {
 let currentWindow = null; 
 let currentMarker = null; 
 
+// * Create markers on businesses
 function createRestMarker(locationData) {
     if (map instanceof google.maps.Map) {
         let customType = customTypeMappings[locationData.name];
@@ -494,11 +497,6 @@ function createRestMarker(locationData) {
                         submitReview(locationData.place_id);
                     });
                 });
-
-                // const button = document.getElementById('submit-review-btn');
-                // button.addEventListener('click', function () {
-                //     submitReview(place);
-                // });
                 
                 markerContent = `                
                     <strong>${locationData.name}</strong><br>
@@ -526,7 +524,7 @@ function createRestMarker(locationData) {
     }
 } // end of createRestMarker function 
 
-// *** REVIEW LATER
+// * Submit review function
 let isSubmitting = false;  
 
 function submitReview(markerId) {
@@ -608,41 +606,3 @@ function submitReview(markerId) {
     request.send(data);
 }
 
-function queryReview() {
-    var request = new XMLHttpRequest();
-    request.open('/GET', '/query_review', true);
-    request.setRequestHeader('Content-Type', 'application/json');
-
-    request.onload = function () {
-        if (request.status === 200) { 
-            // an array with all the content
-            var reviews = JSON.parse(request.responseText);
-
-            // * DEBUGGING
-            console.log('User Reviews: ', reviews);
-            displayReview(reviews);
-        }
-        else {
-            console.error('Error fetching user reviews: ', request.statusText);
-        }
-    };
-
-    request.onerror = function () {
-        console.error('Network error while fetching user reviews');
-    };
-
-    request.send();
-}
-
-function displayReview(reviews) {
-    var table = document.getElementById('status-table');
-
-    table.innerHTML = '';
-
-    reviews.forEach(function (review) {
-        var row = table.insertRow(); 
-        var cell = row.insertCell(0);
-
-        cell.innerHTML = `${reviews.username}: ${review.content}<br> <<i class='bx bx-like'></i> <i class='bx bx-repost'></i>`;
-    });
-}
