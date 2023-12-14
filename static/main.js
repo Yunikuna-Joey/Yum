@@ -123,7 +123,8 @@ function searchUser() {
                 if (request.status === 200) {
                     const data = JSON.parse(request.responseText);
                     displaySearchResults(data, searchResults);
-                } else {
+                } 
+                else {
                     console.error('Error: ', request.status);
                 }
             };
@@ -133,7 +134,8 @@ function searchUser() {
             };
 
             request.send();
-        } else {
+        } 
+        else {
             searchResults.innerHTML = '';
             searchResults.style.display = 'none';
         }
@@ -152,10 +154,12 @@ function displaySearchResults(data, searchResults) {
             resultItem.textContent = user.username;
             searchResults.appendChild(resultItem);
         });
-    } else {
+    } 
+    else {
         searchResults.style.display = 'none'; // Hide the result box if no results
     }
 }
+
 
 // * WORK ON THIS
 function getCSRFToken() {
