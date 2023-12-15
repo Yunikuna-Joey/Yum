@@ -8,15 +8,14 @@ from flask_login import LoginManager, UserMixin, current_user, login_user, logou
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
-import urllib.parse
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 from sqlalchemy import or_
 # from  flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
-# from flask_wtf.file import FileField, FileAllowed
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from sqlalchemy.orm import Session
 
 
 # API settings for google maps 
@@ -25,8 +24,6 @@ import os
 
 load_dotenv()
 
-# grabs info from another file 
-# key = os.getenv('KEY')
 
 # CREATE - POST 
 # READ - GET 
@@ -140,15 +137,7 @@ def loadloginpage():
 @app.route('/logout', methods=['POST'])
 @login_required 
 def logout(): 
-    # token = request.form.get('token')
-
-    # if csrf.validate_csrf_token(token): 
-    #     logout_user() 
-    #     return jsonify({'redirect': url_for('loadloginpage')})
-    # else: 
-    #     return jsonify({'error': 'Invalid token. Nice try.'})
     logout_user()
-    # return jsonify({'redirect': url_for('loadloginpage')})
     return render_template('login.html')
     
 
