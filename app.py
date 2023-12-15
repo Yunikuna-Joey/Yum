@@ -15,6 +15,7 @@ from sqlalchemy import or_
 # from  flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 # from flask_wtf.file import FileField, FileAllowed
+from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 
@@ -61,7 +62,7 @@ class Account(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(100), nullable=False, unique=True)
     display_name = db.Column(db.String(100), nullable=False)
-    password = db.Column(db.String(100), nullable = False)
+    password_hash = db.Column(db.String(128), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True)
     picture = db.Column(db.String(255), nullable=True)
     # good idea to have tiers of users (possible subscription based for premium / admin)
@@ -70,8 +71,14 @@ class Account(UserMixin, db.Model):
     def get_id(self): 
         return self.id
     
-    def password_auth(self, password): 
-        return self.password == password
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password): 
+        return check_password_hash(self.password_hash, password)
+    
+    # def password_auth(self, password): 
+    #     return self.password == password
 
     # def acc_status_auth(self): 
     #     return self.acc_status
@@ -159,13 +166,16 @@ def home():
 @app.route('/login', methods=['POST'])
 def login(): 
     data = request.json 
-    user = Account.query.filter_by(username = data['username']).first() 
-    if user is None or not user.password_auth(data['password']): 
-        return jsonify({'error': 'Invalid username or password'})
+    # * New changes for hashing and salting 
+    user = Account.query.filter_by(username=data['username']).first()
+
+    if user is None or not user.check_password(data['password_hash']): 
+        return jsonify({'Error: ', 'Invalid username or password'})
+    
     else: 
         login_user(user)
         return jsonify({'message': 'Login successful', 'redirect': '/home'})
-        # return render_template('home.html')
+
     
 
 @app.route('/loadregisterpage', methods=['GET'])
@@ -190,7 +200,9 @@ def register():
         elif confirm != password: 
             return jsonify({'error': 'Passwords must match!'})
         else: 
-            new_user = Account(username=username, password=password, display_name=displayName)
+            new_user = Account(username=username, display_name=displayName)
+            # * we hash the password here
+            new_user.set_password(password) 
             db.session.add(new_user)
             db.session.commit()
             
