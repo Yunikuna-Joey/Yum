@@ -212,12 +212,20 @@ function getCSRFToken() {
 function followUser() {
     const userId = document.getElementById('follow-btn').getAttribute('data');
     const followbtn = document.getElementById('follow-btn');
+    const currentId = document.getElementById('username').getAttribute('data');
+
+    console.log('Current is ', currentId);
 
     // creates a new request
     const request = new XMLHttpRequest();
 
     request.open('POST', `/follow/${userId}`, true); 
     request.setRequestHeader('Content-Type', 'application/json'); 
+
+    const data = JSON.stringify({
+        user_id: currentId,
+        friend_id: userId,
+    });
 
     request.onload = function () { 
         if (request.status === 200) { 
@@ -233,7 +241,7 @@ function followUser() {
         console.error('Network error occurred.');
     }
 
-    request.send(); 
+    request.send(data); 
 }
 
 

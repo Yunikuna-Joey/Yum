@@ -262,22 +262,29 @@ def check_review_status():
 
 
 @app.route('/follow/<int:user_id>', methods=['POST'])
+@login_required
 def follow_user(user_id): 
     data = request.json
 
-    if 'follower_id' not in data or 'followed_id' not in data: 
+    person_id = data.get('user_id')
+    friend_id = data.get('friend_id')
+
+
+    if person_id is None or friend_id is None: 
         return jsonify({'error': 'Invalid request, user is not specified'})
     
     # * new changes here and test 
-    if not Following.query.filter_by(follower_id=current_user.id, following_id=user_id).first(): 
-        entry = Following(follower_id=current_user.id, following_id=user_id) 
+    if not Following.query.filter_by(user_id=person_id, friend_id=friend_id).first(): 
+        entry = Following(user_id=person_id, friend_id=friend_id) 
         db.session.add(entry)
         db.session.commit() 
-
+        print('Success follow')
         return jsonify({'message': 'You are now folowing this user '}), 200 
     
     else: 
         return jsonify({'error': 'Already following'}), 400 
+    
+    
     
     # follower_id = data['follower_id']
     # followed_id = data['followed_id']

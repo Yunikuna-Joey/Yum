@@ -30,7 +30,7 @@
             <div id="search-results" class="search-results"></div>
         </div>
         <div class="user-drop">
-            <label for="menu-toggle" id="username">{{ current_user.username }}</label>
+            <label for="menu-toggle" data="{{ current_user.id }}" id="username">{{ current_user.username }}</label>
             <input type="checkbox" id="menu-toggle" class="hidden">
             <div id="menu" class="dropdown_menu">
                 <li><a href="#" class="action">{{ current_user.username }}</a></li>
