@@ -58,7 +58,9 @@
             {% endif %}
 
             <div class="follow-btn-container">
-                <button id="follow-btn" data="{{ user.id }}" onclick="followUser()"> Follow </button>
+                <button id="follow-btn" class="{{ 'following' if user_is_following else 'not-following' }}" data="{{ user.id }}" onclick="followUser()"> 
+                    {{'Unfollow' if user_is_following else 'Follow' }}
+                </button>
             </div>
 
         </div>

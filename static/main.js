@@ -230,7 +230,9 @@ function followUser() {
     request.onload = function () { 
         if (request.status === 200) { 
             // change the text after the request is successful 
-            followbtn.innerText = 'Unfollow'; 
+            followbtn.innerText = user_is_following ? 'Unfollow' : 'Follow';
+            followbtn.classList.toggle('following', user_is_following);
+            followbtn.classList.toggle('not-following', !user_is_following);
         }
         else { 
             console.error('Error: ', request.status);

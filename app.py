@@ -378,7 +378,9 @@ def loadProfile(username):
                 'place_title': marker.title,
             })
 
-    return render_template('userprofile.html', user=user, reviews=review_data)
+    user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
+
+    return render_template('userprofile.html', user=user, reviews=review_data, user_is_following=user_is_following)
 
 
 # function to check if the file extension is allowed
