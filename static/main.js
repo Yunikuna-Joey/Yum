@@ -63,6 +63,10 @@ function loadregisterpage() {
 }
 
 function register() {
+    const displayName = encodeURIComponent( 
+        document.getElementById('display-name').value
+    )
+
     const username = encodeURIComponent(
         document.getElementById('username-reg').value
     );
@@ -84,6 +88,7 @@ function register() {
     const data = JSON.stringify({
         // key = varied name, value = declared values {dictionary}
         username: username,
+        displayName: displayName,
         password: password,
         cpass: confirmation,
     });

@@ -59,7 +59,8 @@ app.secret_key = key
 # Data Models  
 class Account(UserMixin, db.Model): 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(100), nullable = False, unique=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
+    display_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True)
     picture = db.Column(db.String(255), nullable=True)
@@ -176,6 +177,7 @@ def register():
     if request.method == 'POST': 
         data = request.json 
         # print(data)
+        displayName = data['displayName']
         username = data['username']
         password = data['password']
         confirm = data['cpass']
@@ -188,7 +190,7 @@ def register():
         elif confirm != password: 
             return jsonify({'error': 'Passwords must match!'})
         else: 
-            new_user = Account(username=username, password=password)
+            new_user = Account(username=username, password=password, display_name=displayName)
             db.session.add(new_user)
             db.session.commit()
             
