@@ -11,7 +11,7 @@ from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 from sqlalchemy import or_
-# from  flask_wtf.csrf import CSRFProtect
+from  flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename

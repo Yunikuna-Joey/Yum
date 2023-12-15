@@ -13,7 +13,10 @@ function login() {
     request.open('POST', '/login');
     request.setRequestHeader('Content-Type', 'application/json');
 
-    const data = JSON.stringify({username: username, password_hash: password});
+    const data = JSON.stringify({
+        username: username,
+        password_hash: password, 
+    });
     
 
     request.onreadystatechange = function () {
