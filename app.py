@@ -261,26 +261,37 @@ def check_review_status():
         return jsonify(response)
 
 
-@app.route('/follow', methods=['POST'])
-def folow_user(): 
+@app.route('/follow/<int:user_id>', methods=['POST'])
+def follow_user(user_id): 
     data = request.json
 
     if 'follower_id' not in data or 'followed_id' not in data: 
         return jsonify({'error': 'Invalid request, user is not specified'})
     
-    follower_id = data['follower_id']
-    followed_id = data['followed_id']
+    # * new changes here and test 
+    if not Following.query.filter_by(follower_id=current_user.id, following_id=user_id).first(): 
+        entry = Following(follower_id=current_user.id, following_id=user_id) 
+        db.session.add(entry)
+        db.session.commit() 
 
-    exist = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
-
-    if exist: 
-        return jsonify({'message': 'You are already following this user'}), 200 
+        return jsonify({'message': 'You are now folowing this user '}), 200 
     
-    new = Following(user_id=follower_id, friend_id=followed_id)
-    db.session.add(new)
-    db.session.commit()
+    else: 
+        return jsonify({'error': 'Already following'}), 400 
+    
+    # follower_id = data['follower_id']
+    # followed_id = data['followed_id']
 
-    return jsonify({'message': 'You are now following this user'}), 201
+    # exist = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
+
+    # if exist: 
+    #     return jsonify({'message': 'You are already following this user'}), 200 
+    
+    # new = Following(user_id=follower_id, friend_id=followed_id)
+    # db.session.add(new)
+    # db.session.commit()
+
+    # return jsonify({'message': 'You are now following this user'}), 201
 
 @app.route('/unfollow', methods=['DELETE'])
 def unfollow_user(): 

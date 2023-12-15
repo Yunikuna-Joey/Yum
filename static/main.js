@@ -210,7 +210,30 @@ function getCSRFToken() {
 
 // * follow user function
 function followUser() {
-    const userId = null;
+    const userId = document.getElementById('follow-btn').getAttribute('data');
+    const followbtn = document.getElementById('follow-btn');
+
+    // creates a new request
+    const request = new XMLHttpRequest();
+
+    request.open('POST', `/follow/${userId}`, true); 
+    request.setRequestHeader('Content-Type', 'application/json'); 
+
+    request.onload = function () { 
+        if (request.status === 200) { 
+            // change the text after the request is successful 
+            followbtn.innerText = 'Unfollow'; 
+        }
+        else { 
+            console.error('Error: ', request.status);
+        }
+    }; 
+
+    request.onerror = function () { 
+        console.error('Network error occurred.');
+    }
+
+    request.send(); 
 }
 
 
