@@ -310,7 +310,6 @@ def unfollow_user(user_id):
 def search_user(): 
     search_term = request.args.get('term')
 
-    # match = Account.query.filter(Account.username.ilike(f'%{search_term}%')).all()
     match = Account.query.filter(or_(
         Account.username.like(f'{search_term}%'),
         Account.username.like(f'{search_term.capitalize()}%')

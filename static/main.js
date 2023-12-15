@@ -234,6 +234,9 @@ function followUser() {
             followbtn.innerText = isFollowing ? 'Unfollow' : 'Follow';
             followbtn.classList.toggle('following', isFollowing);
             followbtn.classList.toggle('not-following', !isFollowing);
+
+            // refresh the page after the follow or unfollow action is completed
+            window.location.reload();
         }
         else { 
             console.error('Error: ', request.status);
@@ -315,9 +318,9 @@ function initMap() {
             };
             
             // * User Coordinates are here [DEBUGGING]
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
-            console.log('Lat: ', user_coordinates.user_lat); 
-            console.log('Long: ', user_coordinates.user_long);
+            // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
+            // console.log('Lat: ', user_coordinates.user_lat); 
+            // console.log('Long: ', user_coordinates.user_long);
 
   
 
@@ -426,7 +429,7 @@ function addMarkerModel(markerData) {
         if (request.status === 200) {
             const data = JSON.parse(request.responseText); 
             // * [DEBUGGING]
-            console.log("this is the data being printed: ", data);
+            // console.log("this is the data being printed: ", data);
             
             // ** DEBUGGING for submission review
             // const markerId = data.marker_id; 
@@ -480,7 +483,7 @@ function createRestMarker(locationData) {
 
         addMarkerModel(locationData);  
         // locationData.marker_id is undefined
-        console.log("This is locationData", locationData);
+        // console.log("This is locationData", locationData);
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
@@ -565,7 +568,7 @@ function createRestMarker(locationData) {
 
                 infowindow.addListener('domready', function () {
                     const id = locationData.place_id;
-                    console.log('This id is', id);
+                    // console.log('This id is', id);
                     // ** PREV 
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
@@ -627,9 +630,9 @@ function submitReview(markerId) {
     isSubmitting = true;
 
     // * DEBUGGING in console
-    console.log('Review is ', content);
-    console.log('Rating is ', rating);
-    console.log('The marker id is: ', markerId)
+    // console.log('Review is ', content);
+    // console.log('Rating is ', rating);
+    // console.log('The marker id is: ', markerId)
 
     // * NEW 
     // check if the review has already been submitted 
