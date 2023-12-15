@@ -181,7 +181,6 @@ function displaySearchResults(data, searchResults) {
 
 function toggleUploadForm() {
     const uploadContainer = document.getElementById('upload-container');
-    const form = document.getElementById('upload-form');
 
     if (uploadContainer.style.display === 'none') {
         uploadContainer.style.display = 'block';
@@ -190,7 +189,6 @@ function toggleUploadForm() {
         uploadContainer.style.display = 'none';
     }
 
-    // uploadContainer.style.display = uploadContainer.style.display === 'none' ? 'block' : 'none';
     console.log('Toggle form');
 }
 
