@@ -56,6 +56,11 @@
                     <img class="profile-image" src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Default Picture">
                 </div>
             {% endif %}
+
+            <div class="follow-btn-container">
+                <button id="follow-btn" onclick="followUser()"> Follow </button>
+            </div>
+
         </div>
 
         <div class="profile-info">

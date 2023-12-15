@@ -208,6 +208,11 @@ function getCSRFToken() {
     return '';
 }
 
+// * follow user function
+function followUser() {
+    const userId = null;
+}
+
 
 // logout function to handle the anchor tag 
 function logout(event) {
