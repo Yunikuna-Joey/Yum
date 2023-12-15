@@ -214,12 +214,13 @@ function followUser() {
     const followbtn = document.getElementById('follow-btn');
     const currentId = document.getElementById('username').getAttribute('data');
 
-    console.log('Current is ', currentId);
-
     // creates a new request
     const request = new XMLHttpRequest();
 
-    request.open('POST', `/follow/${userId}`, true); 
+    const isFollowing = followbtn.classList.contains('following');
+    const action = isFollowing ? 'unfollow' : 'follow';
+
+    request.open('POST', `/${action}/${userId}`, true); 
     request.setRequestHeader('Content-Type', 'application/json'); 
 
     const data = JSON.stringify({
@@ -230,9 +231,9 @@ function followUser() {
     request.onload = function () { 
         if (request.status === 200) { 
             // change the text after the request is successful 
-            followbtn.innerText = user_is_following ? 'Unfollow' : 'Follow';
-            followbtn.classList.toggle('following', user_is_following);
-            followbtn.classList.toggle('not-following', !user_is_following);
+            followbtn.innerText = isFollowing ? 'Unfollow' : 'Follow';
+            followbtn.classList.toggle('following', isFollowing);
+            followbtn.classList.toggle('not-following', !isFollowing);
         }
         else { 
             console.error('Error: ', request.status);
@@ -241,7 +242,7 @@ function followUser() {
 
     request.onerror = function () { 
         console.error('Network error occurred.');
-    }
+    };
 
     request.send(data); 
 }

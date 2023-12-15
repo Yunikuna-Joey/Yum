@@ -283,34 +283,20 @@ def follow_user(user_id):
     
     else: 
         return jsonify({'error': 'Already following'}), 400 
-    
-    
-    
-    # follower_id = data['follower_id']
-    # followed_id = data['followed_id']
 
-    # exist = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
 
-    # if exist: 
-    #     return jsonify({'message': 'You are already following this user'}), 200 
-    
-    # new = Following(user_id=follower_id, friend_id=followed_id)
-    # db.session.add(new)
-    # db.session.commit()
-
-    # return jsonify({'message': 'You are now following this user'}), 201
-
-@app.route('/unfollow', methods=['DELETE'])
-def unfollow_user(): 
+@app.route('/unfollow/<int:user_id>', methods=['POST'])
+@login_required
+def unfollow_user(user_id): 
     data = request.json
 
-    if 'follower_id' not in data or 'followed_id' not in data: 
+    person_id = data.get('user_id')
+    friend_id = data.get('friend_id')
+
+    if person_id is None or friend_id is None: 
         return jsonify({'error': 'Invalid request, user is not specified'}), 400
     
-    follower_id = data['follower_id']
-    followed_id = data['followed_id']
-
-    delete = Following.query.filter_by(user_id=follower_id, friend_id=followed_id).first()
+    delete = Following.query.filter_by(user_id=person_id, friend_id=friend_id).first()
 
     if delete:
         db.session.delete(delete)
