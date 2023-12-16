@@ -221,8 +221,10 @@ def register():
             return jsonify({'error': 'Passwords must match!'})
         elif len(confirm) < 8:
             return jsonify({'error': 'Your password must be at least 8 characters long!'})
-        elif re.search(r'[!@#$%^&*(),.?":{}|<>]', password): 
+        elif not re.search(r'[!@#$%^&*(),.?":{}|<>]', password): 
             return jsonify({'error': 'Your password must contain at least one symbol!'})
+        elif not re.search(r'[A-Z]', password): 
+            return jsonify({'error': 'Your password must contain an uppercase letter!'})
         else: 
             new_user = Account(username=username, display_name=displayName)
             # * we hash the password here
