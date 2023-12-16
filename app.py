@@ -17,6 +17,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import Session
 from markupsafe import escape
+import re
 # sanitation library
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -145,7 +146,6 @@ def loadloginpage():
 def logout(): 
     logout_user()
     return render_template('login.html')
-    
 
 @app.route('/home')
 @login_required
@@ -219,6 +219,10 @@ def register():
             return jsonify({'error': 'That name has been taken!'})
         elif confirm != password: 
             return jsonify({'error': 'Passwords must match!'})
+        elif len(confirm) < 8:
+            return jsonify({'error': 'Your password must be at least 8 characters long!'})
+        elif re.search(r'[!@#$%^&*(),.?":{}|<>]', password): 
+            return jsonify({'error': 'Your password must contain at least one symbol!'})
         else: 
             new_user = Account(username=username, display_name=displayName)
             # * we hash the password here
