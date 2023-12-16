@@ -11,13 +11,16 @@ from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
 from sqlalchemy import or_
-from  flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import Session
 # sanitation library
 import bleach
+from bleach.css_sanitizer import CSSSanitizer
+# empty list means no css allowed
+css_sanitizer = CSSSanitizer(allowed_css_properties=[])
 
 
 # API settings for google maps 
@@ -247,7 +250,7 @@ def submit_review():
         # removes html attributes
         attributes={}, 
         # removes any style so no CSS (not working on this version of bleach library)
-        # styles=[],
+        css_sanitizer=css_sanitizer,
         # we want to remove it from the content 
         strip=True, 
         # remove trailing and / or leading whitespaces
