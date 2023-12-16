@@ -16,6 +16,8 @@ from  flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import Session
+# sanitation library
+import bleach
 
 
 # API settings for google maps 
@@ -232,13 +234,32 @@ def submit_review():
 
     # Determine if marker is in db 
     marker = Marker.query.filter_by(place_id=place_id).first()
-    print('The place_id is', marker)
+
     if not marker: 
         response = {'status': 'error', 'message': 'Invalid marker'}
         return jsonify(response), 400 
     
+    sanitize = bleach.clean(
+        # target 
+        content, 
+        # removes html tags 
+        tags=[], 
+        # removes html attributes
+        attributes={}, 
+        # removes any style so no CSS (not working on this version of bleach library)
+        # styles=[],
+        # we want to remove it from the content 
+        strip=True, 
+        # remove trailing and / or leading whitespaces
+        # strip_whitespace=True,
+        # removes any html comments
+        strip_comments=True,
+        # escapes special characters 
+        # escape=True
+    )
+    
     # save review into db [left var is db = right var is variable within function]
-    new = Review(content=content, rating=rating, account_id=current_user.id, place_id=marker.place_id)
+    new = Review(content=sanitize, rating=rating, account_id=current_user.id, place_id=marker.place_id)
     db.session.add(new)
     db.session.commit()
 
