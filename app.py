@@ -16,6 +16,7 @@ from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import Session
+from markupsafe import escape
 # sanitation library
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -157,6 +158,7 @@ def home():
     return render_template('home.html', username=username, key=key, mapid=mapid)
     # return render_template('home.html')
 
+# not necessary for sanzing
 @app.route('/login', methods=['POST'])
 def login(): 
     data = request.json 
@@ -176,15 +178,39 @@ def login():
 def loadregister(): 
     return render_template('register.html')
 
+# implement sanzing here
 @app.route('/register', methods=['POST']) 
 def register(): 
     if request.method == 'POST': 
         data = request.json 
-        # print(data)
-        displayName = data['displayName']
-        username = data['username']
-        password = data['password']
-        confirm = data['cpass']
+
+        displayName = bleach.clean(data.get('displayName', ''), 
+            tags=[], 
+            attributes={}, 
+            css_sanitizer=css_sanitizer, 
+            strip=True,
+            strip_comments=True)
+        
+        username = bleach.clean(data.get('username', ''), 
+            tags=[],
+            attributes={},
+            css_sanitizer=css_sanitizer, 
+            strip=True,
+            strip_comments=True)
+        
+        password = bleach.clean(data.get('password', ''), 
+            tags=[], 
+            attributes={}, 
+            css_sanitizer=css_sanitizer,
+            strip=True,
+            strip_comments=True)
+        
+        confirm = bleach.clean(data.get('cpass', ''), 
+            tags=[], 
+            attributes={}, 
+            css_sanitizer=css_sanitizer,
+            strip=True,
+            strip_comments=True)
 
 
         user = Account.query.filter_by(username=username).first() 
