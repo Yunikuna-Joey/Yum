@@ -78,7 +78,6 @@ function register() {
         document.getElementById('password-reg').value
     );
 
-    // not sure if needed 
     const confirmation = encodeURIComponent( 
         document.getElementById('confirm-password-reg').value
     );
@@ -116,6 +115,44 @@ function register() {
     request.send(data)
     return false;
 } 
+// * NEW
+function reg_listener() {
+        // * NEW
+        const password = encodeURIComponent( 
+            document.getElementById('password-reg').value
+        );
+    
+        const confirmation = encodeURIComponent( 
+            document.getElementById('confirm-password-reg').value
+        );
+        const feedback = document.getElementById('error-response');
+        const button = document.getElementById('btn');
+    
+        const isValidLength = password.length >= 8; 
+        const upperCase = /[A-Z]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+        if (!isValidLength && password.length > 0) {
+            feedback.innerText = 'Password must be at least 8 characters long...';
+        }
+        else if (!upperCase && password.length > 0) {
+            feedback.innerText = 'Password must include one uppercase letter!';
+        }
+        else if (!hasSymbol && password.length > 0) {
+            feedback.innerText = 'Password must include one symbol!';
+        }
+        else if (password !== confirmation && password.length > 0) {
+            feedback.innerText = 'Passwords must match!';
+        }
+        else {
+            feedback.innerText = '';
+        }
+    
+        button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation;   
+        
+        document.getElementById('password-reg').addEventListener('keyup', reg_listener);
+        document.getElementById('confirm-password-reg').addEventListener('keyup', reg_listener);
+}
 
 function searchUser() {
     const searchInput = document.getElementById('term');
