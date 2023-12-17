@@ -71,7 +71,7 @@ function register() {
     )
 
     const username = encodeURIComponent(
-        document.getElementById('username-reg').value
+        document.getElementById('username-reg').value.trim()
     );
 
     const password = encodeURIComponent( 

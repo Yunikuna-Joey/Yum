@@ -10,7 +10,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -67,7 +67,7 @@ class Account(UserMixin, db.Model):
     username = db.Column(db.String(100), nullable=False, unique=True)
     display_name = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(128), nullable = False)
-    reviews = db.relationship('Review', backref='author', lazy=True)
+    reviews = db.relationship('Review', backref='author', lazy=True, overlaps="user_reviews")
     picture = db.Column(db.String(255), nullable=True)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
@@ -92,7 +92,7 @@ class Review(db.Model):
     content = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
-    account = db.relationship('Account', backref=db.backref('user_reviews', lazy=True))
+    account = db.relationship('Account', backref=db.backref('user_reviews', lazy=True), overlaps="reviews")
     place_id = db.Column(db.String, nullable=False)
 
     def to_dict(self):
@@ -198,6 +198,8 @@ def register():
             strip=True,
             strip_comments=True)
         
+        username = username.strip()
+        
         password = bleach.clean(data.get('password', ''), 
             tags=[], 
             attributes={}, 
@@ -213,7 +215,7 @@ def register():
             strip_comments=True)
 
 
-        user = Account.query.filter_by(username=username).first() 
+        user = Account.query.filter(func.lower(Account.username) == func.lower(username)).first() 
 
         if user: 
             return jsonify({'error': 'That name has been taken!'})
