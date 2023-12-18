@@ -241,7 +241,7 @@ def register():
         elif not re.search(r'[A-Z]', password): 
             return jsonify({'error': 'Your password must contain an uppercase letter!'})
         else: 
-            new_user = Account(username=username, display_name=displayName)
+            new_user = Account(username=username, display_name=displayName, email=email)
             # * we hash the password here
             new_user.set_password(password) 
             db.session.add(new_user)

@@ -70,9 +70,7 @@ function register() {
         document.getElementById('display-name').value
     )
 
-    const email = encodeURIComponent(
-        document.getElementById('email-reg').value.trim()
-    )
+    const email = document.getElementById('email-reg').value.trim();
 
     const username = encodeURIComponent(
         document.getElementById('username-reg').value.trim()
@@ -137,9 +135,7 @@ function reg_listener() {
             document.getElementById('confirm-password-reg').value
         );
 
-        const email = encodeURIComponent(
-            document.getElementById('email-reg').value.trim()
-        );
+        const email = document.getElementById('email-reg').value;
         const feedback = document.getElementById('error-response');
         const button = document.getElementById('btn');
             
