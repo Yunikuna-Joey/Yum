@@ -64,8 +64,9 @@ app.secret_key = key
 # Data Models  
 class Account(UserMixin, db.Model): 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(100), nullable=False, unique=True)
     display_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
     password_hash = db.Column(db.String(128), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True, overlaps="user_reviews")
     picture = db.Column(db.String(255), nullable=True)
@@ -191,6 +192,13 @@ def register():
             strip=True,
             strip_comments=True)
         
+        email = bleach.clean(data.get('email', ''), 
+            tags = [], 
+            attributes={}, 
+            css_sanitizer=css_sanitizer, 
+            strip=True,
+            strip_comments=True)
+        
         username = bleach.clean(data.get('username', ''), 
             tags=[],
             attributes={},
@@ -216,9 +224,14 @@ def register():
 
 
         user = Account.query.filter(func.lower(Account.username) == func.lower(username)).first() 
+        user_email = Account.query.filter(func.lower(Account.email) == func.lower(email)).first()
 
         if user: 
             return jsonify({'error': 'That name has been taken!'})
+        elif user_email:
+            return jsonify({'error': 'Email already in use'})
+        elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            return jsonify({'error': 'Invalid email address'})
         elif confirm != password: 
             return jsonify({'error': 'Passwords must match!'})
         elif len(confirm) < 8:

@@ -70,6 +70,10 @@ function register() {
         document.getElementById('display-name').value
     )
 
+    const email = encodeURIComponent(
+        document.getElementById('email-reg').value.trim()
+    )
+
     const username = encodeURIComponent(
         document.getElementById('username-reg').value.trim()
     );
@@ -91,6 +95,7 @@ function register() {
         // key = varied name, value = declared values {dictionary}
         username: username,
         displayName: displayName,
+        email: email,
         password: password,
         cpass: confirmation,
     });
@@ -116,6 +121,12 @@ function register() {
     return false;
 } 
 // * NEW
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// * NEW
 function reg_listener() {
         // * NEW
         const password = encodeURIComponent( 
@@ -125,15 +136,23 @@ function reg_listener() {
         const confirmation = encodeURIComponent( 
             document.getElementById('confirm-password-reg').value
         );
+
+        const email = encodeURIComponent(
+            document.getElementById('email-reg').value.trim()
+        );
         const feedback = document.getElementById('error-response');
         const button = document.getElementById('btn');
-    
+            
+        const isValidEmail = validateEmail(email);
         const isValidLength = password.length >= 8; 
         const upperCase = /[A-Z]/.test(password);
         const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     
         if (!isValidLength && password.length > 0) {
             feedback.innerText = 'Password must be at least 8 characters long...';
+        }
+        else if (!isValidEmail && email.length > 0) {
+            feedback.innerText = 'Not a valid email!';
         }
         else if (!upperCase && password.length > 0) {
             feedback.innerText = 'Password must include one uppercase letter!';
@@ -148,10 +167,11 @@ function reg_listener() {
             feedback.innerText = '';
         }
     
-        button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation;   
+        button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation || !isValidEmail;   
         
         document.getElementById('password-reg').addEventListener('keyup', reg_listener);
         document.getElementById('confirm-password-reg').addEventListener('keyup', reg_listener);
+        document.getElementById('email-reg').addEventListener('keyup', reg_listener);
 }
 
 function searchUser() {
