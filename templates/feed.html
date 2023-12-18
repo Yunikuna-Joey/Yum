@@ -9,7 +9,41 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
+<header>
+    <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
+    <div class="navbar">
+        <div class="logo"><a href="/home">Yum!</a></div>
+        <ul class="links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/feed">Feed</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+        <!-- Top right corner -->
+        <div class="search-bar">
+            <input type="text" id="term" class="search-input" placeholder="Search users...">
+            <button class="search-button">Find</button>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        
+        <div class="user-drop">
+            <label for="menu-toggle" id="username">{{ username }}</label>
+            <input type="checkbox" id="menu-toggle" class="hidden">
+            <div id="menu" class="dropdown_menu">
+                <li><a class="action">{{ username }}</a></li>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="about">About</a></li>
+                <li><a href="settings">Settings</a></li>
+                <li><a href="logout" onclick="logout(event)">Log Out</a></li>
+            </div>
+        </div>
+
+    </div>
+</header>
+
 <body>
     
 </body>
+
 </html>
