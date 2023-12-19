@@ -17,8 +17,6 @@ body {
     background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg');
     background-size: cover;
     background-position: center;
-    
-
 }
 
 li {
@@ -155,7 +153,7 @@ section#hero {
     color: #fff;
 }
 
-#hero h1 {
+#hero h1 {                                                                                                                                                              
     font-size: 3rem;
     margin-bottom: 1rem;
 }
@@ -215,4 +213,58 @@ section#hero {
 
 .result-item:hover {
     background-color: #f5f5f5;
+}
+
+#status-container {
+    border: 1px solid #ccc; 
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.categories { 
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+    margin: 0 auto;
+}   
+
+input[type="radio"] { 
+    display: none;
+}
+
+label {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#friends:checked + label { 
+    background-color: #1da1f2;
+    color: #fff;
+}
+
+#location:checked + label { 
+    background-color: #fff;
+    color: #1da1f2;
+}
+#status-table {
+    width: 100%; 
+    border-collapse: collapse;
+}
+
+.status-update {
+    /* width: 100%; */
+    /* border: 1px solid #ddd; */
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.status-update td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-update:last-child td {
+    border-bottom: none;
 }
