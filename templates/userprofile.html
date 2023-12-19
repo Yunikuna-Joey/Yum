@@ -91,7 +91,12 @@
         <table id="status-table">
             {% for item in reviews %}
                 <tr class="status-update">
-                    <td> {{ item.content }} <br> Rating: {{ item.rating }} <br> At: {{ item.place_title }} </td>
+                    <td> 
+                        {{ item.content }} <br> 
+                        Rating: {{ item.rating }} <br> 
+                        At: {{ item.place_title }} <br>
+                        {{ item.timestamp }}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

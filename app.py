@@ -458,6 +458,7 @@ def loadProfile(username):
                 'content': item.content,
                 'rating': item.rating, 
                 'place_title': marker.title,
+                'timestamp': item.timestamp.strftime('%b %d, %Y %H:%M:%S'),
             })
 
     user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
