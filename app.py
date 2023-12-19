@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime, timezone, timedelta
 from urllib import request
 from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
@@ -90,6 +91,7 @@ class Account(UserMixin, db.Model):
 
 class Review(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
@@ -99,6 +101,7 @@ class Review(db.Model):
     def to_dict(self):
         return {
             'id': self.id, 
+            'timestamp': self.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
             'content': self.content,
             'rating': self.rating, 
             'account_id': self.account_id, 
@@ -107,18 +110,20 @@ class Review(db.Model):
 
 class Marker(db.Model): 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String, nullable=False)
+    address = db.Column(db.string)
     place_id = db.Column(db.String)
     lat = db.Column(db.Float, nullable=False)
     lng = db.Column(db.Float, nullable=False)
-    title = db.Column(db.String, nullable=False)
 
     def to_dict(self): 
         return {
             'id': self.id,
+            'title': self.title,
+            'address': self.address,
             'place_id': self.place_id,
             'lat': self.lat, 
             'lng': self.lng, 
-            'title': self.title,
         }
 
 class Following(db.Model): 
@@ -309,9 +314,10 @@ def submit_review():
         # escapes special characters 
         # escape=True
     )
+    pst = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=-8)))
     
     # save review into db [left var is db = right var is variable within function]
-    new = Review(content=sanitize, rating=rating, account_id=current_user.id, place_id=marker.place_id)
+    new = Review(content=sanitize, rating=rating, account_id=current_user.id, place_id=marker.place_id, timestamp=pst)
     db.session.add(new)
     db.session.commit()
 
