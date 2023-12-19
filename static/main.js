@@ -506,6 +506,7 @@ function addMarkerModel(markerData) {
         lng: markerData.geometry.location.lng(), 
         title: markerData.name,
         place_id: markerData.place_id,
+        address: markerData.vicinity,
     };
 
     request.send(JSON.stringify(requestData));
