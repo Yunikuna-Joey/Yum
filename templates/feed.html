@@ -53,10 +53,14 @@
         </div> 
 
         <table id="status-table">
+            {% for item in status %}
             <tr class="status-update">
+                <td> {{item.author_display_name}}</td>
+                <td> {{item.content}}</td>
+                <td> {{item.rating}}</td>
             </tr>
+            {% endfor %}
         </table>
-
     </div>
 </body>
 

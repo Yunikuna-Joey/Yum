@@ -123,7 +123,9 @@ class Marker(db.Model):
 
 class Following(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
+    # initiated following  (follower)
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    # Following
     friend_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
 
     def to_dict(self):
@@ -393,6 +395,22 @@ def search_user():
 
     return jsonify(user_list)
 
+@app.route('/feed', methods=['GET'])
+@login_required 
+def loadFeedPage(): 
+    username = current_user.username 
+    gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
+    following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
+
+    status_updates = [] 
+    for item in following_reviews:
+        status_updates.append({
+            'content': item.content,
+            'rating': item.rating, 
+            'author_display_name': item.author.display_name, 
+        }) 
+
+    return render_template('feed.html', username=username, status=status_updates)
 
 # *This is going to be for current user
 @app.route('/profile', methods=['GET']) 
