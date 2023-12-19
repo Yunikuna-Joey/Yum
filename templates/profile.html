@@ -108,10 +108,31 @@
             {% for item in reviews %}
                 <tr class="status-update">
                     <td> 
-                        {{ item.content }}<br> 
-                        Rating: {{ item.rating }}<br> 
-                        At: {{ item.place_title }}<br>
-                        {{ item.timestamp }}
+                        <div class="status-user">
+                            <img src="{{ url_for('static', filename='uploads/' + current_user.picture) }}" alt="status-picture" class="status-image"><br>
+                            <div class="status-userinfo">
+                                {{ current_user.display_name }}<br>
+                                {{ current_user.username }}<br>
+                            </div>
+                            <div class="timestamp">
+                                {{ item.timestamp }}
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="status-details">
+                            <div class="left-content">
+                                <i class='bx bxs-map-pin'></i>
+                                At: {{ item.place_title }}<br>
+                            </div>
+                           
+                            <div class="middle-bar"></div>
+
+                            <div class="right-content">
+                                Rating: {{ item.rating }}<br> 
+                                {{ item.content }}<br> 
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

@@ -422,6 +422,7 @@ def loadFeedPage():
 @app.route('/profile', methods=['GET']) 
 @login_required
 def profile(): 
+    displayName = current_user.display_name
     # username will show on the page
     username = current_user.username
 
@@ -441,7 +442,7 @@ def profile():
             })
 
     print(review_data)
-    return render_template('profile.html', username=username, reviews=review_data)
+    return render_template('profile.html', display_name=displayName, username=username, reviews=review_data)
 
 # *This is going to be for loading OTHER users
 @app.route('/profile/<username>')
