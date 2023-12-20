@@ -10,6 +10,7 @@
     <script>
         window.onload = function () {
             searchUser();
+            timeListener();
         }
     </script>
 </head>
@@ -115,7 +116,7 @@
                                 {{ current_user.display_name }}<br>
                                 {{ current_user.username }}<br>
                             </div>
-                            <div class="timestamp">
+                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
                                 {{ item.timestamp }}
                             </div>
                         </div>

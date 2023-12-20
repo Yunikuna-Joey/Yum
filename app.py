@@ -315,7 +315,6 @@ def submit_review():
         # escape=True
     )
     pst = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=-8)))
-    
     # save review into db [left var is db = right var is variable within function]
     new = Review(content=sanitize, rating=rating, account_id=current_user.id, place_id=marker.place_id, timestamp=pst)
     db.session.add(new)
