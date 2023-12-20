@@ -305,42 +305,45 @@ function followUser() {
 
     request.send(data); 
 }
-// function timeListener() {
-//     document.addEventListener('DOMContentLoaded', function () {
-//         const timeElement = document.querySelectorAll('.timestamp');
-//         timeElement.forEach(element => {
-//             const value = element.getAttribute('data-timestamp');
-//             const format = timestampConverter(value);
-//             element.textContent = format;
-//         });
-//     });
-// }
 
-// function timestampConverter(timestamp) { 
-//     const current = new Date(); 
-//     const date = new Date(timestamp);
-//     const timeDiff = current - date;
+function timeListener() {
+    document.addEventListener('DOMContentLoaded', function () {
+        const timeElement = document.querySelectorAll('.timestamp');
+        timeElement.forEach(element => {
+            const value = element.getAttribute('data-timestamp');
+            console.log('Before', value);
+            const format = timestampConverter(value);
+            console.log('After', format)
+            element.textContent = format;
+        });
+    });
+}
 
-//     if (timeDiff < 24 * 60 * 60 * 1000) {
-//         const minutes = Math.floor(timeDiff / (60 * 1000));
-//         if (minutes < 60) { 
-//             return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-//         }
-//         else { 
-//             const hours = Math.floor(minutes / 60);
-//             return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
-//         }
-//     }
+function timestampConverter(timestamp) { 
+    const current = new Date(); 
+    const date = new Date(timestamp);
+    const timeDiff = current - date;
 
-//     else if (timeDiff < 48 * 60 * 60 * 1000) {
-//         return 'Yesterday';
-//     }
+    if (timeDiff < 24 * 60 * 60 * 1000) {
+        const minutes = Math.floor(timeDiff / (60 * 1000));
+        if (minutes < 60) { 
+            return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+        }
+        else { 
+            const hours = Math.floor(minutes / 60);
+            return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+        }
+    }
 
-//     else {
-//         const options = {year : 'numeric', month: 'long', day: 'numeric'};
-//         return current.toLocaleDateString('en-US', options);
-//     }
-// }
+    else if (timeDiff < 48 * 60 * 60 * 1000) {
+        return 'Yesterday';
+    }
+
+    else {
+        const options = {year : 'numeric', month: 'long', day: 'numeric'};
+        return current.toLocaleDateString('en-US', options);
+    }
+}
 
 
 // logout function to handle the anchor tag 
