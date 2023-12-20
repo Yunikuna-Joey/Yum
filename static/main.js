@@ -311,9 +311,7 @@ function timeListener() {
         const timeElement = document.querySelectorAll('.timestamp');
         timeElement.forEach(element => {
             const value = element.getAttribute('data-timestamp');
-            console.log('Before', value);
             const format = timestampConverter(value);
-            console.log('After', format)
             element.textContent = format;
         });
     });
