@@ -265,6 +265,7 @@ function getCSRFToken() {
 }
 // * Like a review 
 function likeReview(reviewId) {
+    console.log('review id is', reviewId);
     var request = new XMLHttpRequest(); 
     request.open('POST', '/like/' + reviewId, true); 
     request.setRequestHeader('Content-Type', 'application/json')
@@ -274,6 +275,15 @@ function likeReview(reviewId) {
             if (request.status === 200) {
                 var response = JSON.parse(request.responseText);
                 console.log(response)
+
+                var likeCount = document.getElementById("like-count-" + reviewId);
+                console.log('Element is', likeCount);
+                if (likeCount) {
+                    likeCount.innerHTML = response.likes;
+                }
+                else {
+                    console.error('Like count element not found');
+                }
             }
             else { 
                 console.error('Error:', request.status);

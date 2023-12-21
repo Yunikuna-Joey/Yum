@@ -137,10 +137,12 @@
 
                         <div class="status-icons">
                             <!-- like icon -->
-                            <i class='bx bx-heart'></i>
+                            <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')">
+                                <span id="like-count-{{ item.id }}">{{ item.likes }}</span>
+                            </i>
 
                             <!-- repost icon -->
-                            <i class='bx bx-repost'></i>
+                            <i class='bx bx-repost' onclick="repostReview('{{ item.id }}')"></i>
                         </div>
 
                     </td>

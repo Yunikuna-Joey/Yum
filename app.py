@@ -415,20 +415,33 @@ def search_user():
 
     return jsonify(user_list)
 
+def getLikeCount(review): 
+    return len(review.likes)
+
 @app.route('/like/<int:review_id>', methods=['POST'])
 @login_required
 def like(review_id): 
     review = Review.query.get_or_404(review_id)
 
-    if Like.query.filter_by(account_id=current_user.id, review_id=review.id).first():
-        return jsonify({'status': 'error', 'message': 'You already liked this review'}), 400
-    
-    new = Like(account_id=current_user.id, review_id=review.id)
-    db.session.add(new)
-    db.session.commit()
-    
-    return jsonify({'status': 'success', 'message': 'Review liked successfully'})
+    exist = Like.query.filter_by(user_id=current_user.id, review_id=review.id).first()
 
+    try: 
+        if exist: 
+            db.session.delete(exist)
+            likeCount = len(review.likes) - 1
+        else: 
+            new = Like(user_id=current_user.id, review_id=review.id)
+            db.session.add(new)
+            likeCount = len(review.likes) + 1 
+        
+        db.session.commit()
+        
+        return jsonify({'status': 'success', 'message': 'Action performed successfully', 'likes': likeCount})
+
+    except IntegrityError: 
+        db.session.rollback() 
+        return jsonify({'status': 'error', 'message': 'IntegrityError occurred'}), 500
+    
 @app.route('/repost/<int:review_id>', methods=['POST'])
 @login_required
 def repost(review_id): 
@@ -487,20 +500,26 @@ def profile():
 
     # query the reviews associated with the current-user
     review = Review.query.filter_by(account_id=current_user.id).all() 
+
     # review_data = [{'content': item.content, 'rating': item.rating} for item in review]
     review_data = []
+
     # packs all the necessary data into the object 
     for item in review: 
         marker = Marker.query.filter_by(place_id=item.place_id).first()
         if marker: 
             review_data.append({
+                'id': item.id,
                 'content': item.content, 
                 'rating': item.rating, 
                 'place_title': marker.title,
                 'timestamp': item.timestamp,
+                'likes': len(item.likes),
             })
+    
     # this may cause some bottlenecking
     review_data.reverse()
+    print(review_data)
     
     return render_template('profile.html', display_name=displayName, username=username, reviews=review_data)
 
