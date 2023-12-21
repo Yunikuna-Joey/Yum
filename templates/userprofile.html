@@ -99,7 +99,7 @@
                                 {{ user.display_name }}<br>
                                 {{ user.username }}<br>
                             </div>
-                            <div class="timestamp">
+                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
                                 {{ item.timestamp }}
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                                 {{ user.display_name }}<br>
                                 {{ user.username }}<br>
                             </div>
-                            <div class="timestamp">
+                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
                                 {{ item.timestamp }}
                             </div>
                         </div>
@@ -166,5 +166,9 @@
     <div id="error-response"></div>
 
 </body>
+
+<script>
+    timeListener();
+</script>
 
 </html>

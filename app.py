@@ -16,7 +16,7 @@ from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from markupsafe import escape
 import re
 # sanitation library
@@ -405,15 +405,29 @@ def search_user():
 def loadFeedPage(): 
     username = current_user.username 
     gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
-    following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
+
+    # Perform join statement 
+    following_reviews = db.session.query(Review, Account, Marker)\
+        .join(Account, Review.account_id == Account.id)\
+        .join(Marker, Review.place_id == Marker.place_id)\
+        .filter(Review.account_id.in_(gather_following))\
+        .all()
+
+    # following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
 
     status_updates = [] 
-    for item in following_reviews:
+    for review, user, marker in following_reviews:
         status_updates.append({
-            'content': item.content,
-            'rating': item.rating, 
-            'author_display_name': item.author.display_name, 
+            'content': review.content,
+            'rating': review.rating, 
+            'author_display_name': user.display_name, 
+            'username': user.username,
+            'timestamp': review.timestamp, 
+            'place_title': marker.title,
+            'profile_picture': user.picture
         }) 
+    
+    status_updates.reverse()
 
     return render_template('feed.html', username=username, status=status_updates)
 
@@ -422,6 +436,7 @@ def loadFeedPage():
 @login_required
 def profile(): 
     displayName = current_user.display_name
+
     # username will show on the page
     username = current_user.username
 
@@ -439,7 +454,8 @@ def profile():
                 'place_title': marker.title,
                 'timestamp': item.timestamp,
             })
-
+    # this may cause some bottlenecking
+    review_data.reverse()
     print(review_data)
     return render_template('profile.html', display_name=displayName, username=username, reviews=review_data)
 
@@ -462,6 +478,7 @@ def loadProfile(username):
             })
 
     user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
+    review_data.reverse() 
 
     return render_template('userprofile.html', user=user, reviews=review_data, user_is_following=user_is_following)
 

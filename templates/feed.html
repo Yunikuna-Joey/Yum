@@ -43,15 +43,17 @@
 </header>
 
 <body>
-    <div id="status-container">
-        <!-- Following/Friends || Nearby/Custom Location -->
-        <div class="categories">
-            <input type="radio" id="friends" name="category" checked>
-            <label for="friends">Following/Friends</label>
-            <input type="radio" id="location" name="category">
-            <label for="location">Nearby/Custom Location</label>
-        </div> 
+    <!-- Following/Friends || Nearby/Custom Location -->
+    <div class="categories">
+        <input type="radio" id="friends" name="category" checked>
+        <label for="friends">Following/Friends</label>
+        <input type="radio" id="location" name="category">
+        <label for="location">Nearby/Custom Location</label>
+    </div> 
 
+    <!-- ******************************************************************* -->
+
+    <!-- <div id="status-container">
         <table id="status-table">
             {% for item in status %}
             <tr class="status-update">
@@ -61,7 +63,46 @@
             </tr>
             {% endfor %}
         </table>
+    </div> -->
+
+    <div id="status-container">
+        <table id="status-table">
+            {% for item in status %}
+                <tr class="status-update">
+                    <td> 
+                        <div class="status-user">
+                            <img src="{{ url_for('static', filename='uploads/' + item.profile_picture) }}" alt="status-picture" class="status-image"><br>
+                            <div class="status-userinfo">
+                                {{ item.author_display_name }}<br>
+                                {{ item.username }}<br>
+                            </div>
+                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                {{ item.timestamp }}
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="status-details">
+                            <div class="left-content">
+                                <i class='bx bxs-map-pin'></i>
+                                {{ item.place_title }}<br>
+                            </div>
+                           
+                            <div class="middle-bar"></div>
+
+                            <div class="right-content">
+                                Rating: {{ item.rating }}<br> 
+                                {{ item.content }}<br> 
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 
+<script>
+    timeListener();
+</script>
 </html>
