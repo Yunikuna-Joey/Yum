@@ -426,3 +426,7 @@ section#hero {
 .timestamp {
     margin-left: auto;
 }
+
+.status-icons {
+    font-size: 22px;
+}

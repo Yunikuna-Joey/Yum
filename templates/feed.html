@@ -53,18 +53,6 @@
 
     <!-- ******************************************************************* -->
 
-    <!-- <div id="status-container">
-        <table id="status-table">
-            {% for item in status %}
-            <tr class="status-update">
-                <td> {{item.author_display_name}}</td>
-                <td> {{item.content}}</td>
-                <td> {{item.rating}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div> -->
-
     <div id="status-container">
         <table id="status-table">
             {% for item in status %}
@@ -94,6 +82,14 @@
                                 Rating: {{ item.rating }}<br> 
                                 {{ item.content }}<br> 
                             </div>
+                        </div>
+
+                        <div class="status-icons">
+                            <!-- like icon -->
+                            <i class='bx bx-heart'></i>
+
+                            <!-- repost icon -->
+                            <i class='bx bx-repost'></i>
                         </div>
                     </td>
                 </tr>
