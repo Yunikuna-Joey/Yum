@@ -263,6 +263,46 @@ function getCSRFToken() {
     }
     return '';
 }
+// * Like a review 
+function likeReview(reviewId) {
+    var request = new XMLHttpRequest(); 
+    request.open('POST', '/like/' + reviewId, true); 
+    request.setRequestHeader('Content-Type', 'application/json')
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                var response = JSON.parse(request.responseText);
+                console.log(response)
+            }
+            else { 
+                console.error('Error:', request.status);
+            }
+        }
+    };
+
+    request.send();
+}
+// * Repost a review
+function repostReview(reviewId) {
+    var request = new XMLHttpRequest();
+
+    request.open('POST', '/repost/' + reviewId, true)
+    request.setRequestHeader('Content-Type', 'application/json')
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                var response = JSON.parse(request.responseText);
+                console.log(response)
+            }
+            else { 
+                console.error('Error: ', request.status)
+            }
+        }
+    };
+    request.send()
+}
 
 // * follow user function
 function followUser() {

@@ -97,6 +97,8 @@ class Review(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     account = db.relationship('Account', backref=db.backref('user_reviews', lazy=True), overlaps="reviews")
     place_id = db.Column(db.String, nullable=False)
+    likes = db.relationship('Like', backref='review', lazy=True)
+    reposts = db.relationship('Repost', backref='review', lazy=True)
 
     def to_dict(self):
         return {
@@ -106,6 +108,8 @@ class Review(db.Model):
             'rating': self.rating, 
             'account_id': self.account_id, 
             'place_id': self.place_id,
+            'likes': len(self.likes), 
+            'reposts': len(self.reposts)
         }
 
 class Marker(db.Model): 
@@ -138,6 +142,17 @@ class Following(db.Model):
             'user_id': self.user_id,
             'friend_id': self.friend_id,
         }
+    
+class Like(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
+
+class Repost(db.Model): 
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
+    review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
+
 
 @login_manager.user_loader
 def load_user(user_id): 
@@ -400,6 +415,36 @@ def search_user():
 
     return jsonify(user_list)
 
+@app.route('/like/<int:review_id>', methods=['POST'])
+@login_required
+def like(review_id): 
+    review = Review.query.get_or_404(review_id)
+
+    if Like.query.filter_by(account_id=current_user.id, review_id=review.id).first():
+        return jsonify({'status': 'error', 'message': 'You already liked this review'}), 400
+    
+    new = Like(account_id=current_user.id, review_id=review.id)
+    db.session.add(new)
+    db.session.commit()
+    
+    return jsonify({'status': 'success', 'message': 'Review liked successfully'})
+
+@app.route('/repost/<int:review_id>', methods=['POST'])
+@login_required
+def repost(review_id): 
+    review = Review.query.get_or_404(review_id)
+
+    # Check if the user has already reposted the review
+    if Repost.query.filter_by(account_id=current_user.id, review_id=review.id).first():
+        return jsonify({'status': 'error', 'message': 'You already reposted this review'}), 400
+
+    # Add a new repost
+    new_repost = Repost(account_id=current_user.id, review_id=review.id)
+    db.session.add(new_repost)
+    db.session.commit()
+
+    return jsonify({'status': 'success', 'message': 'Review reposted successfully'})
+
 @app.route('/feed', methods=['GET'])
 @login_required 
 def loadFeedPage(): 
@@ -456,7 +501,7 @@ def profile():
             })
     # this may cause some bottlenecking
     review_data.reverse()
-    print(review_data)
+    
     return render_template('profile.html', display_name=displayName, username=username, reviews=review_data)
 
 # *This is going to be for loading OTHER users
