@@ -296,24 +296,38 @@ function likeReview(reviewId) {
 }
 
 // * Repost a review
-function repostReview(reviewId) {
+function repostReview() {
+    var reviewId = document.getElementById('repostModal').getAttribute('data-review-id');
+    var additionalComments = document.getElementById('additionalComments').value;
     var request = new XMLHttpRequest();
 
-    request.open('POST', '/repost/' + reviewId, true)
-    request.setRequestHeader('Content-Type', 'application/json')
+    request.open('POST', '/repost/' + reviewId, true);
+    request.setRequestHeader('Content-Type', 'application/json');
 
     request.onreadystatechange = function () {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 var response = JSON.parse(request.responseText);
-                console.log(response)
-            }
-            else { 
-                console.error('Error: ', request.status)
+                console.log(response);
+            } else {
+                console.error('Error: ', request.status);
             }
         }
     };
-    request.send()
+
+    var payload = JSON.stringify({ additional_comments: additionalComments });
+    request.send(payload);
+
+    closeModal();
+}
+
+function openModal(reviewId) {
+    document.getElementById('repostModal').setAttribute('data-review-id', reviewId);
+    document.getElementById('repostModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('repostModal').style.display = 'none';
 }
 
 // * follow user function

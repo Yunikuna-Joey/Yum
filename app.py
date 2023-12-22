@@ -509,6 +509,15 @@ def profile():
     # query the reviews associated with the current-user
     review = Review.query.filter_by(account_id=current_user.id).all() 
 
+    # query the reposted reviews associated with the current-user 
+    reposted = (
+        db.session.query(Review, Repost, Marker)
+        .join(Repost, Review.id == Repost.review_id)
+        .join(Marker, Review.place_id == Marker.place_id, isouter=True)
+        .filter(Repost.user_id == current_user.id)
+        .all()
+    )
+
     # review_data = [{'content': item.content, 'rating': item.rating} for item in review]
     review_data = []
 
@@ -525,11 +534,24 @@ def profile():
                 'likes': len(item.likes),
             })
     
-    # this may cause some bottlenecking
-    review_data.reverse()
-    print(review_data)
+    reposted_review_data = [
+        {
+            'id': review.id, 
+            'content': review.content, 
+            'rating': review.rating, 
+            'place_title': marker.title if marker else None, 
+            'timestamp': review.timestamp, 
+            'likes': len(review.likes), 
+            'reposts': len(review.reposts),
+        }
+        for review, _, marker in reposted
+    ]
+
+    total = review_data + reposted_review_data 
+    total.sort(key=lambda x:x['timestamp'], reverse=True)
+    print(total)
     
-    return render_template('profile.html', display_name=displayName, username=username, reviews=review_data)
+    return render_template('profile.html', display_name=displayName, username=username, reviews=total)
 
 # *This is going to be for loading OTHER users
 @app.route('/profile/<username>')
