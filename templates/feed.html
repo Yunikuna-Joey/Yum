@@ -52,7 +52,7 @@
     </div> 
 
     <!-- ******************************************************************* -->
-
+    {% if status.profile_picture %}
     <div id="status-container">
         <table id="status-table">
             {% for item in status %}
@@ -86,16 +86,65 @@
 
                         <div class="status-icons">
                             <!-- like icon -->
-                            <i class='bx bx-heart'></i>
+                            <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')"></i>
+                            
+                            <span id="like-count-{{ item.id }}" class="like-count"> {{ item.likes }} </span>
 
                             <!-- repost icon -->
-                            <i class='bx bx-repost'></i>
+                            <i class='bx bx-repost' onclick="repostReview('{{ item.id }}')"></i>
                         </div>
                     </td>
                 </tr>
             {% endfor %}
         </table>
     </div>
+    {% else %}
+    <div id="status-container">
+        <table id="status-table">
+            {% for item in status %}
+                <tr class="status-update">
+                    <td> 
+                        <div class="status-user">
+                            <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="status-picture" class="status-image"><br>
+                            <div class="status-userinfo">
+                                {{ item.author_display_name }}<br>
+                                {{ item.username }}<br>
+                            </div>
+                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                {{ item.timestamp }}
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="status-details">
+                            <div class="left-content">
+                                <i class='bx bxs-map-pin'></i>
+                                {{ item.place_title }}<br>
+                            </div>
+                           
+                            <div class="middle-bar"></div>
+
+                            <div class="right-content">
+                                Rating: {{ item.rating }}<br> 
+                                {{ item.content }}<br> 
+                            </div>
+                        </div>
+
+                        <div class="status-icons">
+                            <!-- like icon -->
+                            <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')"></i>
+                            
+                            <span id="like-count-{{ item.id }}" class="like-count"> {{ item.likes }} </span>
+
+                            <!-- repost icon -->
+                            <i class='bx bx-repost' onclick="repostReview('{{ item.id }}')"></i>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
 </body>
 
 <script>

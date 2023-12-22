@@ -476,13 +476,15 @@ def loadFeedPage():
     status_updates = [] 
     for review, user, marker in following_reviews:
         status_updates.append({
+            'id': review.id,
             'content': review.content,
             'rating': review.rating, 
             'author_display_name': user.display_name, 
             'username': user.username,
             'timestamp': review.timestamp, 
             'place_title': marker.title,
-            'profile_picture': user.picture
+            'profile_picture': user.picture, 
+            'likes': len(review.likes),
         }) 
     
     status_updates.reverse()
@@ -535,10 +537,12 @@ def loadProfile(username):
         marker = Marker.query.filter_by(place_id=item.place_id).first() 
         if marker: 
             review_data.append({
+                'id': item.id,
                 'content': item.content,
                 'rating': item.rating, 
                 'place_title': marker.title,
-                'timestamp': item.timestamp.strftime('%b %d, %Y %H:%M:%S'),
+                'timestamp': item.timestamp,
+                'likes': len(item.likes),
             })
 
     user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
