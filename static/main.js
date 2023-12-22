@@ -263,6 +263,7 @@ function getCSRFToken() {
     }
     return '';
 }
+
 // * Like a review 
 function likeReview(reviewId) {
     console.log('review id is', reviewId);
@@ -293,6 +294,7 @@ function likeReview(reviewId) {
 
     request.send();
 }
+
 // * Repost a review
 function repostReview(reviewId) {
     var request = new XMLHttpRequest();

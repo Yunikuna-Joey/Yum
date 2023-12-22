@@ -428,14 +428,14 @@ def like(review_id):
     try: 
         if exist: 
             db.session.delete(exist)
-            likeCount = len(review.likes) - 1
         else: 
             new = Like(user_id=current_user.id, review_id=review.id)
             db.session.add(new)
-            likeCount = len(review.likes) + 1 
-        
+
         db.session.commit()
         
+        likeCount = db.session.query(func.count(Like.id)).filter(Like.review_id == review.id).scalar()
+
         return jsonify({'status': 'success', 'message': 'Action performed successfully', 'likes': likeCount})
 
     except IntegrityError: 
