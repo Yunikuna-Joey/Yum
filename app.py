@@ -152,6 +152,7 @@ class Repost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
+    comments = db.Column(db.Text, nullable=True)
 
 
 @login_manager.user_loader
@@ -447,16 +448,21 @@ def like(review_id):
 def repost(review_id): 
     review = Review.query.get_or_404(review_id)
 
-    # Check if the user has already reposted the review
-    if Repost.query.filter_by(account_id=current_user.id, review_id=review.id).first():
-        return jsonify({'status': 'error', 'message': 'You already reposted this review'}), 400
+    exist = Repost.query.filter_by(user_id=current_user.id, review_id=review.id).first()
 
-    # Add a new repost
-    new_repost = Repost(account_id=current_user.id, review_id=review.id)
-    db.session.add(new_repost)
+    comment = request.json.get('additional_comments', '')
+
+    if exist: 
+        db.session.delete(exist)
+        db.session.commit() 
+        return jsonify({'status': 'success', 'message': 'Repost is gone'})
+    
+    new = Repost(user_id=current_user.id, review_id=review.id, comments=comment)
+    db.session.add(new)
     db.session.commit()
 
     return jsonify({'status': 'success', 'message': 'Review reposted successfully'})
+
 
 @app.route('/feed', methods=['GET'])
 @login_required 
