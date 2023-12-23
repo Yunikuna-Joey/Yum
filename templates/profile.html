@@ -125,9 +125,15 @@
                                 {{ current_user.display_name }}<br>
                                 {{ current_user.username }}<br>
                             </div>
-                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
-                                {{ item.timestamp }}
-                            </div>
+                            {% if item.comments %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% else %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% endif %}
                         </div>
                         <br>
 
@@ -159,6 +165,8 @@
 
                             <!-- repost icon -->
                             <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
+
+                            <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
                         </div>
 
                     </td>
@@ -229,6 +237,9 @@
 
                             <!-- repost icon -->
                             <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
+
+                            <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
+
                         </div>
                     </td>
                 </tr>

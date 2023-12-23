@@ -300,7 +300,7 @@ function repostReview() {
     var reviewId = document.getElementById('repostModal').getAttribute('data-review-id');
     var additionalComments = document.getElementById('additionalComments').value;
     var request = new XMLHttpRequest();
-
+    console.log('review id is now ', reviewId);
     request.open('POST', '/repost/' + reviewId, true);
     request.setRequestHeader('Content-Type', 'application/json');
 
@@ -309,7 +309,22 @@ function repostReview() {
             if (request.status === 200) {
                 var response = JSON.parse(request.responseText);
                 console.log(response);
-            } else {
+
+                var original = !document.getElementById("repost-count-" + reviewId); 
+
+                var repostCountId = original ? "repost-count-" + response.id : "repost-count-" + reviewId;
+                var repostCount = document.getElementById(repostCountId); 
+                
+        
+                if (repostCount) { 
+                    repostCount.innerHTML = response.reposts;
+                }
+                else { 
+                    console.log('Error:', request.status);
+                }
+            } 
+            
+            else {
                 console.error('Error: ', request.status);
             }
         }

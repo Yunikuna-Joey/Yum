@@ -465,7 +465,9 @@ def repost(review_id):
     db.session.add(new)
     db.session.commit()
 
-    return jsonify({'status': 'success', 'message': 'Review reposted successfully'})
+    repostCount = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+
+    return jsonify({'status': 'success', 'message': 'Review reposted successfully', 'reposts': repostCount, 'review_id': review.id})
 
 
 @app.route('/feed', methods=['GET'])
@@ -542,6 +544,7 @@ def profile():
                 'timestamp': item.timestamp,
                 'likes': len(item.likes),
                 'comments': None,
+                'reposts': 0,
             })
    
     reposted_review_data = [
@@ -552,7 +555,7 @@ def profile():
             'place_title': marker.title if marker else None,
             'timestamp': repost.timestamp,
             'likes': len(review.likes),
-            'reposts': len(review.reposts),
+            'reposts': Repost.query.filter_by(review_id=review.id).count(),
             'comments': repost.comments if repost else None,
 
         }
