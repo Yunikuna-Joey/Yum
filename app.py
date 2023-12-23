@@ -16,7 +16,7 @@ from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session, joinedload, aliased
 from markupsafe import escape
 import re
 # sanitation library
@@ -98,7 +98,7 @@ class Review(db.Model):
     account = db.relationship('Account', backref=db.backref('user_reviews', lazy=True), overlaps="reviews")
     place_id = db.Column(db.String, nullable=False)
     likes = db.relationship('Like', backref='review', lazy=True)
-    reposts = db.relationship('Repost', backref='review', lazy=True)
+    reposts = db.relationship('Repost', backref='review_parent', lazy=True)
 
     def to_dict(self):
         return {
@@ -153,6 +153,8 @@ class Repost(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
     review_id = db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
     comments = db.Column(db.Text, nullable=True)
+    review = db.relationship('Review', backref=db.backref('repost', lazy=True))
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 
 @login_manager.user_loader
@@ -498,18 +500,21 @@ def loadFeedPage():
     return render_template('feed.html', username=username, status=status_updates)
 
 # *This is going to be for current user
-@app.route('/profile', methods=['GET']) 
+@app.route('/profile', methods=['GET'])
 @login_required
-def profile(): 
+def profile():
+    # display name will show on the page
     displayName = current_user.display_name
+
 
     # username will show on the page
     username = current_user.username
-
+   
     # query the reviews associated with the current-user
-    review = Review.query.filter_by(account_id=current_user.id).all() 
+    review = Review.query.filter_by(account_id=current_user.id).all()
 
-    # query the reposted reviews associated with the current-user 
+
+    # query the reposted reviews associated with the current-user
     reposted = (
         db.session.query(Review, Repost, Marker)
         .join(Repost, Review.id == Repost.review_id)
@@ -518,39 +523,45 @@ def profile():
         .all()
     )
 
+
     # review_data = [{'content': item.content, 'rating': item.rating} for item in review]
     review_data = []
 
-    # packs all the necessary data into the object 
-    for item in review: 
+
+    # packs all the necessary data into the object
+    for item in review:
         marker = Marker.query.filter_by(place_id=item.place_id).first()
-        if marker: 
+        if marker:
             review_data.append({
                 'id': item.id,
-                'content': item.content, 
-                'rating': item.rating, 
+                'content': item.content,
+                'rating': item.rating,
                 'place_title': marker.title,
                 'timestamp': item.timestamp,
                 'likes': len(item.likes),
+                'comments': None,
             })
-    
+   
     reposted_review_data = [
         {
-            'id': review.id, 
-            'content': review.content, 
-            'rating': review.rating, 
-            'place_title': marker.title if marker else None, 
-            'timestamp': review.timestamp, 
-            'likes': len(review.likes), 
+            'id': review.id,
+            'content': review.content,
+            'rating': review.rating,
+            'place_title': marker.title if marker else None,
+            'timestamp': review.timestamp,
+            'likes': len(review.likes),
             'reposts': len(review.reposts),
+            'comments': repost.comments if repost else None,
+
         }
-        for review, _, marker in reposted
+        for review, repost, marker in reposted
     ]
 
-    total = review_data + reposted_review_data 
+
+    total = review_data + reposted_review_data
     total.sort(key=lambda x:x['timestamp'], reverse=True)
     print(total)
-    
+   
     return render_template('profile.html', display_name=displayName, username=username, reviews=total)
 
 # *This is going to be for loading OTHER users

@@ -131,6 +131,12 @@
                         </div>
                         <br>
 
+                        {% if item.comments %}
+                            <div class="repost-quote">
+                                Repost Comment: {{ item.comments }}
+                            </div>
+                        {% endif %}
+
                         <div class="status-details">
                             <div class="left-content">
                                 <i class='bx bxs-map-pin'></i>
@@ -188,6 +194,12 @@
                             </div>
                         </div>
                         <br>
+
+                        {% if item.comments %}
+                            <div class="repost-quote">
+                                Repost Comment: {{ item.comments }}
+                            </div>
+                        {% endif %}
 
                         <div class="status-details">
                             <div class="left-content">
