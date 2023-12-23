@@ -459,7 +459,9 @@ def repost(review_id):
         db.session.commit() 
         return jsonify({'status': 'success', 'message': 'Repost is gone'})
     
-    new = Repost(user_id=current_user.id, review_id=review.id, comments=comment)
+    pst = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=-8)))
+    
+    new = Repost(user_id=current_user.id, review_id=review.id, comments=comment, timestamp=pst)
     db.session.add(new)
     db.session.commit()
 
@@ -548,7 +550,7 @@ def profile():
             'content': review.content,
             'rating': review.rating,
             'place_title': marker.title if marker else None,
-            'timestamp': review.timestamp,
+            'timestamp': repost.timestamp,
             'likes': len(review.likes),
             'reposts': len(review.reposts),
             'comments': repost.comments if repost else None,
