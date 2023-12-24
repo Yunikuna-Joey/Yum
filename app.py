@@ -536,6 +536,7 @@ def profile():
     for item in review:
         marker = Marker.query.filter_by(place_id=item.place_id).first()
         if marker:
+            repost_count = Repost.query.filter_by(review_id=item.id).count()
             review_data.append({
                 'id': item.id,
                 'content': item.content,
@@ -544,24 +545,27 @@ def profile():
                 'timestamp': item.timestamp,
                 'likes': len(item.likes),
                 'comments': None,
-                'reposts': 0,
+                'reposts': repost_count,
+                'is_repost': False,
             })
-   
-    reposted_review_data = [
-        {
-            'id': review.id,
-            'content': review.content,
+
+    reposted_review_data = []
+
+    for review, repost, marker in reposted: 
+        repost_status = Repost.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None
+        repost_count = 0 if repost_status else Repost.query.filter_by(review_id=review.id).count()
+
+        reposted_review_data.append({
+            'id': review.id, 
+            'content': review.content, 
             'rating': review.rating,
-            'place_title': marker.title if marker else None,
-            'timestamp': repost.timestamp,
-            'likes': len(review.likes),
-            'reposts': Repost.query.filter_by(review_id=review.id).count(),
+            'place_title': marker.title if marker else None, 
+            'timestamp': repost.timestamp, 
+            'likes': len(review.likes), 
+            'reposts': repost_count, 
             'comments': repost.comments if repost else None,
-
-        }
-        for review, repost, marker in reposted
-    ]
-
+            'is_repost': True,
+        })
 
     total = review_data + reposted_review_data
     total.sort(key=lambda x:x['timestamp'], reverse=True)

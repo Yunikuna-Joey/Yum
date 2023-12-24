@@ -336,9 +336,53 @@ function repostReview() {
     closeModal();
 }
 
+function undoRepost() { 
+    console.log('PLEASE');
+    var request = new XMLHttpRequest(); 
+    reviewId = document.getElementById('repost-count-' + reviewId).getAttribute('data-repost-id');
+    console.log('HEHE ID', reviewId);
+    request.open('POST', '/repost' + reviewId, true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                var response = JSON.parse(request.responseText);
+                console.log(response);
+
+                var original = !document.getElementById("repost-count-" + reviewId); 
+
+                var repostCountId = original ? "repost-count-" + response.id : "repost-count-" + reviewId;
+                var repostCount = document.getElementById(repostCountId); 
+                
+        
+                if (repostCount) { 
+                    repostCount.innerHTML = response.reposts;
+                }
+                else { 
+                    console.log('Error:', request.status);
+                }
+            } 
+            
+            else {
+                console.error('Error: ', request.status);
+            }
+        }
+    };
+    request.send()
+}
+
 function openModal(reviewId) {
-    document.getElementById('repostModal').setAttribute('data-review-id', reviewId);
-    document.getElementById('repostModal').style.display = 'block';
+    var isReposter = document.getElementById('repost-count-' + reviewId).getAttribute('data-is-repost');
+    console.log('This is repost', isReposter);
+
+    if (isReposter === 'True') {
+        undoRepost();
+    } 
+    else {
+        document.getElementById('repostModal').setAttribute('data-review-id', reviewId);
+        document.getElementById('repostModal').style.display = 'block';
+    }
 }
 
 function closeModal() {

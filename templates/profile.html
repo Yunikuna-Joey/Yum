@@ -238,7 +238,13 @@
                             <!-- repost icon -->
                             <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
 
-                            <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
+                            <span id="repost-count-{{ item.id }}" 
+                                class="repost-count" 
+                                data-is-repost="{{ item.is_repost }}"> 
+                                
+                                {{ item.reposts }}
+
+                            </span>
 
                         </div>
                     </td>
