@@ -88,6 +88,16 @@
     </div>
 
     {% if user.picture %}
+    <!-- repost modal -->
+    <div id="repostModal" class="modal" style="display: none;">
+        <div id="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <label for="additionalComments">Additional Comments:</label>
+            <textarea id="additionalComments" rows="4"></textarea>
+            <button onclick="repostReview()">Repost</button>
+        </div>
+    </div>
+
     <div id="status-container">
         <table id="status-table">
             {% for item in reviews %}
@@ -99,11 +109,23 @@
                                 {{ user.display_name }}<br>
                                 {{ user.username }}<br>
                             </div>
-                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
-                                {{ item.timestamp }}
-                            </div>
+                            {% if item.comments %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% else %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% endif %}
                         </div>
                         <br>
+
+                        {% if item.comments %}
+                            <div class="repost-quote">
+                                Repost Comment: {{ item.comments }}
+                            </div>
+                        {% endif %}
 
                         <div class="status-details">
                             <div class="left-content">
@@ -135,6 +157,16 @@
     </div>
 
     {% else %}
+    <!-- repost modal -->
+    <div id="repostModal" class="modal" style="display: none;">
+        <div id="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <label for="additionalComments">Additional Comments:</label>
+            <textarea id="additionalComments" rows="4"></textarea>
+            <button onclick="repostReview()">Repost</button>
+        </div>
+    </div>
+
     <div id="status-container">
         <table id="status-table">
             {% for item in reviews %}
@@ -146,11 +178,23 @@
                                 {{ user.display_name }}<br>
                                 {{ user.username }}<br>
                             </div>
-                            <div class="timestamp" data-timestamp="{{ item.timestamp }}">
-                                {{ item.timestamp }}
-                            </div>
+                            {% if item.comments %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% else %}
+                                <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                    {{ item.timestamp }}
+                                </div>
+                            {% endif %}
                         </div>
                         <br>
+
+                        {% if item.comments %}
+                            <div class="repost-quote">
+                                Repost Comment: {{ item.comments }}
+                            </div>
+                        {% endif %}
 
                         <div class="status-details">
                             <div class="left-content">

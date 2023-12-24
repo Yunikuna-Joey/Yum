@@ -581,6 +581,8 @@ def loadProfile(username):
     review = Review.query.filter_by(account_id=user.id).all() 
     review_data = []
 
+    # need to add a way to find out if the status has a repost comment 
+        # follow profile endpoint above 
     for item in review: 
         marker = Marker.query.filter_by(place_id=item.place_id).first() 
         if marker: 
