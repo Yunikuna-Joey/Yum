@@ -322,6 +322,7 @@ function repostReview() {
                 else { 
                     console.log('Error:', request.status);
                 }
+                location.reload();
             } 
             
             else {
@@ -361,6 +362,7 @@ function undoRepost(reviewId) {
                 else { 
                     console.log('Error:', request.status);
                 }
+                location.reload();
             } 
             
             else {
