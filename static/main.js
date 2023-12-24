@@ -336,12 +336,11 @@ function repostReview() {
     closeModal();
 }
 
-function undoRepost() { 
+function undoRepost(reviewId) { 
     console.log('PLEASE');
     var request = new XMLHttpRequest(); 
-    reviewId = document.getElementById('repost-count-' + reviewId).getAttribute('data-repost-id');
     console.log('HEHE ID', reviewId);
-    request.open('POST', '/repost' + reviewId, true);
+    request.open('POST', '/repost/' + reviewId, true);
     request.setRequestHeader('Content-Type', 'application/json');
 
     request.onreadystatechange = function () {
@@ -369,7 +368,8 @@ function undoRepost() {
             }
         }
     };
-    request.send()
+    var payload = JSON.stringify({ additionalComments: ''});
+    request.send(payload);
 }
 
 function openModal(reviewId) {
@@ -377,7 +377,7 @@ function openModal(reviewId) {
     console.log('This is repost', isReposter);
 
     if (isReposter === 'True') {
-        undoRepost();
+        undoRepost(reviewId);
     } 
     else {
         document.getElementById('repostModal').setAttribute('data-review-id', reviewId);
