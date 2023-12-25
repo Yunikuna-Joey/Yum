@@ -471,56 +471,67 @@ def repost(review_id):
 
 
 @app.route('/feed', methods=['GET'])
-@login_required 
-def loadFeedPage(): 
-    username = current_user.username 
+@login_required
+def loadFeedPage():
+    username = current_user.username
+    gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
 
-    # query the ID's of the users that current user follows 
-# query the ID's of the users that current user follows 
-    following_ids = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
 
-    # join statement to get access to reviews from followings 
-    following_reviews = (
-        db.session.query(
-            Review, Account, Marker, Repost, Review.label('reposted_review'), Account.label('reposted_user'), Marker.label('reposted_marker')
-        )
-        .join(Account, Review.account_id == Account.id)
-        .join(Marker, Review.place_id == Marker.place_id)
-        .outerjoin(Repost, Review.id == Repost.review_id)
-        .outerjoin(Review, Repost.id == Review.id)
-        .filter(Review.account_id.in_(following_ids))
+    # Perform join statement
+    following_reviews = db.session.query(Review, Account, Marker)\
+        .join(Account, Review.account_id == Account.id)\
+        .join(Marker, Review.place_id == Marker.place_id)\
+        .filter(Review.account_id.in_(gather_following))\
         .all()
-    )
 
-    # Process the results
-    status_updates = [] 
-    for review, user, marker, repost, reposted_review, reposted_user, reposted_marker in following_reviews:
+
+    # following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
+
+
+    status_updates = []
+    for review, user, marker in following_reviews:
         status_updates.append({
             'id': review.id,
             'content': review.content,
-            'rating': review.rating, 
-            'author_display_name': user.display_name, 
+            'rating': review.rating,
+            'author_display_name': user.display_name,
             'username': user.username,
-            'timestamp': review.timestamp, 
+            'timestamp': review.timestamp,
             'place_title': marker.title,
-            'profile_picture': user.picture, 
+            'profile_picture': user.picture,
             'likes': len(review.likes),
-            'repost': {
-                'id': reposted_review.id,
-                'content': reposted_review.content if reposted_review else None,
-                'rating': reposted_review.rating if reposted_review else None,
-                'author_display_name': reposted_user.display_name if reposted_user else None,
-                'username': reposted_user.username if reposted_user else None,
-                'timestamp': reposted_review.timestamp if reposted_review else None,
-                'place_title': reposted_marker.title if reposted_marker else None,
-                'profile_picture': reposted_user.picture if reposted_user else None,
-                'likes': len(reposted_review.likes) if reposted_review else None,
-            } if reposted_review else None,
+        })
+        
+    reposts = (
+        db.session.query(Review, Repost, Account, Marker)
+        .join(Repost, Review.id == Repost.review_id)
+        .join(Account, Review.account_id == Account.id)
+        .outerjoin(Marker, Review.place_id == Marker.place_id)
+        .filter(Repost.user_id == user.id)
+        .all()
+    )
+
+    reposted_review_data = []
+
+
+    for review, repost, reposted_user, marker in reposts: 
+        reposted_review_data.append({
+            'id': review.id,
+            'content': review.content, 
+            'place_title': marker.title if marker else None, 
+            'timestamp': repost.timestamp, 
+            'author_display_name': reposted_user.display_name, 
+            'username': reposted_user.username,
+            'likes': len(review.likes), 
+            'reposts': 0, 
+            'comments': repost.comments if repost else None, 
+            'is_repost': True,
         })
 
-    status_updates.sort(key=lambda x: x['timestamp'], reverse=True)
+    total = reposted_review_data + status_updates
+    total.sort(key=lambda x:x['timestamp'], reverse=True)   
 
-    return render_template('feed.html', username=username, status=status_updates)
+    return render_template('feed.html', username=username, status=total)
 
 # *This is going to be for current user
 @app.route('/profile', methods=['GET'])
@@ -545,7 +556,6 @@ def profile():
         .filter(Repost.user_id == current_user.id)
         .all()
     )
-
 
     # review_data = [{'content': item.content, 'rating': item.rating} for item in review]
     review_data = []
@@ -619,7 +629,7 @@ def loadProfile(username):
             'comments': None, 
             'is_repost': False,
         })
-
+    
     reposts = (
         db.session.query(Review, Repost, Marker) 
         .join(Repost, Review.id == Repost.review_id)
