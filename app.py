@@ -625,12 +625,13 @@ def loadProfile(username):
         })
 
     # might need to add the user is following variable here and pass it into the template 
+    user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
 
     total = review_data + reposted_review_data
     total.sort(key = lambda x: x['timestamp'], reverse=True)
 
     # user_is_following = Following.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None 
-    return render_template('userprofile.html', user=user, reviews=total)
+    return render_template('userprofile.html', user=user, reviews=total, user_is_following=user_is_following)
 
 
 # function to check if the file extension is allowed
