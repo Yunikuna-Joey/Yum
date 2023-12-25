@@ -474,19 +474,27 @@ def repost(review_id):
 @login_required 
 def loadFeedPage(): 
     username = current_user.username 
-    gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
 
-    # Perform join statement 
-    following_reviews = db.session.query(Review, Account, Marker)\
-        .join(Account, Review.account_id == Account.id)\
-        .join(Marker, Review.place_id == Marker.place_id)\
-        .filter(Review.account_id.in_(gather_following))\
+    # query the ID's of the users that current user follows 
+# query the ID's of the users that current user follows 
+    following_ids = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
+
+    # join statement to get access to reviews from followings 
+    following_reviews = (
+        db.session.query(
+            Review, Account, Marker, Repost, Review.label('reposted_review'), Account.label('reposted_user'), Marker.label('reposted_marker')
+        )
+        .join(Account, Review.account_id == Account.id)
+        .join(Marker, Review.place_id == Marker.place_id)
+        .outerjoin(Repost, Review.id == Repost.review_id)
+        .outerjoin(Review, Repost.id == Review.id)
+        .filter(Review.account_id.in_(following_ids))
         .all()
+    )
 
-    # following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
-
+    # Process the results
     status_updates = [] 
-    for review, user, marker in following_reviews:
+    for review, user, marker, repost, reposted_review, reposted_user, reposted_marker in following_reviews:
         status_updates.append({
             'id': review.id,
             'content': review.content,
@@ -497,9 +505,20 @@ def loadFeedPage():
             'place_title': marker.title,
             'profile_picture': user.picture, 
             'likes': len(review.likes),
-        }) 
-    
-    status_updates.reverse()
+            'repost': {
+                'id': reposted_review.id,
+                'content': reposted_review.content if reposted_review else None,
+                'rating': reposted_review.rating if reposted_review else None,
+                'author_display_name': reposted_user.display_name if reposted_user else None,
+                'username': reposted_user.username if reposted_user else None,
+                'timestamp': reposted_review.timestamp if reposted_review else None,
+                'place_title': reposted_marker.title if reposted_marker else None,
+                'profile_picture': reposted_user.picture if reposted_user else None,
+                'likes': len(reposted_review.likes) if reposted_review else None,
+            } if reposted_review else None,
+        })
+
+    status_updates.sort(key=lambda x: x['timestamp'], reverse=True)
 
     return render_template('feed.html', username=username, status=status_updates)
 
