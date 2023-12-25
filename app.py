@@ -578,27 +578,59 @@ def profile():
 @login_required 
 def loadProfile(username): 
     user = Account.query.filter_by(username=username).first_or_404() 
-    review = Review.query.filter_by(account_id=user.id).all() 
-    review_data = []
+    
+    reviews = ( 
+        db.session.query(Review, Marker)
+        .outerjoin(Marker, Review.place_id == Marker.place_id)
+        .filter(Review.account_id == user.id)
+        .all()
+    )
 
-    # need to add a way to find out if the status has a repost comment 
-        # follow profile endpoint above 
-    for item in review: 
-        marker = Marker.query.filter_by(place_id=item.place_id).first() 
-        if marker: 
-            review_data.append({
-                'id': item.id,
-                'content': item.content,
-                'rating': item.rating, 
-                'place_title': marker.title,
-                'timestamp': item.timestamp,
-                'likes': len(item.likes),
-            })
+    review_data = [] 
 
-    user_is_following = Following.query.filter_by(user_id=current_user.id, friend_id=user.id).first() is not None
-    review_data.reverse() 
+    for review, marker in reviews: 
+        review_data.append({ 
+            'id': review.id, 
+            'content': review.content, 
+            'rating': review.rating, 
+            'place_title': marker.title if marker else None, 
+            'timestamp': review.timestamp, 
+            'likes': len(review.likes), 
+            'reposts': 0, 
+            'comments': None, 
+            'is_repost': False,
+        })
 
-    return render_template('userprofile.html', user=user, reviews=review_data, user_is_following=user_is_following)
+    reposts = (
+        db.session.query(Review, Repost, Marker) 
+        .join(Repost, Review.id == Repost.review_id)
+        .outerjoin(Marker, Review.place_id == Marker.place_id)
+        .filter(Repost.user_id == user.id)
+        .all()
+    )
+
+    reposted_review_data = [] 
+
+    for review, repost, marker in reposts: 
+        reposted_review_data.append({ 
+            'id': review.id, 
+            'content': review.content, 
+            'rating': review.rating, 
+            'place_title': marker.title if marker else None, 
+            'timestamp': repost.timestamp, 
+            'likes': len(review.likes),     # might need to change this value 
+            'reposts': 0,                   # might need to change this value 
+            'comments': repost.comments if repost else None, 
+            'is_repost': True,
+        })
+
+    # might need to add the user is following variable here and pass it into the template 
+
+    total = review_data + reposted_review_data
+    total.sort(key = lambda x: x['timestamp'], reverse=True)
+
+    # user_is_following = Following.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None 
+    return render_template('userprofile.html', user=user, reviews=total)
 
 
 # function to check if the file extension is allowed

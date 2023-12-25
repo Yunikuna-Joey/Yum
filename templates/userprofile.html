@@ -148,8 +148,11 @@
                             <span id="like-count-{{ item.id }}" class="like-count"> {{ item.likes }} </span>
 
                             <!-- repost icon -->
-                            <i class='bx bx-repost' onclick="repostReview('{{ item.id }}')"></i>
+                            <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
+
+                            <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
                         </div>
+
                     </td>
                 </tr>
             {% endfor %}
@@ -217,7 +220,9 @@
                             <span id="like-count-{{ item.id }}" class="like-count"> {{ item.likes }} </span>
 
                             <!-- repost icon -->
-                            <i class='bx bx-repost' onclick="repostReview('{{ item.id }}')"></i>
+                            <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
+
+                            <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
                         </div>
                     </td>
                 </tr>
