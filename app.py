@@ -490,6 +490,7 @@ def loadFeedPage():
 
     status_updates = []
     for review, user, marker in following_reviews:
+        repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
         status_updates.append({
             'id': review.id,
             'content': review.content,
@@ -500,6 +501,7 @@ def loadFeedPage():
             'place_title': marker.title,
             'profile_picture': user.picture,
             'likes': len(review.likes),
+            'reposts': repost_count,
         })
         
     reposts = (
@@ -515,6 +517,12 @@ def loadFeedPage():
 
 
     for review, repost, reposted_user, marker in reposts: 
+        original = (
+            db.session.query(Account)
+            .filter(Account.id == review.account_id)
+            .first()
+        )
+
         reposted_review_data.append({
             'id': review.id,
             'content': review.content, 
@@ -522,6 +530,8 @@ def loadFeedPage():
             'timestamp': repost.timestamp, 
             'author_display_name': reposted_user.display_name, 
             'username': reposted_user.username,
+            'oa_display_name': original.display_name,
+            'oa_username': original.username,
             'likes': len(review.likes), 
             'reposts': 0, 
             'comments': repost.comments if repost else None, 
@@ -529,6 +539,7 @@ def loadFeedPage():
         })
 
     total = reposted_review_data + status_updates
+    print(total)
     total.sort(key=lambda x:x['timestamp'], reverse=True)   
 
     return render_template('feed.html', username=username, status=total)

@@ -93,6 +93,12 @@
                         <br>
 
                         {% if item.comments %}
+                            <div class="repost-details">
+                                Reposted from {{ item.oa_display_name }} ({{ item.oa_username }})
+                            </div>
+                        {% endif %}
+
+                        {% if item.comments %}
                             <div class="repost-quote">
                                 Repost Comment: {{ item.comments }}
                             </div>
@@ -144,6 +150,11 @@
             {% for item in status %}
                 <tr class="status-update">
                     <td> 
+                        {% if item.is_repost %}
+                            <div class="repost-details">
+                                Reposted from {{ item.oa_display_name }} ({{ item.oa_username }})
+                            </div>
+                        {% endif %}
                         <div class="status-user">
                             <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="status-picture" class="status-image"><br>
                             <div class="status-userinfo">
