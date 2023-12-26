@@ -478,7 +478,7 @@ def loadFeedPage():
     # print('This is following gathering', gather_following)
 
 
-    # Perform join statement
+    # Perform join statement for fetching the following
     following_reviews = db.session.query(Review, Account, Marker)\
         .join(Account, Review.account_id == Account.id)\
         .join(Marker, Review.place_id == Marker.place_id)\
@@ -504,7 +504,7 @@ def loadFeedPage():
             'likes': len(review.likes),
             'reposts': repost_count,
         })
-
+    # this is for fetching the followings' reposts
     reposts = (
         db.session.query(Review, Repost, Account, Marker)
         .join(Repost, Review.id == Repost.review_id)
@@ -539,7 +539,36 @@ def loadFeedPage():
             'is_repost': True if repost.comments else False,
         })
 
-    total = reposted_review_data + status_updates
+    # this is for current users reviews 
+    current_review = Review.query.filter_by(account_id=current_user.id).all()
+    current_reposts = (
+        db.session.query(Review, Repost, Account, Marker)
+        .join(Repost, Review.id == Repost.review_id)
+        .join(Account, Review.account_id == Account.id)
+        .outerjoin(Marker, Review.place_id == Marker.place_id)
+        .filter(Repost.user_id == current_user.id)
+        .all()
+    )
+
+    current_data = [] 
+    for review in current_review: 
+        repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+        current_data.append({
+            'id': review.id, 
+            'content': review.content, 
+            'rating': review.rating, 
+            'author_display_name': current_user.display_name, 
+            'username': current_user.username, 
+            'timestamp': review.timestamp, 
+            'place_title': marker.title, 
+            'profile_picture': current_user.picture, 
+            'likes': len(review.likes), 
+            'reposts': repost_count, 
+            'is_repost': False,
+        })
+    
+
+    total = reposted_review_data + status_updates + current_data
     total.sort(key=lambda x:x['timestamp'], reverse=True)   
 
     return render_template('feed.html', username=username, status=total)
