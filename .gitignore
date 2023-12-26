@@ -17,7 +17,8 @@ alembic/
 /storage.sqlite3
 uploads/
 migrations/
-
+ex.html
+test.js
 
 
 # Distribution / packaging
