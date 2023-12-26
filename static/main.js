@@ -504,19 +504,19 @@ function logout(event) {
 // *Google Maps Functions located here 
 let map; 
 let googPlaceService;
-const map_id = '{{ mapid }}';
 
 
 // *************** DISPLAY INITIAL MAP *************** Commented out our const map id variable and added to the function to accept the variable instead 
 function initMap() {
     // initial coordinates 
     const initial_coords = { lat: 43.400344826187, lng: -80.3250596245924};
+    const mapid = window.mapId;
 
     // create the initial map 
     map = new google.maps.Map(document.getElementById('map'), {
         center: initial_coords,
         zoom: 12,
-        mapId: map_id
+        mapId: mapid,
     });
 
     // this just ecentuates the center for now 
@@ -567,9 +567,6 @@ function initMap() {
         // In the event that geolocation is not supported by the browser
         console.error('Geolocation is not supported by your browser');
     } 
-
-    // * [DEBUGGING]
-    console.log('Map id is: ', map_id);
 
 } // end of display map function  
 

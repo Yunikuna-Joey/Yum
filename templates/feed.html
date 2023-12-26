@@ -152,7 +152,10 @@
                     <td> 
                         {% if item.is_repost %}
                             <div class="repost-details">
-                                Reposted from {{ item.oa_display_name }} ({{ item.oa_username }})
+                                Reposted from 
+                                <a href="{{ url_for('loadProfile', username=item.oa_username) }}">
+                                    {{ item.oa_display_name }} ({{ item.oa_username }})
+                                </a>
                             </div>
                         {% endif %}
                         <div class="status-user">
