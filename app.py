@@ -475,6 +475,7 @@ def repost(review_id):
 def loadFeedPage():
     username = current_user.username
     gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
+    # print('This is following gathering', gather_following)
 
 
     # Perform join statement
@@ -503,13 +504,13 @@ def loadFeedPage():
             'likes': len(review.likes),
             'reposts': repost_count,
         })
-        
+
     reposts = (
         db.session.query(Review, Repost, Account, Marker)
         .join(Repost, Review.id == Repost.review_id)
         .join(Account, Review.account_id == Account.id)
         .outerjoin(Marker, Review.place_id == Marker.place_id)
-        .filter(Repost.user_id == user.id)
+        .filter(Repost.user_id.in_(gather_following))
         .all()
     )
 
@@ -535,11 +536,10 @@ def loadFeedPage():
             'likes': len(review.likes), 
             'reposts': 0, 
             'comments': repost.comments if repost else None, 
-            'is_repost': True,
+            'is_repost': True if repost.comments else False,
         })
 
     total = reposted_review_data + status_updates
-    print(total)
     total.sort(key=lambda x:x['timestamp'], reverse=True)   
 
     return render_template('feed.html', username=username, status=total)
