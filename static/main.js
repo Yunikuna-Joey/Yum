@@ -601,7 +601,11 @@ function initMap() {
     const marker = new google.maps.Marker({
         position: initial_coords, 
         map: map, 
-        title: 'Canadia Land restaurant'
+        title: 'Canadia Land restaurant',
+        icon: {
+            url: 'static/uploads/marker.svg',
+            scaledSize: new google.maps.Size(30, 30),
+        },
     });
 
 
@@ -628,6 +632,10 @@ function initMap() {
             // Modifies the marker
             marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
             marker.setTitle('Current Location')
+            marker.setIcon({
+                url: 'static/uploads/marker.svg',
+                scaledSize: new google.maps.Size(30, 30),
+            })
 
             // * using the helper function below to search nearby restaurants 
             // * comment out if you want to see the website without triggering the API 
@@ -775,6 +783,10 @@ function createRestMarker(locationData) {
             position: locationData.geometry.location, 
             title: locationData.name, 
             animation: google.maps.Animation.DROP, 
+            icon: {
+                url: 'static/uploads/marker.svg',
+                scaledSize: new google.maps.Size(30, 30),
+            }
         }); 
 
         addMarkerModel(locationData);  
