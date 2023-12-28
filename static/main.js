@@ -991,4 +991,3 @@ function submitReview(markerId) {
 
     request.send(data);
 }
-

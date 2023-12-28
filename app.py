@@ -180,7 +180,7 @@ def home():
     key = os.getenv('KEY')
     mapid = os.getenv('MAP')
     return render_template('home.html', username=username, key=key, map=mapid)
-    # return render_template('home.html')
+
 
 # not necessary for sanzing
 @app.route('/login', methods=['POST'])
