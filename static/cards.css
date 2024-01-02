@@ -1,3 +1,10 @@
 * {
     font-family: sans-serif;
 } 
+
+/* Testing card boxes  */
+
+.container {
+    border-radius: 10px;
+    
+}
