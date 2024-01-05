@@ -838,7 +838,6 @@ function createRestMarker(locationData) {
                 }
                 const markerId = locationData.place_id;
                 const reviewCheckData = JSON.stringify({ place_id: markerId});
-
                 const reviewCheckRequest = new XMLHttpRequest(); 
                 reviewCheckRequest.open('POST', '/check_review_status', true);
                 reviewCheckRequest.setRequestHeader('Content-Type', 'application/json');
@@ -884,11 +883,12 @@ function createRestMarker(locationData) {
                     });
                 });
                 
+                // we need to have following reviews located in here 
                 markerContent = `                
                     <strong>${locationData.name}</strong><br>
                     Rating: ${locationData.rating || 'Not available'}<br>
                     Reviews: ${locationData.reviewCount || 0}<br>
-                    Type: ${customType}
+                    Type: ${customType}<br>
                 `
                 markerWindow.innerHTML = markerContent;
                 markerWindow.style.display = 'block';
@@ -901,6 +901,27 @@ function createRestMarker(locationData) {
                     currentMarker = currentInfoWindow = null;
                     // currentMarker = currentWindow = null;
                 });
+
+                                
+                // try to fetch reviews 
+                const followingReviewRequest = new XMLHttpRequest(); 
+                followingReviewRequest.open('POST', '/get_following_reviews', true);
+                followingReviewRequest.setRequestHeader('Content-Type', 'application/json');
+                followingReviewRequest.onload = function () {
+                    if (followingReviewRequest.status === 200) {
+                        const followingReviews = JSON.parse(followingReviewRequest.responseText);
+                        markerContent += '<strong>Following Reviews: </strong> <br>';
+                        for (const review of followingReviews) {
+                            markerContent += `<div>${review.content} - ${review.rating}</div><br>`;
+                        }
+                        markerWindow.innerHTML = markerContent;
+                        markerWindow.style.display = 'block';
+                    }
+                    else {
+                        console.error('Error fetching following reviews: ', followingReviewRequest.status);
+                    }
+                };
+                followingReviewRequest.send(reviewCheckData);
             }
         });
     } // end of if statement 

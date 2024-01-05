@@ -180,12 +180,12 @@ def home():
     key = os.getenv('KEY')
     mapid = os.getenv('MAP')
 
-    # this is grab current user following 
-    following = [following.friend_id for following in current_user.following]
-    # this will grab all revies from current user and their following
-    reviews = Review.query.filter(Review.account_id.in_([current_user.id] + following)).all()
+    # # this is grab current user following 
+    # following = [following.friend_id for following in current_user.following]
+    # # this will grab all revies from current user and their following
+    # reviews = Review.query.filter(Review.account_id.in_([current_user.id] + following)).all()
 
-    return render_template('home.html', username=username, key=key, map=mapid, reviews=reviews)
+    return render_template('home.html', username=username, key=key, map=mapid)
 
 
 # not necessary for sanzing
@@ -202,7 +202,21 @@ def login():
         login_user(user)
         return jsonify({'message': 'Login successful', 'redirect': '/home'})
 
-    
+@app.route('/get_following_reviews', methods=['POST'])
+def get_following_reviews():
+    data = request.json 
+    place_id = data.get('place_id')
+
+    following_ids = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id)]
+    user_ids = [current_user.id] + following_ids
+
+    reviews = Review.query.filter(
+        (Review.place_id == place_id) & (Review.account_id.in_(user_ids))
+    ).all()
+
+    reviews_data = [review.to_dict() for review in reviews]
+
+    return jsonify(reviews_data), 200
 
 @app.route('/loadregisterpage', methods=['GET'])
 def loadregister(): 
