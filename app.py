@@ -179,7 +179,13 @@ def home():
     # passing in the key in order to utilize api on the homepage
     key = os.getenv('KEY')
     mapid = os.getenv('MAP')
-    return render_template('home.html', username=username, key=key, map=mapid)
+
+    # this is grab current user following 
+    following = [following.friend_id for following in current_user.following]
+    # this will grab all revies from current user and their following
+    reviews = Review.query.filter(Review.account_id.in_([current_user.id] + following)).all()
+
+    return render_template('home.html', username=username, key=key, map=mapid, reviews=reviews)
 
 
 # not necessary for sanzing
