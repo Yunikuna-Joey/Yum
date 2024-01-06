@@ -912,7 +912,7 @@ function createRestMarker(locationData) {
                         const followingReviews = JSON.parse(followingReviewRequest.responseText);
                         markerContent += '<strong>Following Reviews: </strong> <br>';
                         for (const review of followingReviews) {
-                            markerContent += `<div>${review.content} - ${review.rating}</div><br>`;
+                            markerContent += `<div>${review.content} - ${review.rating} by ${review.author_display_name} (${review.author_username})</div><br>`;
                         }
                         markerWindow.innerHTML = markerContent;
                         markerWindow.style.display = 'block';

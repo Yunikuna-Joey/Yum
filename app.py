@@ -214,7 +214,28 @@ def get_following_reviews():
         (Review.place_id == place_id) & (Review.account_id.in_(user_ids))
     ).all()
 
-    reviews_data = [review.to_dict() for review in reviews]
+    reviews_data = []
+
+    for review in reviews: 
+        author = Account.query.get(review.account_id)
+        author_info = {
+            'author_display_name': author.display_name, 
+            'author_username': author.username,
+        }
+
+        review_info = {
+            'id': review.id,
+            'timestamp': review.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+            'content': review.content,
+            'rating': review.rating, 
+            'account_id': review.account_id, 
+            'place_id': review.place_id,
+            'likes': len(review.likes), 
+            'reposts': len(review.reposts),
+        }
+
+        review_data = {**review_info, **author_info}
+        reviews_data.append(review_data)
 
     return jsonify(reviews_data), 200
 
