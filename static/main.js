@@ -913,10 +913,27 @@ function createRestMarker(locationData) {
                         markerContent += '<strong>Following Reviews: </strong> <br>';
                         for (const review of followingReviews) {
                             markerContent += `
-                                <div id="status-container">
-                                    <table id="status-table"> 
-                                        <tr>
-                                            ${review.content} - ${review.rating} by ${review.author_display_name} (${review.author_username})
+                                <br>
+                                <div id="status-container" style="margin: 0 auto; border: 1px solid #fff; border-radius: 10px; overflow: hidden;">
+                                    <table id="status-table" style="width: 100%; border-collapse: collapse;"> 
+                                        <tr class="status-update" style="margin-bottom: 10px; overflow: hidden; padding: 10px; border-bottom: 1px solid #ddd;">
+                                            <td>
+                                                ${review.content} - ${review.rating} by ${review.author_display_name} (${review.author_username})
+
+                                                <div class="status-icons" style="margin-top: 10px; font-size: 14px;">
+                                                    <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')"></i>
+                                    
+                                                    <span id="like-count-{{ item.id }}" class="like-count" style="    display: inline-block;
+                                                        position: relative;
+                                                        top: -3.5px;
+                                                        right: 2px;
+                                                        font-family: 'Open Sans', sans-serif;
+                                                        font-size: 18px;">
+
+                                                    ${review.likes}
+                                                    </span>
+                                                </div> 
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
