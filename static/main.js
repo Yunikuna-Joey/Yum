@@ -917,14 +917,20 @@ function createRestMarker(locationData) {
                                 <div id="status-container" style="margin-bottom: 0; border: 1px solid #fff; border-radius: 5px;">
                                     <table id="status-table" style="width: 100%;"> 
                                         <tr class="status-update">
-                                            <td>
-                                                ${review.content} - ${review.rating} by ${review.author_display_name} (${review.author_username})
+                                            <div style="margin-top: 5px; margin-left: 5px; display: flex; align-items: center;">
+                                                <img src="${review.author_picture}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                                <a href="/profile/${review.author_username}"> ${review.author_display_name} (${review.author_username}) </a>
+                                            </div>
+                                            <td style="padding: 5px;">
+                                                ${review.content} - ${review.rating}
 
                                                 <div class="status-icons" style="margin-top: 10px; font-size: 22px;">
                                                     <i class='bx bx-heart' onclick="likeReview('${review.id}')"></i>
                                     
                                                     <span id="like-count-${review.id}" class="like-count" style="display: inline-block;
                                                         position: relative;
+                                                        margin-top: 5px; 
+                                                        margin-left: 5px;
                                                         top: -3.5px;
                                                         right: 2px;
                                                         font-family: 'Open Sans', sans-serif;

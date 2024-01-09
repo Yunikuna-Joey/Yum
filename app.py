@@ -221,6 +221,7 @@ def get_following_reviews():
         author_info = {
             'author_display_name': author.display_name, 
             'author_username': author.username,
+            'author_picture': author.picture if author.picture else '/static/uploads/default.jpg', 
         }
 
         review_info = {
