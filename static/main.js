@@ -913,17 +913,17 @@ function createRestMarker(locationData) {
                         markerContent += '<strong>Following Reviews: </strong> <br>';
                         for (const review of followingReviews) {
                             markerContent += `
-                                <br>
-                                <div id="status-container" style="margin: 0 auto; border: 1px solid #fff; border-radius: 10px; overflow: hidden;">
-                                    <table id="status-table" style="width: 100%; border-collapse: collapse;"> 
-                                        <tr class="status-update" style="margin-bottom: 10px; overflow: hidden; padding: 10px; border-bottom: 1px solid #ddd;">
+                            <br>
+                                <div id="status-container" style="margin-bottom: 0; border: 1px solid #fff; border-radius: 5px;">
+                                    <table id="status-table" style="width: 100%;"> 
+                                        <tr class="status-update">
                                             <td>
                                                 ${review.content} - ${review.rating} by ${review.author_display_name} (${review.author_username})
 
-                                                <div class="status-icons" style="margin-top: 10px; font-size: 14px;">
-                                                    <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')"></i>
+                                                <div class="status-icons" style="margin-top: 10px; font-size: 22px;">
+                                                    <i class='bx bx-heart' onclick="likeReview('${review.id}')"></i>
                                     
-                                                    <span id="like-count-{{ item.id }}" class="like-count" style="    display: inline-block;
+                                                    <span id="like-count-${review.id}" class="like-count" style="display: inline-block;
                                                         position: relative;
                                                         top: -3.5px;
                                                         right: 2px;
@@ -937,7 +937,6 @@ function createRestMarker(locationData) {
                                         </tr>
                                     </table>
                                 </div>
-                                <br>
                             `;
                         }
                         markerWindow.innerHTML = markerContent;
