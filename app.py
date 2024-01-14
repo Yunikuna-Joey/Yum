@@ -627,6 +627,9 @@ def profile():
     # query the reviews associated with the current-user
     review = Review.query.filter_by(account_id=current_user.id).all()
 
+    review_quant = Review.query.filter_by(account_id=current_user.id).count()
+    follower_quant = Following.query.filter_by(friend_id=current_user.id).count() 
+    following_quant = Following.query.filter_by(user_id=current_user.id).count()
 
     # query the reposted reviews associated with the current-user
     reposted = (
@@ -680,7 +683,7 @@ def profile():
     total.sort(key=lambda x:x['timestamp'], reverse=True)
     print(total)
    
-    return render_template('profile.html', display_name=displayName, username=username, reviews=total)
+    return render_template('profile.html', display_name=displayName, username=username, reviews=total, reviewq=review_quant, followerq=follower_quant, followingq=following_quant)
 
 # *This is going to be for loading OTHER users
 @app.route('/profile/<username>')
