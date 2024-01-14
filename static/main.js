@@ -434,6 +434,7 @@ function followUser() {
 }
 
 function timeListener() {
+    console.log("test");
     document.addEventListener('DOMContentLoaded', function () {
         const timeElement = document.querySelectorAll('.timestamp');
         timeElement.forEach(element => {
@@ -442,11 +443,10 @@ function timeListener() {
             element.textContent = format;
         });
     });
-    console.log('Ran convert1')
+    console.log('Ran convert1');
 }
 
 function timestampConverter(timestamp) {
-    console.log('Ran convert2')
     const current = new Date();
     const date = new Date(timestamp);
     const timeDiff = current - date;
@@ -462,15 +462,9 @@ function timestampConverter(timestamp) {
     } else if (timeDiff < 48 * 60 * 60 * 1000) {
         return 'Yesterday';
     } else {
-        // Format the date without seconds, minutes, and milliseconds
-        const formattedDate = date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-        return formattedDate;
+        // Format the date without hours and minutes
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleString('en-US', options);
     }
 }
 
