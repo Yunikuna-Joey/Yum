@@ -627,6 +627,9 @@ def profile():
     # query the reviews associated with the current-user
     review = Review.query.filter_by(account_id=current_user.id).all()
 
+    review_quant = Review.query.filter_by(account_id=current_user.id).count()
+    follower_quant = Following.query.filter_by(friend_id=current_user.id).count() 
+    following_quant = Following.query.filter_by(user_id=current_user.id).count()
 
     # query the reposted reviews associated with the current-user
     reposted = (
@@ -680,7 +683,7 @@ def profile():
     total.sort(key=lambda x:x['timestamp'], reverse=True)
     print(total)
    
-    return render_template('profile.html', display_name=displayName, username=username, reviews=total)
+    return render_template('profile.html', display_name=displayName, username=username, reviews=total, reviewq=review_quant, followerq=follower_quant, followingq=following_quant)
 
 # *This is going to be for loading OTHER users
 @app.route('/profile/<username>')
@@ -688,6 +691,10 @@ def profile():
 def loadProfile(username): 
     user = Account.query.filter_by(username=username).first_or_404() 
     
+    review_quant = Review.query.filter_by(account_id=user.id).count()
+    follower_quant = Following.query.filter_by(friend_id=user.id).count() 
+    following_quant = Following.query.filter_by(user_id=user.id).count()
+
     reviews = ( 
         db.session.query(Review, Marker)
         .outerjoin(Marker, Review.place_id == Marker.place_id)
@@ -740,7 +747,7 @@ def loadProfile(username):
     total.sort(key = lambda x: x['timestamp'], reverse=True)
 
     # user_is_following = Following.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None 
-    return render_template('userprofile.html', user=user, reviews=total, user_is_following=user_is_following)
+    return render_template('userprofile.html', user=user, reviews=total, user_is_following=user_is_following, reviewq=review_quant, followerq=follower_quant, followingq=following_quant)
 
 
 # function to check if the file extension is allowed

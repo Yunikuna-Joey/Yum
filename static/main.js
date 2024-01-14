@@ -938,8 +938,7 @@ function createRestMarker(locationData) {
                                         <tr class="status-update">
                                             <div style="margin-top: 5px; margin-left: 5px; display: flex; align-items: center;">
                                                 <img src="${review.author_picture}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                                                <a href="/profile/${review.author_username}" style="color: black;"> ${review.author_display_name} </a>
-                                                <div style="margin-left: auto; padding: 5px; text-align: right;"> ${timestamp} </div>
+                                                <a href="/profile/${review.author_username}" style="text-decoration"> ${review.author_display_name} </a>
                                             </div>
                                             <td style="padding: 5px;">
                                                 ${review.content} - ${review.rating}
