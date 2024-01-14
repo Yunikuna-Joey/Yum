@@ -442,31 +442,35 @@ function timeListener() {
             element.textContent = format;
         });
     });
+    console.log('Ran convert1')
 }
 
-function timestampConverter(timestamp) { 
-    const current = new Date(); 
+function timestampConverter(timestamp) {
+    console.log('Ran convert2')
+    const current = new Date();
     const date = new Date(timestamp);
     const timeDiff = current - date;
 
     if (timeDiff < 24 * 60 * 60 * 1000) {
         const minutes = Math.floor(timeDiff / (60 * 1000));
-        if (minutes < 60) { 
+        if (minutes < 60) {
             return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-        }
-        else { 
+        } else {
             const hours = Math.floor(minutes / 60);
             return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
         }
-    }
-
-    else if (timeDiff < 48 * 60 * 60 * 1000) {
+    } else if (timeDiff < 48 * 60 * 60 * 1000) {
         return 'Yesterday';
-    }
-
-    else {
-        const options = {year : 'numeric', month: 'long', day: 'numeric'};
-        return current.toLocaleDateString('en-US', options);
+    } else {
+        // Format the date without seconds, minutes, and milliseconds
+        const formattedDate = date.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+        return formattedDate;
     }
 }
 
@@ -939,6 +943,7 @@ function createRestMarker(locationData) {
                                             <div style="margin-top: 5px; margin-left: 5px; display: flex; align-items: center;">
                                                 <img src="${review.author_picture}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
                                                 <a href="/profile/${review.author_username}" style="text-decoration"> ${review.author_display_name} </a>
+                                                <div style="padding: 5px; margin-left: auto;"> ${timestamp} </div> 
                                             </div>
                                             <td style="padding: 5px;">
                                                 ${review.content} - ${review.rating}
