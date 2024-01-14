@@ -912,6 +912,25 @@ function createRestMarker(locationData) {
                         const followingReviews = JSON.parse(followingReviewRequest.responseText);
                         markerContent += '<strong>Following Reviews: </strong> <br>';
                         for (const review of followingReviews) {
+                            const timeDifference = Date.now() - new Date(review.timestamp);
+
+                            let timestamp;
+
+                            // Check if more than 48 hours old
+                            if (timeDifference > 48 * 60 * 60 * 1000) {
+                                const date = new Date(review.timestamp);
+                                timestamp = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                            }
+                            // Check if more than 24 hours old
+                            else if (timeDifference > 24 * 60 * 60 * 1000) {
+                                timestamp = 'Yesterday';
+                            }
+                            // Less than 24 hours old, display hours and minutes
+                            else {
+                                const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+                                const minutes = Math.floor((timeDifference % (60 * 60 * 1000)) / (60 * 1000));
+                                timestamp = `${hours}h ${minutes}m ago`;
+                            }
                             markerContent += `
                             <br>
                                 <div id="status-container" style="margin-bottom: 0; border: 1px solid #fff; border-radius: 5px;">
@@ -919,7 +938,8 @@ function createRestMarker(locationData) {
                                         <tr class="status-update">
                                             <div style="margin-top: 5px; margin-left: 5px; display: flex; align-items: center;">
                                                 <img src="${review.author_picture}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                                                <a href="/profile/${review.author_username}" style="text-decoration"> ${review.author_display_name} (${review.author_username}) </a>
+                                                <a href="/profile/${review.author_username}" style="color: black;"> ${review.author_display_name} </a>
+                                                <div style="margin-left: auto; padding: 5px; text-align: right;"> ${timestamp} </div>
                                             </div>
                                             <td style="padding: 5px;">
                                                 ${review.content} - ${review.rating}
