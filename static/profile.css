@@ -450,3 +450,18 @@ section#hero {
     font-size: 18px;
 }
 
+.bio-container {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align children to the start (left) */
+}
+
+.bio-container p {
+    margin: 0; /* Remove default margin for paragraphs */
+}
+
+.bio-container i {
+    align-self: flex-end; /* Align the icon to the end (right) */
+    margin-top: -20px; 
+    margin-right: 35px;
+}
