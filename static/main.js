@@ -468,6 +468,54 @@ function timestampConverter(timestamp) {
     }
 }
 
+function triggerBio() {
+    // Add the 'to-blur' class to elements behind the modal
+    const elementsToBlur = document.querySelectorAll('.to-blur');
+    elementsToBlur.forEach(element => {
+        element.classList.add('to-blur');
+    });
+
+    // Get the current bio text
+    const currentBio = document.getElementById('bio-content').textContent.trim();
+
+    // get the current user name 
+    const displayname = document.getElementById('bio-displayname').textContent.trim();
+    
+    document.getElementById('new-displayname').value = displayname
+    // Set the current bio text to the textarea in the form
+    document.getElementById('new-bio').value = currentBio;
+
+    // Toggle the visibility of the modal
+    document.getElementById('bio-form').style.display = 'flex';
+}
+
+function saveBio() {
+    // Remove the 'to-blur' class from elements behind the modal
+    const elementsToBlur = document.querySelectorAll('.to-blur');
+    elementsToBlur.forEach(element => {
+        element.classList.remove('to-blur');
+    });
+
+    // Get the new bio from the textarea
+    const newBio = document.getElementById('new-bio').value;
+
+    // Update the bio text in the container
+    document.getElementById('bio-content').textContent = newBio;
+
+    // Toggle the visibility of the modal
+    document.getElementById('bio-form').style.display = 'none';
+}
+
+function cancelBio() {
+    // Remove the 'to-blur' class from elements behind the modal
+    const elementsToBlur = document.querySelectorAll('.to-blur');
+    elementsToBlur.forEach(element => {
+        element.classList.remove('to-blur');
+    });
+
+    // Toggle the visibility of the modal
+    document.getElementById('bio-form').style.display = 'none';
+}
 
 // logout function to handle the anchor tag 
 function logout(event) {
