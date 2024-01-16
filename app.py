@@ -801,7 +801,7 @@ def follower_cards():
         }
         data.append(info)
 
-    return render_template('cards.html')
+    return render_template('cards.html', data=data)
 
 
 
@@ -823,11 +823,12 @@ def following_cards():
             'username': user.username, 
             'display_name': user.display_name, 
             'picture': user.picture,
+            'bio': user.bio if user.bio else 'No bio yet',
         }
         data.append(info)
 
     # print(data)
-    return render_template('cards.html')
+    return render_template('cards.html', data=data)
 
 
 @app.route('/update_profile', methods=['POST'])
