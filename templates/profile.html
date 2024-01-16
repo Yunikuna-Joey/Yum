@@ -111,9 +111,12 @@
             <label for="new-displayname">Change name: </label>
             <textarea id="new-displayname" rows="1"></textarea>
             <label for="new-bio"> New Bio: </label>
-            <textarea id="new-bio" rows="4"></textarea>
-            <button onclick="cancelBio()">Cancel</button>
-            <button onclick="saveBio()">Save</button>
+            <textarea id="new-bio" rows="10"></textarea>
+
+            <div class="bio-modal-btn">
+                <button id="cancel-button" onclick="cancelBio()">Cancel</button>
+                <button id="save-button" onclick="saveBio()">Save</button>
+            </div>
         </div>
     </div>
 
