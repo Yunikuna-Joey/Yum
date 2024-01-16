@@ -490,20 +490,40 @@ function triggerBio() {
 }
 
 function saveBio() {
+    // Get the new bio from the textarea
+    const newBio = document.getElementById('new-bio').value;
+    const newDisplayName = document.getElementById('new-displayname').value;
+ 
+    const data = JSON.stringify({ 
+        bio: newBio, 
+        displayname: newDisplayName,
+    });
+
+    const request = new XMLHttpRequest();
+
+    request.open('POST', '/update_profile', true); 
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) {
+            console.log('Success');
+            window.location.reload();
+        }
+        else {
+            console.error('Failed');
+        }
+    };
+
+    request.send(data);
+
+    // Toggle the visibility of the modal
+    document.getElementById('bio-form').style.display = 'none';
+
     // Remove the 'to-blur' class from elements behind the modal
     const elementsToBlur = document.querySelectorAll('.to-blur');
     elementsToBlur.forEach(element => {
         element.classList.remove('to-blur');
     });
-
-    // Get the new bio from the textarea
-    const newBio = document.getElementById('new-bio').value;
-
-    // Update the bio text in the container
-    document.getElementById('bio-content').textContent = newBio;
-
-    // Toggle the visibility of the modal
-    document.getElementById('bio-form').style.display = 'none';
 }
 
 function cancelBio() {

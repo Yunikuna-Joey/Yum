@@ -829,7 +829,23 @@ def following_cards():
     # print(data)
     return render_template('cards.html')
 
+# need to sanitize input here 
+@app.route('/update_profile', methods=['POST'])
+@login_required
+def update_profile(): 
+    user = current_user 
+    data = request.json 
 
+
+    new_bio = data.get('bio')
+    new_display = data.get('displayname')
+    
+    user.bio = new_bio
+    user.display_name = new_display 
+
+    db.session.commit()
+
+    return redirect(url_for('profile'))
 
 
 # this should create the database upon activating file 
