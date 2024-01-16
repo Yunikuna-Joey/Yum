@@ -829,7 +829,7 @@ def following_cards():
     # print(data)
     return render_template('cards.html')
 
-# need to sanitize input here 
+
 @app.route('/update_profile', methods=['POST'])
 @login_required
 def update_profile(): 
@@ -837,8 +837,19 @@ def update_profile():
     data = request.json 
 
 
-    new_bio = data.get('bio')
-    new_display = data.get('displayname')
+    new_bio = bleach.clean(data.get('bio', ''), 
+        tags=[], 
+        attributes={}, 
+        css_sanitizer=css_sanitizer, 
+        strip=True, 
+        strip_comments=True)
+
+    new_display = bleach.clean(data.get('displayname', ''), 
+        tags=[], 
+        attributes={}, 
+        css_sanitizer=css_sanitizer, 
+        strip=True, 
+        strip_comments=True)
     
     user.bio = new_bio
     user.display_name = new_display 

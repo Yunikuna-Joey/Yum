@@ -454,16 +454,28 @@ section#hero {
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: flex-start; /* Align children to the start (left) */
+    position: relative;
 }
 
 .bio-container p {
     margin: 0; /* Remove default margin for paragraphs */
 }
 
-.bio-container i {
+.bio-container i { 
     align-self: flex-end; /* Align the icon to the end (right) */
-    margin-top: -20px; 
+    color: black;
+    margin-top: -30px; 
     margin-right: 35px;
+    border-radius: 50%;
+    background-color: black;
+    padding: 5px;               /* adjust this value for the circle size */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.bio-container:hover i {
+    opacity: 1;
 }
 
 .bio-form-container {
