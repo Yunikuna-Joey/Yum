@@ -71,6 +71,7 @@ class Account(UserMixin, db.Model):
     password_hash = db.Column(db.String(128), nullable = False)
     reviews = db.relationship('Review', backref='author', lazy=True, overlaps="user_reviews")
     picture = db.Column(db.String(255), nullable=True)
+    bio = db.Column(db.String(150), nullable=True)
     # good idea to have tiers of users (possible subscription based for premium / admin)
     # acc_status = db.Column(db.Integer, nullable = False)
 
