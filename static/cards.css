@@ -1,4 +1,4 @@
-* {
+*, *:after, *:before {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
@@ -9,6 +9,82 @@ body {
     /* background-color: #f0f0f0; */
     background-color: #f0f0f0;
 }
+
+.mode-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modes {
+    display: flex;
+    position: relative;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+    padding: 0.75rem;
+    border-radius: 99px;
+}
+
+.modes * {
+    z-index: 2;
+
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.mode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    width: 200px;
+    font-size: 1.25rem;
+    font-weight: 400;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: color 0.15s ease-in;
+}
+
+input[type="radio"]:checked + label {
+    color: white;
+}
+
+input[id="radio-1"]:checked ~ .glider {
+    transform: translateX(0);
+}
+
+input[id="radio-2"]:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+/* causing Following to be unclickable */
+.glider {
+    position: absolute;
+    display: flex;
+    height: 54px;
+    width: 200px;
+    background-color: black;
+    color: white;
+    z-index: 1;
+    border-radius: 99px;
+    transition: 0.25s ease-out;
+}
+
+@media (max-width: 700px) {
+    .tabs {
+        transform: scale(0.6);
+    }
+}
+
+/* CSS for menu tabs */
 
 .container {
     display: flex;
@@ -45,3 +121,4 @@ body {
     font-size: 15px;
     line-height: 1.3;
 }
+

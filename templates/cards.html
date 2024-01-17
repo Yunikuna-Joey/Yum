@@ -9,6 +9,18 @@
 </head>
 
 <body>
+    <div class="mode-container">
+        <div class="modes">
+            <input type="radio" id="radio-1" name="modes" checked />
+            <label class="mode" for="radio-1"> Following </label>
+
+            <input type="radio" id="radio-2" name="modes"/>
+            <label class="mode" for="radio-2"> Follower </label>
+
+            <span class="glider"></span>
+        </div>
+    </div>
+
     <div class="container">
         {% for user in data%}
             <div class="cards">
