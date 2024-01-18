@@ -537,6 +537,38 @@ function cancelBio() {
     document.getElementById('bio-form').style.display = 'none';
 }
 
+// function displayFollowing() {
+//     window.location.href = '/following';
+// } 
+
+// function displayFollower() {
+//     window.location.href = '/follower';
+// }
+
+function tabListener() {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    const followingContent = document.querySelector('.following-content');
+    const followerContent = document.querySelector('.follower-content');
+
+    function updateContent() {
+        if (radioButtons[0].checked) {
+            followingContent.style.display = 'flex';
+            followerContent.style.display = 'none';
+        } else {
+            followingContent.style.display = 'none';
+            followerContent.style.display = 'flex';
+        }
+    }
+
+    // Initial update
+    updateContent();
+
+    // Add event listeners to radio buttons
+    radioButtons.forEach(function (radioButton) {
+        radioButton.addEventListener('change', updateContent);
+    });
+}
+
 // logout function to handle the anchor tag 
 function logout(event) {
     // default behavior of anchor is GET requests and we are trying to create a POST request

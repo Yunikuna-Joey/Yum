@@ -65,6 +65,7 @@ input[id="radio-2"]:checked ~ .glider {
     transform: translateX(100%);
 }
 
+
 /* causing Following to be unclickable */
 .glider {
     position: absolute;

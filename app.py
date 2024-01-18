@@ -805,18 +805,43 @@ def follower_cards():
 
 
 
-@app.route('/following', methods=['GET'])
-@login_required
-def following_cards(): 
+# @app.route('/following', methods=['GET'])
+# @login_required
+# def following_cards(): 
+#     query = (
+#         Account.query
+#         .join(Following, Following.friend_id == Account.id)
+#         .filter(Following.user_id == current_user.id)
+#     )
+
+#     following = query.all()
+
+#     data = []
+
+#     for user in following: 
+#         info = {
+#             'username': user.username, 
+#             'display_name': user.display_name, 
+#             'picture': user.picture,
+#             'bio': user.bio if user.bio else 'No bio yet',
+#         }
+#         data.append(info)
+
+#     # print(data)
+#     return render_template('cards.html', data=data)
+
+@app.route('/friends', methods=['GET'])
+@login_required 
+def friends(): 
+    # this is for following 
     query = (
         Account.query
         .join(Following, Following.friend_id == Account.id)
         .filter(Following.user_id == current_user.id)
     )
-
     following = query.all()
 
-    data = []
+    following_data = []
 
     for user in following: 
         info = {
@@ -825,10 +850,27 @@ def following_cards():
             'picture': user.picture,
             'bio': user.bio if user.bio else 'No bio yet',
         }
-        data.append(info)
+        following_data.append(info)
+    
+    # this is for followers 
+    query2 = (
+        Account.query
+        .join(Following, Following.user_id == Account.id)
+        .filter(Following.friend_id == current_user.id)
+    )
+    follower = query2.all()
 
-    # print(data)
-    return render_template('cards.html', data=data)
+    follower_data = [] 
+
+    for user in follower: 
+        info = {
+            'username': user.username,
+            'display_name': user.display_name, 
+            'picture': user.picture
+        }
+        follower_data.append(info) 
+
+    return render_template('cards.html', following_data=following_data, follower_data=follower_data)
 
 
 @app.route('/update_profile', methods=['POST'])

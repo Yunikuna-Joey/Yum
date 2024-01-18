@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../static/main.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/cards.css">
-    <title>Following</title>
+    <title>Friends</title>
+
     <script>
         window.onload = function () {
             tabListener();
@@ -17,31 +18,53 @@
     <div class="mode-container">
         <div class="modes">
             <input type="radio" id="radio-1" name="modes" checked />
-            <label class="mode" for="radio-1"> <a href="/following"> Following </a></label>
+            <label class="mode" for="radio-1"> Following </label>
 
             <input type="radio" id="radio-2" name="modes"/>
-            <label class="mode" for="radio-2"> <a href="/follower">Follower </a></label>
+            <label class="mode" for="radio-2"> Follower </label>
 
             <span class="glider"></span>
         </div>
     </div>
 
     <div class="container">
-        {% for user in data%}
-            <div class="cards">
-                {% if user.picture %}
-                    <img src="{{ url_for('static', filename='uploads/' + user.picture) }}" alt="user-picture">
-                {% else %}
-                    <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="user-picture">
-                {% endif %}
-                <div class="card-content">
-                    <h3> {{ user.display_name }} </h3>
-                    <p> {{ user.username }} </p>
-                    <p> {{ user.bio }} </p>
+
+        <div class="content following-content">
+            {% for user in following_data %}
+                <div class="cards">
+                    {% if user.picture %}
+                        <img src="{{ url_for('static', filename='uploads/' + user.picture) }}" alt="user-picture">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="user-picture">
+                    {% endif %}
+                    <div class="card-content">
+                        <h3> {{ user.display_name }} </h3>
+                        <p> {{ user.username }} </p>
+                        <p> {{ user.bio }} </p>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div class="content follower-content">
+            {% for user in follower_data %}
+                <div class="cards">
+                    {% if user.picture %}
+                        <img src="{{ url_for('static', filename='uploads/' + user.picture) }}" alt="user-picture">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="user-picture">
+                    {% endif %}
+                    <div class="card-content">
+                        <h3> {{ user.display_name }} </h3>
+                        <p> {{ user.username }} </p>
+                        <p> {{ user.bio }} </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
     </div>
+
 </body>
 
 </html>
