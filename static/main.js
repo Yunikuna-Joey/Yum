@@ -561,6 +561,29 @@ function tabListener() {
     });
 }
 
+function searchUsers() {
+    const searchInput = document.getElementById('user-search').value.toLowerCase();
+    const cards = document.querySelectorAll('.cards');
+
+    cards.forEach(card => {
+        const cardContent = card.querySelector('.card-content');
+        console.log(cardContent);
+        const username = cardContent.querySelector('h3').innerText.toLowerCase();
+        const bio = cardContent.querySelector('p:last-child').innerText.toLowerCase();
+
+        const isMatch = username.includes(searchInput) || bio.includes(searchInput);
+
+        card.style.display = isMatch ? 'flex' : 'none';
+        cardContent.style.display = isMatch ? 'flex' : 'none';
+    });
+}
+ 
+function clearSearch() {
+    const searchInput = document.getElementById('user-search');
+    searchInput.value = '';
+    searchUsers(); // Call the search function to show all cards
+}
+
 // logout function to handle the anchor tag 
 function logout(event) {
     // default behavior of anchor is GET requests and we are trying to create a POST request
