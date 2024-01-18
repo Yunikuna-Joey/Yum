@@ -780,59 +780,11 @@ def upload():
 
     return redirect(url_for('profile'))
 
-@app.route('/follower', methods=['GET'])
-@login_required
-def follower_cards(): 
-    # need to query the users that current user follows (might need one for following and follower)
-    query = (
-        Account.query
-        .join(Following, Following.user_id == Account.id)
-        .filter(Following.friend_id == current_user.id)
-    )
-    follower = query.all()
-
-    data = [] 
-
-    for user in follower: 
-        info = {
-            'username': user.username,
-            'display_name': user.display_name, 
-            'picture': user.picture
-        }
-        data.append(info)
-
-    return render_template('cards.html', data=data)
-
-
-
-# @app.route('/following', methods=['GET'])
-# @login_required
-# def following_cards(): 
-#     query = (
-#         Account.query
-#         .join(Following, Following.friend_id == Account.id)
-#         .filter(Following.user_id == current_user.id)
-#     )
-
-#     following = query.all()
-
-#     data = []
-
-#     for user in following: 
-#         info = {
-#             'username': user.username, 
-#             'display_name': user.display_name, 
-#             'picture': user.picture,
-#             'bio': user.bio if user.bio else 'No bio yet',
-#         }
-#         data.append(info)
-
-#     # print(data)
-#     return render_template('cards.html', data=data)
-
 @app.route('/friends', methods=['GET'])
 @login_required 
 def friends(): 
+    username = current_user.username 
+
     # this is for following 
     query = (
         Account.query
@@ -870,7 +822,7 @@ def friends():
         }
         follower_data.append(info) 
 
-    return render_template('cards.html', following_data=following_data, follower_data=follower_data)
+    return render_template('cards.html', following_data=following_data, follower_data=follower_data, username=username)
 
 
 @app.route('/update_profile', methods=['POST'])
