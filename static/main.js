@@ -537,14 +537,6 @@ function cancelBio() {
     document.getElementById('bio-form').style.display = 'none';
 }
 
-// function displayFollowing() {
-//     window.location.href = '/following';
-// } 
-
-// function displayFollower() {
-//     window.location.href = '/follower';
-// }
-
 function tabListener() {
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     const followingContent = document.querySelector('.following-content');
