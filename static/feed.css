@@ -221,34 +221,87 @@ section#hero {
     border: 1px solid #fff;
     border-radius: 10px;
     overflow: hidden;
+    position: absolute;
+    top: 150px; /* Adjust the top position based on the height of mode-container */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.categories { 
-    display: flex;
-    justify-content: space-between;
-    max-width: 300px;
-    margin: 0 auto;
-}   
+.mode-container {
+    position: absolute;
+    left: 0;
+    top: 20;
+    right: 0;
 
-input[type="radio"] { 
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modes {
+    display: flex;
+    position: relative;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+    padding: 0.75rem;
+    border-radius: 99px;
+}
+
+.modes * {
+    z-index: 2;
+
+}
+
+input[type="radio"] {
     display: none;
 }
 
-label {
-    padding: 10px;
+.mode {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    width: 200px;
+    font-size: 1.25rem;
+    font-weight: 400;
+    border-radius: 99px;
     cursor: pointer;
-    border-radius: 5px;
+    transition: color 0.15s ease-in;
 }
 
-#friends:checked + label { 
-    background-color: #1da1f2;
-    color: #fff;
+input[type="radio"]:checked + label {
+    color: white;
 }
 
-#location:checked + label { 
-    background-color: #fff;
-    color: #1da1f2;
+input[id="radio-1"]:checked ~ .glider {
+    transform: translateX(0);
 }
+
+input[id="radio-2"]:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+
+/* causing Following to be unclickable */
+.glider {
+    position: absolute;
+    display: flex;
+    height: 54px;
+    width: 200px;
+    background-color: black;
+    color: white;
+    z-index: 1;
+    border-radius: 99px;
+    transition: 0.25s ease-out;
+}
+
+@media (max-width: 700px) {
+    .tabs {
+        transform: scale(0.6);
+    }
+}
+
 #status-table {
     width: 100%; 
     border-collapse: collapse;
@@ -349,3 +402,4 @@ label {
 .repost-details { 
     margin-bottom: 10px;
 }
+
