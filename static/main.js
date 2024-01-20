@@ -561,6 +561,31 @@ function tabListener() {
     });
 }
 
+function feedListener() {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    const feed1 = document.querySelector('.feed1');
+    const feed2 = document.querySelector('.feed2');
+
+    function updateContent() {
+        if (radioButtons[0].checked) {
+            feed1.style.display = 'flex';
+            feed2.style.display = 'none';
+        } else {
+            feed1.style.display = 'none';
+            feed2.style.display = 'flex';
+        }
+    }
+
+    // Initial update
+    updateContent();
+
+    // Add event listeners to radio buttons
+    radioButtons.forEach(function (radioButton) {
+        radioButton.addEventListener('change', updateContent);
+    });
+}
+
+
 function searchUsers() {
     const searchInput = document.getElementById('user-search').value.toLowerCase();
     const cards = document.querySelectorAll('.cards');
