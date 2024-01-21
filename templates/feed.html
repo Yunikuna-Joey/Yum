@@ -224,7 +224,71 @@
     </div>
 
     <div class="feed2 feed">
-        <p> hello </p>
+        <!-- Repost modal  -->
+        <div id="repostModal" class="modal" style="display: none;">
+            <div id="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <label for="additionalComments">Additional Comments:</label>
+                <textarea id="additionalComments" rows="4"></textarea>
+                <button onclick="repostReview()">Repost</button>
+            </div>
+        </div>
+
+        <div id="status-container">
+            <table id="status-table">
+                {% for item in reviews %}
+                    <tr class="status-update">
+                        <td>
+                            <div class="status-user">
+                                <img <img src="{{ item.profile_picture }}" alt="status-picture" class="status-image"><br>
+
+                                <div class="status-userinfo">
+                                    {{ item.author_display_name }}<br>
+                                    {{ item.username }}<br>
+                                </div>
+
+                                {% if item.comments %}
+                                    <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                        {{ item.timestamp }}
+                                    </div>
+                                {% else %}
+                                    <div class="timestamp" data-timestamp="{{ item.timestamp }}">
+                                        {{ item.timestamp }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <br>
+
+                            <div class="status-details">
+                                <div class="left-content">
+                                    <i class='bx bxs-map-pin'></i>
+                                    {{ item.place_title }}<br>
+                                </div>
+                            
+                                <div class="middle-bar"></div>
+
+                                <div class="right-content">
+                                    Rating: {{ item.rating }}<br> 
+                                    {{ item.content }}<br> 
+                                </div>
+                            </div>
+
+                            <div class="status-icons">
+                                <!-- like icon -->
+                                <i class='bx bx-heart' onclick="likeReview('{{ item.id }}')"></i>
+                                
+                                <span id="like-count-{{ item.id }}" class="like-count"> {{ item.likes }} </span>
+
+                                <!-- repost icon -->
+                                <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
+
+                                <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 
 </body>

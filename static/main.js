@@ -609,6 +609,7 @@ function clearSearch() {
     searchUsers(); // Call the search function to show all cards
 }
 
+
 // logout function to handle the anchor tag 
 function logout(event) {
     // default behavior of anchor is GET requests and we are trying to create a POST request

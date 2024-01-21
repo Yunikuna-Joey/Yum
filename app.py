@@ -22,8 +22,14 @@ import re
 # sanitation library
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
+
+# start of distance calculation for nearby reviews
+from math import radians, sin, cos, sqrt, atan2
+from geopy.distance import geodesic
+
 # empty list means no css allowed
 css_sanitizer = CSSSanitizer(allowed_css_properties=[])
+
 
 
 # API settings for google maps 
@@ -385,18 +391,18 @@ def submit_review():
 @app.route('/check_review_status', methods=['POST'])
 @login_required
 def check_review_status(): 
-        data = request.json
-        place_id = data.get('place_id')
+    data = request.json
+    place_id = data.get('place_id')
 
-        # check if current_user has submitted a review
-        user_review = Review.query.filter_by(account_id=current_user.id, place_id=place_id).first()
+    # check if current_user has submitted a review
+    user_review = Review.query.filter_by(account_id=current_user.id, place_id=place_id).first()
 
-        if user_review: 
-            response = {'status': 'reviewed', 'rating': user_review.rating}
-        else: 
-            response = {'status': 'not_reviewed'}
-        
-        return jsonify(response)
+    if user_review: 
+        response = {'status': 'reviewed', 'rating': user_review.rating}
+    else: 
+        response = {'status': 'not_reviewed'}
+    
+    return jsonify(response)
 
 
 @app.route('/follow/<int:user_id>', methods=['POST'])
@@ -526,10 +532,6 @@ def loadFeedPage():
         .filter(Review.account_id.in_(gather_following))\
         .all()
 
-
-    # following_reviews = Review.query.filter(Review.account_id.in_(gather_following)).all()
-
-
     status_updates = []
     for review, user, marker in following_reviews:
         repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
@@ -541,7 +543,7 @@ def loadFeedPage():
             'username': user.username,
             'timestamp': review.timestamp,
             'place_title': marker.title,
-            'profile_picture': user.picture,
+            'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
             'likes': len(review.likes),
             'reposts': repost_count,
         })
@@ -602,7 +604,7 @@ def loadFeedPage():
             'username': current_user.username, 
             'timestamp': review.timestamp, 
             'place_title': marker.title, 
-            'profile_picture': current_user.picture, 
+            'profile_picture': current_user.picture if current_user.picture else '/static/uploads/default.jpg', 
             'likes': len(review.likes), 
             'reposts': repost_count, 
             'is_repost': False,
@@ -610,9 +612,40 @@ def loadFeedPage():
     
 
     total = reposted_review_data + status_updates + current_data
-    total.sort(key=lambda x:x['timestamp'], reverse=True)   
+    total.sort(key=lambda x:x['timestamp'], reverse=True) 
 
-    return render_template('feed.html', username=username, status=total)
+    miles = 10
+
+    nearby_reviews = (
+        db.session.query(Review, Account, Marker)
+        .join(Account, Review.account_id == Account.id)
+        .join(Marker, Review.place_id == Marker.place_id)
+        .options(joinedload(Review.likes))
+        .all()
+    )
+
+    nearby_data = []
+    for review, user, marker in nearby_reviews:
+        location_user = (user.lat, user.lng)
+        location_review = (marker.lat, marker.lng)
+        distance = geodesic(location_user, location_review).miles
+
+        if distance <= miles:
+            repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+            nearby_data.append({
+                'id': review.id,
+                'content': review.content,
+                'rating': review.rating,
+                'author_display_name': user.display_name,
+                'username': user.username,
+                'timestamp': review.timestamp,
+                'place_title': marker.title,
+                'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                'likes': len(review.likes),
+                'reposts': repost_count,
+            })
+
+    return render_template('feed.html', username=username, status=total, reviews=nearby_data)
 
 # *This is going to be for current user
 @app.route('/profile', methods=['GET'])
