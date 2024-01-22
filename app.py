@@ -552,7 +552,7 @@ def loadFeedPage():
        reposts = (
            db.session.query(Review, Repost, Account, Marker)
            .join(Repost, Review.id == Repost.review_id)
-           .join(Account, Review.account_id == Account.id)
+           .join(Account, Repost.user_id == Account.id)
            .outerjoin(Marker, Review.place_id == Marker.place_id)
            .filter(Repost.user_id.in_(gather_following))
            .all()
@@ -573,6 +573,7 @@ def loadFeedPage():
                'content': review.content,
                'place_title': marker.title if marker else None,
                'timestamp': repost.timestamp,
+               'profile_picture': reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
                'author_display_name': reposted_user.display_name,
                'username': reposted_user.username,
                'oa_display_name': original.display_name,
@@ -582,10 +583,6 @@ def loadFeedPage():
                'comments': repost.comments if repost else None,
                'is_repost': True if repost.comments else False,
            })
-
-
-           print('author_display_name', reposted_user.display_name)
-           print('oa_display_name', original.display_name)
 
 
        # this is for current users reviews
