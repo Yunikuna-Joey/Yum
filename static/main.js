@@ -537,6 +537,20 @@ function cancelBio() {
     document.getElementById('bio-form').style.display = 'none';
 }
 
+function loadfeedpage() {
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            window.location.href = `/feed?lat=${lat}&lng=${lng}`;
+        }, 
+        error => {
+            console.error('Error getting location: ', error);
+            window.location.href = '/feed';
+        }
+    );
+}
+
 function tabListener() {
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     const followingContent = document.querySelector('.following-content');

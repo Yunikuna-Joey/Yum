@@ -626,7 +626,11 @@ def loadFeedPage():
 
     nearby_data = []
     for review, user, marker in nearby_reviews:
-        location_user = (user.lat, user.lng)
+        # ** here is my current issue 
+        lat = request.args.get('lat', type=float)
+        lng = request.args.get('lng', type=float)
+
+        location_user = (lat, lng)
         location_review = (marker.lat, marker.lng)
         distance = geodesic(location_user, location_review).miles
 
