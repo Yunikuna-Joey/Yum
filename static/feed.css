@@ -225,6 +225,11 @@ section#hero {
     right: 400px;
 }
 
+.mileage-container #mileage-form{
+    border-radius: 50px;
+    padding: 5px;
+}
+
 #status-container {
     max-width: 600px;
     margin: 0 auto;

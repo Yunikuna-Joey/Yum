@@ -516,6 +516,13 @@ def repost(review_id):
 
     return jsonify({'status': 'success', 'message': 'Review reposted successfully', 'reposts': repostCount, 'review_id': review.id})
 
+@app.route('/update_miles', methods=['POST'])
+@login_required 
+def update_miles(): 
+    miles = request.json.get('miles')
+    session['miles'] = miles 
+    print('update miles is ', miles)
+    return jsonify(success=True)
 
 @app.route('/feed', methods=['GET'])
 @login_required
@@ -619,8 +626,7 @@ def loadFeedPage():
        total = reposted_review_data + status_updates + current_data
        total.sort(key=lambda x:x['timestamp'], reverse=True)
       
-       miles = 10
-
+       miles = 5
 
        nearby_reviews = (
            db.session.query(Review, Account, Marker)
@@ -633,7 +639,6 @@ def loadFeedPage():
 
        nearby_data = []
        for review, user, marker in nearby_reviews:
-           # ** here is my current issue
            lat = request.args.get('lat', type=float)
            lng = request.args.get('lng', type=float)
 
@@ -662,6 +667,48 @@ def loadFeedPage():
        return render_template('feed.html', username=username, status=total, reviews=nearby_data)
    else:
        return render_template('feed.html', username=username, status=[], reviews=[])
+
+@app.route('/feed_data', methods=['GET'])
+@login_required 
+def feed_data(): 
+    miles = float(session.get('miles', 5))
+    print('Feed data value is ', miles)
+    nearby_reviews = (
+        db.session.query(Review, Account, Marker)
+        .join(Account, Review.account_id == Account.id)
+        .join(Marker, Review.place_id == Marker.place_id)
+        .options(joinedload(Review.likes))
+        .all()
+    )
+
+
+    nearby_data = []
+    for review, user, marker in nearby_reviews:
+        lat = request.args.get('lat', type=float)
+        lng = request.args.get('lng', type=float)
+
+
+        location_user = (lat, lng)
+        location_review = (marker.lat, marker.lng)
+        distance = geodesic(location_user, location_review).miles
+
+
+        if distance <= miles:
+            repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+            nearby_data.append({
+                'id': review.id,
+                'content': review.content,
+                'rating': review.rating,
+                'author_display_name': user.display_name,
+                'username': user.username,
+                'timestamp': review.timestamp,
+                'place_title': marker.title,
+                'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                'likes': len(review.likes),
+                'reposts': repost_count,
+            })
+    return jsonify(nearby_data)
+
 
 # *This is going to be for current user
 @app.route('/profile', methods=['GET'])
