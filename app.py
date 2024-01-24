@@ -949,6 +949,9 @@ def update_profile():
 
     return redirect(url_for('profile'))
 
+@app.route('/loadforgot', methods=['GET'])
+def loadforgot(): 
+    return render_template('forgotpw.html')
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
