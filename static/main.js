@@ -24,15 +24,19 @@ function login() {
             if (this.status === 200) {
                 const response = JSON.parse(this.responseText);
                 if (response.error) {
-                    console.log('Error: ', response.error);
+                    console.log('Error:', response.error);
                     document.getElementById('error-response').innerHTML = response.error;
-                }
-                else {
+                } else {
                     console.log('Redirecting to: ', response.redirect);
                     window.location.href = response.redirect;
                 }
-            }
-
+            } 
+            // triggering our logic of unauthorized
+            else if (this.status === 401) {
+                const response = JSON.parse(this.responseText);
+                console.log('Unauthorized:', response.error);
+                document.getElementById('error-response').innerHTML = response.error;
+            } 
             else {
                 console.error('Error:', this.status, this.statusText);
             }

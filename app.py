@@ -203,7 +203,7 @@ def login():
     user = Account.query.filter_by(username=data['username']).first()
 
     if user is None or not user.check_password(data['password_hash']): 
-        return jsonify({'Error: ', 'Invalid username or password'})
+        return jsonify({'error': 'Invalid username or password'}), 401
     
     else: 
         login_user(user)
