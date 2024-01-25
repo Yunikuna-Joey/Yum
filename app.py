@@ -972,7 +972,7 @@ def submitforgot():
     email = data.get('email', 'None')
 
     # determine if this user email is within the db
-    user = Account.query.filter_by(email=email).first()
+    user = Account.query.filter(func.lower(Account.email) == func.lower(email)).first()
 
     # boolean for email verification
     valid = validate_email(email)
@@ -985,8 +985,13 @@ def submitforgot():
 
         # send reset link to user email
         send_reset_email(user.email, token)
+        flash('Password reset link sent. Check your emails and/or spam.')
+        return jsonify({'status': 'success'})
+    
+    elif valid and not user: 
+        error = 'No user exists!'
+        return jsonify({'status': 'error', 'message': error})
 
-    flash('Password reset link sent. Check your emails and/or spam.')
 
     return render_template('login.html')
 
