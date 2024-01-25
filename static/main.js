@@ -789,8 +789,9 @@ function submitforgot() {
     request.onload = function () { 
         if (request.status === 200) {
             const response = JSON.parse(request.responseText);
-            if (request.status === 'success') {
+            if (response.status === 'success') {
                 console.log('Success');
+                document.getElementById('error-response').innerHTML = response.message;
             }
             else if (response.status === 'error') {
                 console.error('Error occurred: ', response.message);

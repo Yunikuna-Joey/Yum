@@ -22,6 +22,7 @@ import re
 from validate_email_address import validate_email
 from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask_mail import Message, Mail
+import ssl
 
 # sanitation library
 import bleach
@@ -62,9 +63,10 @@ app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app.config['MAIL_SERVER'] = os.getenv('SERVER')
-app.config['MAIL_PORT'] = os.getenv('PORT') 
-app.config['MAIL_USE_SSL'] = os.getenv('SSL') 
-app.config['MAIL_USERNAME'] = os.getenv('USER')
+app.config['MAIL_PORT'] = os.getenv('PORT')
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL')
 app.config['MAIL_PASSWORD'] = os.getenv('PW')
 
 # csrf = CSRFProtect(app)
@@ -964,6 +966,10 @@ def update_profile():
 def loadforgot(): 
     return render_template('forgotpw.html')
 
+@app.route('/loadreset', methods=['GET'])
+def loadreset(): 
+    return render_template('resetpw.html')
+
 @app.route('/submitforgot', methods=['POST'])
 def submitforgot(): 
     data = request.json
@@ -980,13 +986,13 @@ def submitforgot():
     # if valid email and user exists 
     if valid and user: 
         # generate a token for pw reset
-        s = Serializer(app.config['SECRET_KEY'], expires_in=3600)
-        token = s.dumps({'user_id': user.id}).decode('utf-8')
+        s = Serializer(app.config['SECRET_KEY'])
+        token = s.dumps({'user_id': user.id})
 
         # send reset link to user email
         send_reset_email(user.email, token)
-        flash('Password reset link sent. Check your emails and/or spam.')
-        return jsonify({'status': 'success'})
+        message = 'Password reset link sent. Check your emails and/or spam.'
+        return jsonify({'status': 'success', 'message': message})
     
     elif valid and not user: 
         error = 'No user exists!'
