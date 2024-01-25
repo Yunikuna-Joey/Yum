@@ -1020,10 +1020,13 @@ def reset_password(token):
             db.session.commit()
 
             flash('Password reset success')
-            return redirect(url_for('login'))
+            return jsonify({'status': 'success', 'message': 'Password change was successful'})
+
+        elif new_pass != c_pass: 
+            return jsonify({'error ': 'passwords did not match'})
 
         else: 
-            return jsonify({'error ': 'passwords did not match'})
+            return jsonify({'error': 'Something went wrong'})
         
     return render_template('resetpw.html')
 

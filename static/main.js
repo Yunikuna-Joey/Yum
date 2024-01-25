@@ -129,6 +129,46 @@ function validateEmail(email) {
 }
 
 // * NEW
+function reset_listener() {
+    const password = encodeURIComponent( 
+        document.getElementById('new-pw').value
+    );
+
+    const confirmation = encodeURIComponent(
+        document.getElementById('confirm-pw').value
+    );
+
+    const feedback = document.getElementById('error-response');
+    const button = document.getElementById('btn');
+
+    const isValidLength = password.length >= 8; 
+    const upperCase = /[A-Z]/.test(password);
+    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (!isValidLength && password.length > 0) {
+        feedback.innerText = 'Password must be at least 8 characters long...';
+    }
+    else if (!upperCase && password.length > 0) {
+        feedback.innerText = 'Password must include one uppercase letter!';
+    }
+    else if (!hasSymbol && password.length > 0) {
+        feedback.innerText = 'Password must include one symbol!';
+    }
+    else if (password !== confirmation && password.length > 0) {
+        feedback.innerText = 'Passwords must match!';
+    }
+    else {
+        feedback.innerText = '';
+    }
+
+    button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation;   
+    
+    document.getElementById('new-pw').addEventListener('keyup', reset_listener);
+    document.getElementById('confirm-pw').addEventListener('keyup', reset_listener);
+
+}
+
+// * NEW
 function reg_listener() {
         // * NEW
         const password = encodeURIComponent( 
@@ -817,18 +857,27 @@ function resetpw() {
 
     const request = new XMLHttpRequest();
 
-    request.open('POST', '/reset_password/<token>', true)
+    request.open('POST', '/reset_password', true)
     request.setRequestHeader('Content-Type', 'application/json');
 
     request.onload = function () {
         if (request.status === 200) {
-            console.log('Success');
-            window.location.reload();
+            const response = JSON.parse(request.responseText);
+            if (response.status === 'success') {
+                console.log('Success');
+                document.getElementById('error-response').innerHTML = response.message;
+                // window.location.reload();
+            }
+            else if (response.status === 'error') {
+                console.error('Error occurred: ', response.message);
+                document.getElementById('error-response').innerHTML = response.message;
+            }
         }
         else {
             console.error('Error occurred');
+            document.getElementById('error-response').innerHTML = 'Password reset failed';
         }
-    }
+    };
     request.send(data);
 }
 

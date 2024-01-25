@@ -10,6 +10,12 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> 
     <!-- Javascript file for event handling  -->
     <script src="../static/main.js"></script>
+
+    <script>
+        window.onload = function () {
+            reset_listener();
+        }
+    </script>
 </head>
 
 <body>
@@ -18,14 +24,14 @@
             <h1>Reset your password </h1>
             
             <div class="input-box">
-                <input id="new-pw" type="text" placeholder="New Password" required>
+                <input id="new-pw" type="password" placeholder="New Password" required>
             </div>
 
             <div class="input-box">
-                <input id="confirm-pw" type="text" placeholder="Confirm Password" required>
+                <input id="confirm-pw" type="password" placeholder="Confirm Password" required>
             </div>
 
-            <button type="submit" class="btn" onclick="resetpw()">Change password</button>
+            <button type="button" id="btn" class="btn" onclick="resetpw()">Change password</button>
 
         </form>
 
