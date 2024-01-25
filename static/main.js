@@ -765,6 +765,61 @@ function clearSearch() {
     searchUsers(); // Call the search function to show all cards
 }
 
+function submitforgot() { 
+    // grab the value from front end 
+    const value = document.getElementById('email').value;
+    
+    // back the data into dict form
+    const data = JSON.stringify({
+        'email': value,
+    });
+
+    // create a new request
+    const request = new XMLHttpRequest();
+
+    request.open('POST', '/submitforgot', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () { 
+        if (request.status === 200) {
+            console.log('Success');
+            // * not sure if i want to reload the page at this process yet
+            window.location.reload();
+        }
+        else {
+            console.error('Error occurred');
+        }
+    };
+
+    request.send(data);
+}
+
+function resetpw() {
+    const value1 = document.getElementById('new-pw').value; 
+    const value2 = document.getElementById('confirm-pw').value; 
+
+    const data = JSON.stringify({
+        'pw': value1, 
+        'cpw': value2,
+    });
+
+    const request = new XMLHttpRequest();
+
+    request.open('POST', '/reset_password/<token>', true)
+    request.setRequestHeader('Content-Type', 'application/json');
+
+    request.onload = function () {
+        if (request.status === 200) {
+            console.log('Success');
+            window.location.reload();
+        }
+        else {
+            console.error('Error occurred');
+        }
+    }
+    request.send(data);
+}
+
 
 // logout function to handle the anchor tag 
 function logout(event) {

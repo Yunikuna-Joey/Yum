@@ -19,6 +19,10 @@ from werkzeug.utils import secure_filename
 from sqlalchemy.orm import Session, joinedload, aliased
 from markupsafe import escape
 import re
+from validate_email_address import validate_email
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_mail import Message, Mail
+
 # sanitation library
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -57,9 +61,16 @@ app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 # maybe allow gifs (not yet)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
+app.config['MAIL_SERVER'] = os.getenv('SERVER')
+app.config['MAIL_PORT'] = os.getenv('PORT') 
+app.config['MAIL_USE_SSL'] = os.getenv('SSL') 
+app.config['MAIL_USERNAME'] = os.getenv('USER')
+app.config['MAIL_PASSWORD'] = os.getenv('PW')
+
 # csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+mail = Mail(app)
 
 # initialize Flask-Login
 login_manager = LoginManager(app)
@@ -952,6 +963,69 @@ def update_profile():
 @app.route('/loadforgot', methods=['GET'])
 def loadforgot(): 
     return render_template('forgotpw.html')
+
+@app.route('/submitforgot', methods=['POST'])
+def submitforgot(): 
+    data = request.json
+
+    # grab email from the front end 
+    email = data.get('email', 'None')
+
+    # determine if this user email is within the db
+    user = Account.query.filter_by(email=email).first()
+
+    # boolean for email verification
+    valid = validate_email(email)
+
+    # if valid email and user exists 
+    if valid and user: 
+        # generate a token for pw reset
+        s = Serializer(app.config['SECRET_KEY'], expires_in=3600)
+        token = s.dumps({'user_id': user.id}).decode('utf-8')
+
+        # send reset link to user email
+        send_reset_email(user.email, token)
+
+    flash('Password reset link sent. Check your emails and/or spam.')
+
+    return render_template('login.html')
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST']) 
+def reset_password(token):
+    s = Serializer(app.config['SECRET_KEY'])
+    try: 
+        data = s.loads(token)
+    except: 
+        flash('Invalid or expired token')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST': 
+        new_pass = data.get('pw')
+        c_pass = data.get('cpw')
+
+        if new_pass == c_pass: 
+            user = Account.query.get(data['user_id'])
+            user.set_password(c_pass)
+            db.session.commit()
+
+            flash('Password reset success')
+            return redirect(url_for('login'))
+
+        else: 
+            return jsonify({'error ': 'passwords did not match'})
+        
+    return render_template('resetpw.html')
+
+
+def send_reset_email(email, token):
+    message = Message('Password Reset Request', sender='noreply@yourdomain.com', recipients=[email])
+    message.body = f'''To reset your password, visit the following link:
+    {url_for('reset_password', token=token, _external=True)}
+
+    If you did not make this request, ignore this email.
+    '''
+    mail.send(message)
+
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
