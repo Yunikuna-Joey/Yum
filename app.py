@@ -20,7 +20,7 @@ from sqlalchemy.orm import Session, joinedload, aliased
 from markupsafe import escape
 import re
 from validate_email_address import validate_email
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask_mail import Message, Mail
 
 # sanitation library

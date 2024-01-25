@@ -768,6 +768,12 @@ function clearSearch() {
 function submitforgot() { 
     // grab the value from front end 
     const value = document.getElementById('email').value;
+    console.log(value)
+
+    if (!validateEmail(value)) { 
+        document.getElementById('error-response').innerHTML = 'Not a valid email';
+        return;
+    }
     
     // back the data into dict form
     const data = JSON.stringify({
@@ -783,8 +789,6 @@ function submitforgot() {
     request.onload = function () { 
         if (request.status === 200) {
             console.log('Success');
-            // * not sure if i want to reload the page at this process yet
-            window.location.reload();
         }
         else {
             console.error('Error occurred');

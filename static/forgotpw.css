@@ -15,7 +15,8 @@ body {
     background: #FFFFF0;
     background-size: cover;
     background-position: center;
-} .wrapper {
+} 
+.wrapper {
     width: 420px;
     /* add in when you find a better background image*/
 
@@ -74,4 +75,9 @@ body {
 
 .input-box input::placeholder {
     color: #fff;   
+}
+
+#error-response {
+    margin-top: 10px;
+    color: red;
 }
