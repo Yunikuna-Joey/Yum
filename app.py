@@ -63,11 +63,17 @@ app.config['UPLOAD_FOLDER'] = os.path.join('static', 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app.config['MAIL_SERVER'] = os.getenv('SERVER')
-app.config['MAIL_PORT'] = os.getenv('PORT')
+app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.getenv('EMAIL')
-app.config['MAIL_PASSWORD'] = os.getenv('PW')
+app.config['MAIL_PASSWORD'] = os.getenv('APP')
+
+# *debug 
+# print(os.getenv('SERVER'))
+# print(os.getenv('PORT'))
+# print(os.getenv('EMAIL'))
+# print(os.getenv('APP'))
 
 # csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
@@ -1005,14 +1011,20 @@ def submitforgot():
 def reset_password(token):
     s = Serializer(app.config['SECRET_KEY'])
     try: 
+        # user id here 
         data = s.loads(token)
     except: 
         flash('Invalid or expired token')
         return redirect(url_for('login'))
 
     if request.method == 'POST': 
-        new_pass = data.get('pw')
-        c_pass = data.get('cpw')
+
+        json_data = request.get_data(as_text=True)
+        data_from_json = json.loads(json_data)
+
+        new_pass = data_from_json.get('pw')
+        c_pass = data_from_json.get('cpw')
+        print('hello1')
 
         if new_pass == c_pass: 
             user = Account.query.get(data['user_id'])
@@ -1024,20 +1036,21 @@ def reset_password(token):
 
         elif new_pass != c_pass: 
             return jsonify({'error ': 'passwords did not match'})
+        
 
         else: 
             return jsonify({'error': 'Something went wrong'})
-        
-    return render_template('resetpw.html')
+
+    return render_template('resetpw.html', token=token)
 
 
 def send_reset_email(email, token):
     message = Message('Password Reset Request', sender='noreply@yourdomain.com', recipients=[email])
     message.body = f'''To reset your password, visit the following link:
-    {url_for('reset_password', token=token, _external=True)}
+        {url_for('reset_password', token=token, _external=True)}
 
-    If you did not make this request, ignore this email.
-    '''
+        If you did not make this request, ignore this email.
+        '''
     mail.send(message)
 
 

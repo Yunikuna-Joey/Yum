@@ -849,15 +849,22 @@ function submitforgot() {
 function resetpw() {
     const value1 = document.getElementById('new-pw').value; 
     const value2 = document.getElementById('confirm-pw').value; 
+    const token = document.getElementById('token').value;
+
+    // console.log('this is javascript', token);
 
     const data = JSON.stringify({
         'pw': value1, 
         'cpw': value2,
+        'token': token,
     });
+
+    // console.log('This is value1', value1)
+    // console.log('This is value2', value2)
 
     const request = new XMLHttpRequest();
 
-    request.open('POST', '/reset_password', true)
+    request.open('POST', '/reset_password/' + token, true);
     request.setRequestHeader('Content-Type', 'application/json');
 
     request.onload = function () {
