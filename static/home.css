@@ -176,7 +176,7 @@ section#hero {
 }
 
 .search-input {
-    padding: 10px;
+    padding: 12px;
     box-sizing: border-box;
     border: none;
     border-top-left-radius: 20px;
@@ -187,13 +187,13 @@ section#hero {
 }
 
 .search-button {
-    padding: 10px;
-    border: 1px solid grey;
+    padding: 13px;
+    border: none;
     background-color: rgb(220, 20, 60);
     color: #fff;
     cursor: pointer;
     position: absolute;
-    top: 0; 
+    top: 0.4px; 
     right: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;

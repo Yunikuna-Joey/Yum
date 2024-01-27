@@ -12,13 +12,11 @@
 
 body {
     height: 100vh;
-    background-color: #000; 
+    background: #798897; 
     /* background-image: url('image.jpg');  */
-    background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg');
+    /* background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg'); */
     background-size: cover;
     background-position: center;
-    
-
 }
 
 li {
@@ -32,13 +30,14 @@ a {
 }
 
 a:hover {
-    color: orange;
+    color: #E19895;
 }
 
 /* Header */
 header {
     position: relative;
     padding: 0 2rem;
+    background: #798897; 
 }
 
 .navbar {
@@ -69,42 +68,23 @@ header {
     cursor: pointer;
     display: none;
 }
-
-.action_btn {
-    background-color: orange;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none; 
-    outline: none;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: scale .2 ease;
-}
-
-.action_btn:hover {
-    scale: 1.05;
-    color: #fff;
-}
-
-.action_btn:active {
-    scale: 0.95;
-}
 .user-drop {
     position: relative;
 }
 
 #menu {
-    z-index: 3;
     display: none;
     position: absolute;
+    margin-top: 10px;
     top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
+    right: 50%;
+    transform: translateX(50%);
+    /* background: rgb(255, 255, 255, 0.1); */
+    background: #FFFFF0;
     backdrop-filter: blur(15px);
     border-radius: 10px;
 }
+
 
 .user-drop:hover #menu {
     display: block;
@@ -118,16 +98,6 @@ header {
     border-radius: 5px;
 }
 
-#menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-}
-
 #menu li {
     padding: 0.7rem;
     display: flex;
@@ -135,10 +105,8 @@ header {
     justify-content: center;
 }
 
-#menu .action_btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+#menu li, a { 
+    color: black;
 }
 
 /* Hide the checkbox input */
@@ -201,7 +169,7 @@ section#hero {
 }
 
 .search-input {
-    padding: 10px;
+    padding: 13px;
     box-sizing: border-box;
     border: none;
     border-top-left-radius: 20px;
@@ -212,9 +180,9 @@ section#hero {
 }
 
 .search-button {
-    padding: 10px;
+    padding: 13px;
     border: none;
-    background-color: #3498db;
+    background: #DC143C;
     color: #fff;
     cursor: pointer;
     position: absolute;
@@ -222,7 +190,6 @@ section#hero {
     right: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
 
 .search-results {
