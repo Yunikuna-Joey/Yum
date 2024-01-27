@@ -810,6 +810,7 @@ def profile():
 @login_required 
 def loadProfile(username): 
     user = Account.query.filter_by(username=username).first_or_404() 
+    picture = '/static/uploads' + user.picture if user.picture else '/static/uploads/default.jpg'
     
     review_quant = Review.query.filter_by(account_id=user.id).count()
     follower_quant = Following.query.filter_by(friend_id=user.id).count() 
@@ -867,7 +868,7 @@ def loadProfile(username):
     total.sort(key = lambda x: x['timestamp'], reverse=True)
 
     # user_is_following = Following.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None 
-    return render_template('userprofile.html', user=user, reviews=total, user_is_following=user_is_following, reviewq=review_quant, followerq=follower_quant, followingq=following_quant)
+    return render_template('userprofile.html', user=user, reviews=total, user_is_following=user_is_following, reviewq=review_quant, followerq=follower_quant, followingq=following_quant, picture=picture)
 
 
 # function to check if the file extension is allowed
