@@ -254,7 +254,8 @@ section#hero {
 .stat-count { 
     font-weight: bold;
     font-size: 1.2rem;
-    color: #3498db;
+    /* need to shade this color down some */
+    color: #DC143C;
     /* Control the spacing left and right */
     margin-right: 80px;
 }
@@ -378,6 +379,10 @@ section#hero {
 
 .right-content { 
     flex-grow: 0.1;
+}
+
+.right-content #star {
+    color: #DC143C;
 }
 
 .middle-bar {
