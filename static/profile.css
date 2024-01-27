@@ -51,6 +51,14 @@ header {
     z-index: 2;
 }
 
+.navbar.fixed-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #798897;
+}
+
 .navbar .logo a {
     position: relative;
     font-size: 1.5rem;

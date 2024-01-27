@@ -781,6 +781,19 @@ function feedListener() {
     });
 }
 
+function scrollListener() { 
+    var navbar = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 60) {
+            navbar.classList.add('fixed-navbar');
+        }
+        else {
+            navbar.classList.remove('fixed-navbar');
+        }
+    });
+}
+
 
 function searchUsers() {
     const searchInput = document.getElementById('user-search').value.toLowerCase();
