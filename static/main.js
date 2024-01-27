@@ -1351,13 +1351,13 @@ function createRestMarker(locationData) {
                             }
                             markerContent += `
                             <br>
-                                <div id="status-container" style="margin-bottom: 0; border: 1px solid #fff; border-radius: 5px;">
+                                <div id="status-container" style="margin-bottom: 0; border: 1px solid #181f23; border-radius: 5px;">
                                     <table id="status-table" style="width: 100%;"> 
                                         <tr class="status-update">
                                             <div style="margin-top: 5px; margin-left: 5px; display: flex; align-items: center;">
                                                 <img src="${review.author_picture}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
-                                                <a href="/profile/${review.author_username}" style="text-decoration"> ${review.author_display_name} </a>
-                                                <div style="padding: 5px; margin-left: auto;"> ${timestamp} </div> 
+                                                <a href="/profile/${review.author_username}" style="color: black;"> ${review.author_display_name} </a>
+                                                <div style="padding: 10px; margin-left: auto;"> ${timestamp} </div> 
                                             </div>
                                             <td style="padding: 5px;">
                                                 ${review.content} - ${review.rating}

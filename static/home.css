@@ -12,9 +12,10 @@
 
 body {
     height: 100vh;
-    background-color: #000; 
+    /* background-color: #000;  */
+    background: #FFFFF0;
     /* background-image: url('image.jpg');  */
-    background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg');
+    /* background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg'); */
     background-size: cover;
     background-position: center;
     
@@ -39,6 +40,7 @@ a:hover {
 header {
     position: relative;
     padding: 0 2rem;
+    background: rgb(220, 20, 60);
 }
 
 .navbar {
@@ -70,27 +72,6 @@ header {
     display: none;
 }
 
-.action_btn {
-    background-color: orange;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none; 
-    outline: none;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: scale .2 ease;
-}
-
-.action_btn:hover {
-    scale: 1.05;
-    color: #fff;
-}
-
-.action_btn:active {
-    scale: 0.95;
-}
 .user-drop {
     position: relative;
 }
@@ -98,9 +79,12 @@ header {
 #menu {
     display: none;
     position: absolute;
+    margin-top: 10px;
     top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
+    right: 50%;
+    transform: translateX(50%);
+    /* background: rgb(255, 255, 255, 0.1); */
+    background: #FFFFF0;
     backdrop-filter: blur(15px);
     border-radius: 10px;
 }
@@ -117,16 +101,6 @@ header {
     border-radius: 5px;
 }
 
-#menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-}
-
 #menu li {
     padding: 0.7rem;
     display: flex;
@@ -134,10 +108,8 @@ header {
     justify-content: center;
 }
 
-#menu .action_btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+#menu li, a {
+    color: black;
 }
 
 /* Hide the checkbox input */
@@ -145,37 +117,6 @@ header {
     display: none;
 }
 
-/* Drop down menu
-.dropdown_menu {
-    display: none;
-    position: absolute;
-    right: 2rem;
-    top: 60px;
-    height: 0;
-    width: 300px;
-    background: rgb(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: height .2s cub(0.175, 0.885, 0.32, 1.275);
-}
-
-.dropdown_menu.open {
-    height: 240px;
-}
-
-.dropdown_menu li {
-    padding: 0.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dropdown_menu .action_btn {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-} */
 
 /* HERO */
 section#hero {
@@ -206,29 +147,9 @@ section#hero {
     /* this fixed the centering issue [rule: ceneters this div horizontally] */
     margin: 0 auto;
     border-radius: 20px;
+    margin-top: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
-/*  *Responsive Portion */
-/* @media(max-width: 992px) {
-    .navbar .links, 
-    .navbar .action_btn {
-        display: none;
-    }
-    .navbar .toggle_btn {
-        display: block;
-    }
-
-    .dropdown_menu {
-        display: block;
-    }
-}
-
-@media(max-width: 576px) {
-    .dropdown_menu {
-        left: 2rem;
-        width: unset;
-    }
-} */
 
 /* *Info window styling */
 #markerwindow {
@@ -237,13 +158,14 @@ section#hero {
     top: 6%;
     right: 5%;
     width: 30%;
-    height: calc(100vh - 90px);
+    height: calc(100vh - 180px);
     max-width: 400px; /* Set a maximum width to prevent it from becoming too wide */
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255);
     border: 1px solid #ccc;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     padding: 10px;
+    margin-top: 50px;
 }
 
 /* *Search bar styling here */
@@ -266,8 +188,8 @@ section#hero {
 
 .search-button {
     padding: 10px;
-    border: none;
-    background-color: #3498db;
+    border: 1px solid grey;
+    background-color: rgb(220, 20, 60);
     color: #fff;
     cursor: pointer;
     position: absolute;
@@ -275,7 +197,6 @@ section#hero {
     right: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
 
 .search-results {
