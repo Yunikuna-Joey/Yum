@@ -736,10 +736,12 @@ def profile():
     # display name will show on the page
     displayName = current_user.display_name
 
-
     # username will show on the page
     username = current_user.username
-   
+
+    # this will pass the filename + jpg not the path
+    picture = ('/static/uploads/' + current_user.picture) if current_user.picture else '/static/uploads/default.jpg'
+
     # query the reviews associated with the current-user
     review = Review.query.filter_by(account_id=current_user.id).all()
 
@@ -752,6 +754,7 @@ def profile():
         db.session.query(Review, Repost, Marker)
         .join(Repost, Review.id == Repost.review_id)
         .join(Marker, Review.place_id == Marker.place_id, isouter=True)
+        .join(Account, Review.account_id == Account.id)
         .filter(Repost.user_id == current_user.id)
         .all()
     )
@@ -780,6 +783,7 @@ def profile():
     reposted_review_data = []
 
     for review, repost, marker in reposted: 
+        original = Account.query.get(review.account_id)
         repost_status = Repost.query.filter_by(user_id=current_user.id, review_id=review.id).first() is not None
         repost_count = 0 if repost_status else Repost.query.filter_by(review_id=review.id).count()
 
@@ -793,13 +797,13 @@ def profile():
             'reposts': repost_count, 
             'comments': repost.comments if repost else None,
             'is_repost': True,
+            'original_author': original.display_name,
         })
 
     total = review_data + reposted_review_data
     total.sort(key=lambda x:x['timestamp'], reverse=True)
-    print(total)
    
-    return render_template('profile.html', display_name=displayName, username=username, reviews=total, reviewq=review_quant, followerq=follower_quant, followingq=following_quant)
+    return render_template('profile.html', display_name=displayName, username=username, reviews=total, reviewq=review_quant, followerq=follower_quant, followingq=following_quant, picture=picture)
 
 # *This is going to be for loading OTHER users
 @app.route('/profile/<username>')
