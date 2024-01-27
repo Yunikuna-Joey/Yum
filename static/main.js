@@ -794,7 +794,6 @@ function scrollListener() {
     });
 }
 
-
 function searchUsers() {
     const searchInput = document.getElementById('user-search').value.toLowerCase();
     const cards = document.querySelectorAll('.cards');

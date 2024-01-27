@@ -48,7 +48,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between; 
-    z-index: 2;
+    z-index: 1000;
 }
 
 .navbar.fixed-navbar {
@@ -278,6 +278,10 @@ section#hero {
     /* margin(top, right, bottom, left) */
     /* margin: 20px 20px 20px 300px; */
     margin: 20px auto;  
+    /* 
+    display: flex; 
+    align-items: center;
+    */
 }
 /* The image itself in the circle */
 .profile-image {
