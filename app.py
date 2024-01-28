@@ -939,7 +939,8 @@ def friends():
         info = {
             'username': user.username,
             'display_name': user.display_name, 
-            'picture': user.picture
+            'picture': user.picture,
+            'bio': user.bio if user.bio else 'No bio yet',
         }
         follower_data.append(info) 
 
