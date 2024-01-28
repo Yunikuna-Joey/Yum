@@ -538,10 +538,47 @@ def repost(review_id):
 @app.route('/update_miles', methods=['POST'])
 @login_required 
 def update_miles(): 
-    miles = request.json.get('miles')
-    session['miles'] = miles 
-    print('update miles is ', miles)
-    return jsonify(success=True)
+    # Extract the miles value from the JSON request
+    miles = float(request.json.get('miles', 5))
+    print(type(miles))
+
+    # Set the miles value in the session
+    session['miles'] = miles
+
+    # Use the miles value to fetch and return the updated feed data
+    nearby_reviews = (
+        db.session.query(Review, Account, Marker)
+        .join(Account, Review.account_id == Account.id)
+        .join(Marker, Review.place_id == Marker.place_id)
+        .options(joinedload(Review.likes))
+        .all()
+    )
+
+    nearby_data = []
+    for review, user, marker in nearby_reviews:
+        lat = request.args.get('lat', type=float)
+        lng = request.args.get('lng', type=float)
+
+        location_user = (lat, lng)
+        location_review = (marker.lat, marker.lng)
+        distance = geodesic(location_user, location_review).miles
+
+        if distance <= miles:
+            repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+            nearby_data.append({
+                'id': review.id,
+                'content': review.content,
+                'rating': review.rating,
+                'author_display_name': user.display_name,
+                'username': user.username,
+                'timestamp': review.timestamp,
+                'place_title': marker.title,
+                'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                'likes': len(review.likes),
+                'reposts': repost_count,
+            })
+
+    return jsonify(nearby_data)
 
 @app.route('/feed', methods=['GET'])
 @login_required
