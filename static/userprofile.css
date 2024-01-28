@@ -527,5 +527,16 @@ section#hero {
 #follow-btn {
     border-radius: 10px;
     cursor: pointer;
+    padding: 5px;
+    border: none;
+}
+
+#follow-btn.not-following {
     background-color: green;
+    color: white;
+}
+
+#follow-btn.following {
+    background-color: red;
+    color: white;
 }
