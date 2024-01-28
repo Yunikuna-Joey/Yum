@@ -7,6 +7,7 @@
     <script src="../static/main.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/userprofile.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script>
         window.onload = function () {
             searchUser();
@@ -28,7 +29,7 @@
         <!-- Top right corner -->
         <div class="search-bar">
             <input type="text" id="term" class="search-input" placeholder="Search users...">
-            <button class="search-button">Find</button>
+            <button class="search-button"><i class='bx bx-search'></i></button>
             <div id="search-results" class="search-results"></div>
         </div>
         <div class="user-drop">
@@ -78,8 +79,31 @@
                 </div>
             </div>
             <br>
-            <p>Name: {{ user.username }}</p>
-            <p>Bio: I am a great foodie that loves leaving reviews </p>
+
+            <div class="bio-container">
+                <p> <span id="bio-displayname">{{ user.display_name }}</span></p>
+                {% if user.bio %}
+                    <p><span id="bio-content">{{ user.bio }}</span></p>
+                {% else %}
+                    <p><span style="color: lightgray;" id="bio-content"> No bio yet :( </span></p>
+                {% endif %}
+                <i class='bx bxs-edit-alt' onclick="triggerBio()"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- change bio modal -->
+    <div id="bio-form" class="bio-form-container">
+        <div class="bio-modal-content">
+            <label for="new-displayname">Change display name: </label>
+            <textarea id="new-displayname" rows="1"></textarea>
+            <label for="new-bio"> New Bio: </label>
+            <textarea id="new-bio" rows="10"></textarea>
+
+            <div class="bio-modal-btn">
+                <button id="cancel-button" onclick="cancelBio()">Cancel</button>
+                <button id="save-button" onclick="saveBio()">Save</button>
+            </div>
         </div>
     </div>
 
@@ -131,8 +155,15 @@
                             <div class="middle-bar"></div>
 
                             <div class="right-content">
-                                Rating: {{ item.rating }}<br> 
-                                {{ item.content }}<br> 
+                                {% for i in range(1, 6) %}
+                                    {% if i <= item.rating %}
+                                        <i id="star" class="fas fa-star"></i>  
+                                    {% else %}
+                                        <i id="star" class="far fa-star"></i>  
+                                    {% endif %}
+                                {% endfor %} 
+                                <br>
+                                {{ item.content }} 
                             </div>
                         </div>
 
@@ -161,6 +192,7 @@
 
 <script>
     timeListener();
+    scrollListener();
 </script>
 
 </html>

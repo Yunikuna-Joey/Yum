@@ -810,7 +810,7 @@ def profile():
 @login_required 
 def loadProfile(username): 
     user = Account.query.filter_by(username=username).first_or_404() 
-    picture = '/static/uploads' + user.picture if user.picture else '/static/uploads/default.jpg'
+    picture = '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg'
     
     review_quant = Review.query.filter_by(account_id=user.id).count()
     follower_quant = Following.query.filter_by(friend_id=user.id).count() 
