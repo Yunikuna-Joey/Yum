@@ -7,10 +7,12 @@
     <script src="../static/main.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/feed.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <script>
         window.onload = function () {
             searchUser();
             feedListener();
+            scrollListener();
         }
     </script>
 </head>
@@ -29,7 +31,7 @@
         <!-- Top right corner -->
         <div class="search-bar">
             <input type="text" id="term" class="search-input" placeholder="Search users...">
-            <button class="search-button">Find</button>
+            <button class="search-button"><i class='bx bx-search'></i></button>
             <div id="search-results" class="search-results"></div>
         </div>
         
@@ -45,7 +47,6 @@
                 <li><a href="logout" onclick="logout(event)">Log Out</a></li>
             </div>
         </div>
-
     </div>
 </header>
 
@@ -119,8 +120,15 @@
                                 <div class="middle-bar"></div>
 
                                 <div class="right-content">
-                                    Rating: {{ item.rating }}<br> 
-                                    {{ item.content }}<br> 
+                                    {% for i in range(1, 6) %}
+                                        {% if i <= item.rating %}
+                                            <i id="star" class="fas fa-star"></i>  
+                                        {% else %}
+                                            <i id="star" class="far fa-star"></i>  
+                                        {% endif %}
+                                    {% endfor %} 
+                                    <br>
+                                    {{ item.content }} 
                                 </div>
                             </div>
 
@@ -199,8 +207,15 @@
                                 <div class="middle-bar"></div>
 
                                 <div class="right-content">
-                                    Rating: {{ item.rating }}<br> 
-                                    {{ item.content }}<br> 
+                                    {% for i in range(1, 6) %}
+                                        {% if i <= item.rating %}
+                                            <i id="star" class="fas fa-star"></i>  
+                                        {% else %}
+                                            <i id="star" class="far fa-star"></i>  
+                                        {% endif %}
+                                    {% endfor %} 
+                                    <br>
+                                    {{ item.content }} 
                                 </div>
                             </div>
 

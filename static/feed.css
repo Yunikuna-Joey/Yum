@@ -14,7 +14,8 @@ body {
     height: 100vh;
     background-color: #000; 
     /* background-image: url('image.jpg');  */
-    background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg');
+    /* background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg'); */
+    background-color: #798897;
     background-size: cover;
     background-position: center;
 }
@@ -42,12 +43,20 @@ header {
 .navbar {
     width: 100%;
     height: 60px;
-    max-width: 1200px;
+    max-width: 1855px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between; 
     z-index: 2;
+}
+
+.navbar.fixed-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #798897;
 }
 
 .navbar .logo a {
@@ -93,16 +102,6 @@ header {
     position: relative;
 }
 
-#menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-}
-
 .user-drop:hover #menu {
     display: block;
 }
@@ -118,11 +117,15 @@ header {
 #menu {
     display: none;
     position: absolute;
+    margin-top: 10px;
     top: 100%;
-    right: 0;
-    background: rgb(255, 255, 255, 0.1);
+    right: 50%;
+    transform: translateX(50%);
+    /* background: rgb(255, 255, 255, 0.1); */
+    background: #FFFFF0;
     backdrop-filter: blur(15px);
     border-radius: 10px;
+    z-index: 1000;
 }
 
 #menu li {
@@ -130,6 +133,10 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#menu li, a { 
+    color: black;
 }
 
 #menu .action_btn {
@@ -165,7 +172,7 @@ section#hero {
 }
 
 .search-input {
-    padding: 10px;
+    padding: 13px;
     box-sizing: border-box;
     border: none;
     border-top-left-radius: 20px;
@@ -176,9 +183,9 @@ section#hero {
 }
 
 .search-button {
-    padding: 10px;
+    padding: 13px;
     border: none;
-    background-color: #3498db;
+    background-color: #DC143C;
     color: #fff;
     cursor: pointer;
     position: absolute;
@@ -299,13 +306,12 @@ input[id="radio-2"]:checked ~ .glider {
 }
 
 
-/* causing Following to be unclickable */
 .glider {
     position: absolute;
     display: flex;
     height: 54px;
     width: 200px;
-    background-color: black;
+    background-color: #DC143C;;
     color: white;
     z-index: 1;
     border-radius: 99px;
@@ -368,6 +374,10 @@ input[id="radio-2"]:checked ~ .glider {
 
 .right-content { 
     flex-grow: 0.1;
+}
+
+.right-content #star {
+    color: #DC143C;
 }
 
 .middle-bar {

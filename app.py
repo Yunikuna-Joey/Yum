@@ -604,6 +604,7 @@ def loadFeedPage():
                'username': reposted_user.username,
                'oa_display_name': original.display_name,
                'oa_username': original.username,
+               'rating': review.rating,
                'likes': len(review.likes),
                'reposts': 0,
                'comments': repost.comments if repost else None,
