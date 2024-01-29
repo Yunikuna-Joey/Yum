@@ -656,9 +656,20 @@ function updateFeed(feedData) {
         console.log('Cell contents:', cell.innerHTML);
     } // end-for loop
     statusTable.appendChild(fragment);
+    dynTimeListener();
     console.log('Finished updateFeed');
 } // end update feed 
 
+function dynTimeListener() {
+    console.log("test");
+    const timeElement = document.querySelectorAll('.timestamp');
+    timeElement.forEach(element => {
+        const value = element.getAttribute('data-timestamp');
+        const format = timestampConverter(value);
+        element.textContent = format;
+    });
+    console.log('Ran dyn-convert');
+}
 
 function timeListener() {
     console.log("test");
