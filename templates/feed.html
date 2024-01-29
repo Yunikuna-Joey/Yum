@@ -57,7 +57,7 @@
         <label class="mode" for="radio-1"> Following </label>
 
         <input type="radio" id="radio-2" name="modes"/>
-        <label class="mode" for="radio-2"> Follower </label>
+        <label class="mode" for="radio-2"> Nearby </label>
 
         <span class="glider"></span>
     </div>
@@ -77,7 +77,7 @@
         </div>
 
         <div id="status-container">
-            <table id="status-table">
+            <table id="status-table-1">
                 {% for item in status %}
                     <tr class="status-update">
                         <td> 
@@ -165,7 +165,7 @@
             <form id="mileage-form">
                 <label for="mileage">
                     <select id="mileage" name="mileage" onchange="updateMiles()">
-                        <option value="5"> 5 miles </option>
+                        <option id="test" value="5"> 5 miles </option>
                         <option value="10"> 10 miles </option>
                         <option value="15"> 15 miles </option>
                     </select>
@@ -174,7 +174,7 @@
         </div>
 
         <div id="status-container">
-            <table id="status-table">
+            <table id="status-table-2">
                 {% for item in reviews %}
                     <tr class="status-update">
                         <td>
@@ -215,7 +215,7 @@
                                         {% endif %}
                                     {% endfor %} 
                                     <br>
-                                    {{ item.content }} 
+                                    <p>{{ item.content }}</p>
                                 </div>
                             </div>
 

@@ -520,8 +520,15 @@ function fetchFeedData() {
 }
 
 function updateFeed(feedData) {
-    var statusTable = document.getElementById('status-table');
-    statusTable.innerHTML = ''; // Clear existing content
+    var statusTable = document.getElementById('status-table-2');
+    if (!statusTable) {
+        console.error('Error: Could not find status-table');
+        return;
+    }
+
+    statusTable.innerHTML = '';
+
+    var fragment = document.createDocumentFragment();
     console.log('this is feed data', feedData);
 
     // Loop through the feedData and create new rows for the table
@@ -585,9 +592,11 @@ function updateFeed(feedData) {
         // Create like icon
         var likeIcon = document.createElement('i');
         likeIcon.className = 'bx bx-heart';
-        likeIcon.onclick = function () {
-            likeReview(item.id);
-        };
+        likeIcon.onclick = (function (itemId) {
+            return function () {
+                likeReview(itemId);
+            };
+        })(item.id);
 
         var likeCount = document.createElement('span');
         likeCount.className = 'like-count';
@@ -597,9 +606,11 @@ function updateFeed(feedData) {
         // Create repost icon
         var repostIcon = document.createElement('i');
         repostIcon.className = 'bx bx-repost';
-        repostIcon.onclick = function () {
-            openModal(item.id);
-        };
+        repostIcon.onclick = (function (itemId) {
+            return function () {
+                openModal(itemId);
+            };
+        })(item.id);
 
         var repostCount = document.createElement('span');
         repostCount.className = 'repost-count';
@@ -611,14 +622,27 @@ function updateFeed(feedData) {
         statusIcons.appendChild(repostIcon);
         statusIcons.appendChild(repostCount);
 
+        // Append child elements to statusDetails
+        statusDetails.appendChild(leftContent);
+        statusDetails.appendChild(middleBar);
+        statusDetails.appendChild(rightContent);
+
+        // Append child elements to cell
         cell.appendChild(statusUser);
         cell.appendChild(statusDetails);
         cell.appendChild(statusIcons);
 
+        // Append cell to row
         row.appendChild(cell);
-        statusTable.appendChild(row);
-    }
-}
+        fragment.appendChild(row);
+
+        console.log('Row appended:', row);
+        console.log('Cell contents:', cell.innerHTML);
+    } // end-for loop
+    statusTable.appendChild(fragment);
+    console.log('Finished updateFeed');
+} // end update feed 
+
 
 function timeListener() {
     console.log("test");
@@ -652,7 +676,7 @@ function timestampConverter(timestamp) {
         // Format the date without hours and minutes
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleString('en-US', options);
-    }
+    }  
 }
 
 function triggerBio() {
