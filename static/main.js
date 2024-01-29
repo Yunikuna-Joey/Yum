@@ -477,6 +477,149 @@ function followUser() {
     request.send(data); 
 }
 
+function updateMiles() {
+    var mileage = document.getElementById('mileage').value;
+    console.log('The mileage is ', mileage);
+    
+
+    var request = new XMLHttpRequest();
+    request.open('POST', '/update_miles', true);
+    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                console.log('Update miles success');
+                // Fetch and update data for the feed without reloading the page
+                fetchFeedData();
+            } else {
+                console.error('Update miles failed with status ', request.status);
+            }
+        }
+    };
+
+    request.send(JSON.stringify({ miles: mileage }));
+}
+
+function fetchFeedData() {
+    var feedRequest = new XMLHttpRequest();
+    feedRequest.open('GET', '/feed_data', true);
+
+    feedRequest.onload = function () {
+        if (feedRequest.status === 200) {
+            var feedData = JSON.parse(feedRequest.responseText);
+            console.log('Fetched data: ', feedData);
+            // Update the feed with the new data
+            updateFeed(feedData);
+        } else {
+            console.error('Fetch feed data failed with status ', feedRequest.status);
+        }
+    };
+
+    feedRequest.send();
+}
+
+function updateFeed(feedData) {
+    var statusTable = document.getElementById('status-table');
+    statusTable.innerHTML = ''; // Clear existing content
+    console.log('this is feed data', feedData);
+
+    // Loop through the feedData and create new rows for the table
+    for (var i = 0; i < feedData.length; i++) {
+        var item = feedData[i];
+
+        var row = document.createElement('tr');
+        row.className = 'status-update';
+
+        var cell = document.createElement('td');
+
+        // Create the content for each status update
+        var statusUser = document.createElement('div');
+        statusUser.className = 'status-user';
+
+        var profilePicture = document.createElement('img');
+        profilePicture.src = item.profile_picture;
+        profilePicture.alt = 'status-picture';
+        profilePicture.className = 'status-image';
+
+        statusUser.appendChild(profilePicture);
+
+        var userinfo = document.createElement('div');
+        userinfo.className = 'status-userinfo';
+        userinfo.innerHTML = item.author_display_name + '<br>' + item.username;
+
+        var timestamp = document.createElement('div');
+        timestamp.className = 'timestamp';
+        timestamp.setAttribute('data-timestamp', item.timestamp);
+        timestamp.innerHTML = item.timestamp;
+
+        statusUser.appendChild(userinfo);
+        statusUser.appendChild(timestamp);
+
+        var statusDetails = document.createElement('div');
+        statusDetails.className = 'status-details';
+
+        var leftContent = document.createElement('div');
+        leftContent.className = 'left-content';
+
+        var mapPin = document.createElement('i');
+        mapPin.className = 'bx bxs-map-pin';
+
+        leftContent.appendChild(mapPin);
+        leftContent.innerHTML += item.place_title + '<br>';
+
+        var middleBar = document.createElement('div');
+        middleBar.className = 'middle-bar';
+
+        var rightContent = document.createElement('div');
+        rightContent.className = 'right-content';
+        rightContent.innerHTML = 'Rating: ' + item.rating + '<br>' + item.content + '<br>';
+
+        statusDetails.appendChild(leftContent);
+        statusDetails.appendChild(middleBar);
+        statusDetails.appendChild(rightContent);
+
+        var statusIcons = document.createElement('div');
+        statusIcons.className = 'status-icons';
+
+        // Create like icon
+        var likeIcon = document.createElement('i');
+        likeIcon.className = 'bx bx-heart';
+        likeIcon.onclick = function () {
+            likeReview(item.id);
+        };
+
+        var likeCount = document.createElement('span');
+        likeCount.className = 'like-count';
+        likeCount.id = 'like-count-' + item.id;
+        likeCount.innerHTML = ' ' + item.likes + ' ';
+
+        // Create repost icon
+        var repostIcon = document.createElement('i');
+        repostIcon.className = 'bx bx-repost';
+        repostIcon.onclick = function () {
+            openModal(item.id);
+        };
+
+        var repostCount = document.createElement('span');
+        repostCount.className = 'repost-count';
+        repostCount.id = 'repost-count-' + item.id;
+        repostCount.innerHTML = ' ' + item.reposts;
+
+        statusIcons.appendChild(likeIcon);
+        statusIcons.appendChild(likeCount);
+        statusIcons.appendChild(repostIcon);
+        statusIcons.appendChild(repostCount);
+
+        cell.appendChild(statusUser);
+        cell.appendChild(statusDetails);
+        cell.appendChild(statusIcons);
+
+        row.appendChild(cell);
+        statusTable.appendChild(row);
+    }
+}
+
 function timeListener() {
     console.log("test");
     document.addEventListener('DOMContentLoaded', function () {
@@ -593,144 +736,6 @@ function loadfeedpage() {
             window.location.href = '/feed';
         }
     );
-}
-
-function updateMiles() {
-    var mileage = document.getElementById('mileage').value;
-    console.log('The mileage is ', mileage);
-
-    var request = new XMLHttpRequest();
-    request.open('POST', '/update_miles', true);
-    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
-    request.onload = function () {
-        if (request.status === 200) {
-            console.log('Update miles success');
-            // Fetch and update data for the feed without reloading the page
-            var feedRequest = new XMLHttpRequest();
-            feedRequest.open('GET', '/feed_data', true);
-
-            feedRequest.onload = function () {
-                if (feedRequest.status === 200) {
-                    var feedData = JSON.parse(feedRequest.responseText);
-                    // Update the feed with the new data
-                    updateFeed(feedData);
-                } else {
-                    console.error('Fetch feed data failed with status ', feedRequest.status);
-                }
-            };
-
-            feedRequest.send();
-        } else {
-            console.error('Update miles failed with status ', request.status);
-        }
-    };
-
-    request.send(JSON.stringify({ miles: mileage }));
-}
-
-function updateFeed(feedData) {
-    var statusTable = document.getElementById('status-table');
-    statusTable.innerHTML = ''; // Clear existing content
-
-    // Loop through the feedData and create new rows for the table
-    for (var i = 0; i < feedData.length; i++) {
-        var item = feedData[i];
-
-        var row = document.createElement('tr');
-        row.className = 'status-update';
-
-        var cell = document.createElement('td');
-
-        // Create the content for each status update
-        var statusUser = document.createElement('div');
-        statusUser.className = 'status-user';
-
-        var profilePicture = document.createElement('img');
-        profilePicture.src = item.profile_picture;
-        profilePicture.alt = 'status-picture';
-        profilePicture.className = 'status-image';
-
-        statusUser.appendChild(profilePicture);
-
-        var userinfo = document.createElement('div');
-        userinfo.className = 'status-userinfo';
-        userinfo.innerHTML = item.author_display_name + '<br>' + item.username;
-
-        var timestamp = document.createElement('div');
-        timestamp.className = 'timestamp';
-        timestamp.setAttribute('data-timestamp', item.timestamp);
-        timestamp.innerHTML = item.timestamp;
-
-        statusUser.appendChild(userinfo);
-        statusUser.appendChild(timestamp);
-
-        var statusDetails = document.createElement('div');
-        statusDetails.className = 'status-details';
-
-        var leftContent = document.createElement('div');
-        leftContent.className = 'left-content';
-
-        var mapPin = document.createElement('i');
-        mapPin.className = 'bx bxs-map-pin';
-
-        leftContent.appendChild(mapPin);
-        leftContent.innerHTML += item.place_title + '<br>';
-
-        var middleBar = document.createElement('div');
-        middleBar.className = 'middle-bar';
-
-        var rightContent = document.createElement('div');
-        rightContent.className = 'right-content';
-        rightContent.innerHTML = 'Rating: ' + item.rating + '<br>' + item.content + '<br>';
-
-        statusDetails.appendChild(leftContent);
-        statusDetails.appendChild(middleBar);
-        statusDetails.appendChild(rightContent);
-
-        var statusIcons = document.createElement('div');
-        statusIcons.className = 'status-icons';
-
-        // ... (Add code to create like and repost icons)
-        var statusIcons = document.createElement('div');
-        statusIcons.className = 'status-icons';
-
-        // Create like icon
-        var likeIcon = document.createElement('i');
-        likeIcon.className = 'bx bx-heart';
-        likeIcon.onclick = function() {
-            likeReview(item.id);
-        };
-
-        var likeCount = document.createElement('span');
-        likeCount.className = 'like-count';
-        likeCount.id = 'like-count-' + item.id;
-        likeCount.innerHTML = ' ' + item.likes + ' ';
-
-        // Create repost icon
-        var repostIcon = document.createElement('i');
-        repostIcon.className = 'bx bx-repost';
-        repostIcon.onclick = function() {
-            openModal(item.id);
-        };
-
-        var repostCount = document.createElement('span');
-        repostCount.className = 'repost-count';
-        repostCount.id = 'repost-count-' + item.id;
-        repostCount.innerHTML = ' ' + item.reposts;
-
-        statusIcons.appendChild(likeIcon);
-        statusIcons.appendChild(likeCount);
-        statusIcons.appendChild(repostIcon);
-        statusIcons.appendChild(repostCount);
-
-        cell.appendChild(statusUser);
-        cell.appendChild(statusDetails);
-        cell.appendChild(statusIcons);
-
-        row.appendChild(cell);
-        statusTable.appendChild(row);
-    }
 }
 
 function tabListener() {
