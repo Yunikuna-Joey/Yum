@@ -688,8 +688,8 @@ def update_miles():
     miles = float(request.json.get('miles', 5))
     session['miles'] = miles
 
-    lat = float(request.args.get('lat', 0.0))
-    lng = float(request.args.get('lng', 0.0))
+    lat = current_user.lat
+    lng = current_user.lng
 
     print('This is lat', lat)
     print('This is lng', lng)
@@ -736,8 +736,8 @@ def update_miles():
 @login_required
 def feed_data():
     miles = float(session.get('miles', 5))
-    lat = request.args.get('lat', type=float)
-    lng = request.args.get('lng', type=float)
+    lat = current_user.lat
+    lng = current_user.lng
     nearby_reviews = (
         db.session.query(Review, Account, Marker)
         .join(Account, Review.account_id == Account.id)

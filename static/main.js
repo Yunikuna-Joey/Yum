@@ -481,7 +481,6 @@ function updateMiles() {
     var mileage = document.getElementById('mileage').value;
     console.log('The mileage is ', mileage);
     
-
     var request = new XMLHttpRequest();
     request.open('POST', '/update_miles', true);
     request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
