@@ -380,6 +380,10 @@ input[id="radio-2"]:checked ~ .glider {
     color: #DC143C;
 }
 
+.red-star {
+    color: #DC143C;
+}
+
 .middle-bar {
     height: 50px;
     width: 1px;

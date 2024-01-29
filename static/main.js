@@ -580,7 +580,23 @@ function updateFeed(feedData) {
 
         var rightContent = document.createElement('div');
         rightContent.className = 'right-content';
-        rightContent.innerHTML = 'Rating: ' + item.rating + '<br>' + item.content + '<br>';
+
+        // Create a div for the star icons
+        // var starsDiv = document.createElement('div');
+
+        // Use a loop to create and append star icons based on the item's rating
+        for (var j = 1; j <= 5; j++) {
+            var starIcon = document.createElement('i');
+            starIcon.className = j <= item.rating ? 'fas fa-star red-star' : 'far fa-star red-star';
+            rightContent.appendChild(starIcon);
+        }
+
+        // Create a paragraph for item content
+        var contentParagraph = document.createElement('p');
+        contentParagraph.innerHTML = item.content;
+
+        // Append the contentParagraph to rightContent
+        rightContent.appendChild(contentParagraph);
 
         statusDetails.appendChild(leftContent);
         statusDetails.appendChild(middleBar);
