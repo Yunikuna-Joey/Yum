@@ -510,7 +510,8 @@ function fetchFeedData() {
             console.log('Fetched data: ', feedData);
             // Update the feed with the new data
             updateFeed(feedData);
-        } else {
+        } 
+        else {
             console.error('Fetch feed data failed with status ', feedRequest.status);
         }
     };
