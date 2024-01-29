@@ -940,6 +940,24 @@ function logout(event) {
 let map; 
 let googPlaceService;
 
+function updateLocation(lat, lng) {
+    var request = new XMLHttpRequest(); 
+    request.open('POST', '/update_location', true);
+    request.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+    request.onreadystatechange = function () {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) { 
+                console.log('Update location success');
+            }
+            else {
+                console.error('Error in location updating');
+            }
+        }
+    };
+    request.send(JSON.stringify({lat: lat, lng: lng}));
+}
+
 
 // *************** DISPLAY INITIAL MAP *************** Commented out our const map id variable and added to the function to accept the variable instead 
 function initMap() {
@@ -1053,6 +1071,7 @@ function initMap() {
                 user_lat: position.coords.latitude,
                 user_long: position.coords.longitude
             };
+
             
             // * User Coordinates are here [DEBUGGING]
             // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>') 
@@ -1075,7 +1094,7 @@ function initMap() {
             // * using the helper function below to search nearby restaurants 
             // * comment out if you want to see the website without triggering the API 
             searchPOI(user_coordinates);
-
+            updateLocation(user_coordinates.user_lat, user_coordinates.user_long);
 
         }, function(error) {
             // In the event that user denies access to location
@@ -1090,6 +1109,7 @@ function initMap() {
     } 
 
 } // end of display map function  
+
 
 
 // * Helper function to look for nearby POI based off user location

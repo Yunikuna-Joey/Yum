@@ -1105,6 +1105,21 @@ def send_reset_email(email, token):
         '''
     mail.send(message)
 
+@app.route('/update_location', methods=['POST'])
+@login_required
+def update_location(): 
+    lat = request.json.get('lat')
+    lng = request.json.get('lng')
+
+    if lat is not None and lng is not None: 
+        current_user.lat = lat 
+        current_user.lng = lng
+        db.session.commit()
+
+        return jsonify({'success': True}), 200 
+    
+    else: 
+        return jsonify({'success': False, 'error': "Invalid"}), 400
 
 # this should create the database upon activating file 
 if __name__ == '__main__': 
