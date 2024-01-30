@@ -564,7 +564,7 @@ def loadFeedPage():
                'username': user.username,
                'timestamp': review.timestamp,
                'place_title': marker.title,
-               'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+               'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                'likes': len(review.likes),
                'reposts': repost_count,
            })
@@ -593,7 +593,7 @@ def loadFeedPage():
                'content': review.content,
                'place_title': marker.title if marker else None,
                'timestamp': repost.timestamp,
-               'profile_picture': reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
+               'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
                'author_display_name': reposted_user.display_name,
                'username': reposted_user.username,
                'oa_display_name': original.display_name,
@@ -629,7 +629,7 @@ def loadFeedPage():
                'username': current_user.username,
                'timestamp': review.timestamp,
                'place_title': marker.title,
-               'profile_picture': current_user.picture if current_user.picture else '/static/uploads/default.jpg',
+               'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
                'likes': len(review.likes),
                'reposts': repost_count,
                'is_repost': False,
@@ -672,7 +672,7 @@ def loadFeedPage():
                    'username': user.username,
                    'timestamp': review.timestamp,
                    'place_title': marker.title,
-                   'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                   'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                    'likes': len(review.likes),
                    'reposts': repost_count,
                })
@@ -725,7 +725,7 @@ def update_miles():
                 'username': user.username,
                 'timestamp': review.timestamp,
                 'place_title': marker.title,
-                'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                 'likes': len(review.likes),
                 'reposts': repost_count,
             })
@@ -768,7 +768,7 @@ def feed_data():
                 'username': user.username,
                 'timestamp': review.timestamp,
                 'place_title': marker.title,
-                'profile_picture': user.picture if user.picture else '/static/uploads/default.jpg',
+                'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                 'likes': len(review.likes),
                 'reposts': repost_count,
             })
