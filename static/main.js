@@ -605,11 +605,16 @@ function updateFeed(feedData) {
         // Create like icon
         var likeIcon = document.createElement('i');
         likeIcon.className = 'bx bx-heart';
-        likeIcon.onclick = (function (itemId) {
-            return function () {
-                likeReview(itemId);
-            };
-        })(item.id);
+        likeIcon.onclick = function () {
+            likeReview(item.id); // Assuming this updates the server-side like count
+        
+            // Update the like count on the front end
+            var likeCountElement = document.getElementById('like-count-' + item.id);
+            if (likeCountElement) {
+                item.likes++; // Assuming 'item.likes' is the current like count
+                likeCountElement.innerHTML = ' ' + item.likes + ' ';
+            }
+        };
 
         var likeCount = document.createElement('span');
         likeCount.className = 'dyn-like-count';
