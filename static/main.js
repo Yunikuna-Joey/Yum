@@ -615,7 +615,7 @@ function updateFeed(feedData) {
         })(item.id);
 
         var likeCount = document.createElement('span');
-        likeCount.className = 'like-count';
+        likeCount.className = 'dyn-like-count';
         likeCount.id = 'like-count-' + item.id;
         likeCount.innerHTML = ' ' + item.likes + ' ';
 
@@ -629,7 +629,7 @@ function updateFeed(feedData) {
         })(item.id);
 
         var repostCount = document.createElement('span');
-        repostCount.className = 'repost-count';
+        repostCount.className = 'dyn-repost-count';
         repostCount.id = 'repost-count-' + item.id;
         repostCount.innerHTML = ' ' + item.reposts;
 

@@ -420,6 +420,26 @@ input[id="radio-2"]:checked ~ .glider {
     font-size: 18px;
 }
 
+.dyn-like-count {
+    display: inline-block;
+    position: relative;
+    top: -3.5px;
+    right: 2px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;  
+    padding: 5px;
+}
+
+.dyn-repost-count {
+    display: inline-block;
+    position: relative;
+    top: -3.5px;
+    right: 2px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    padding: 5px;
+}
+
 .status-icons .repost-count {
     display: inline-block;
     position: relative;
