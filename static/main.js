@@ -581,9 +581,6 @@ function updateFeed(feedData) {
         var rightContent = document.createElement('div');
         rightContent.className = 'right-content';
 
-        // Create a div for the star icons
-        // var starsDiv = document.createElement('div');
-
         // Use a loop to create and append star icons based on the item's rating
         for (var j = 1; j <= 5; j++) {
             var starIcon = document.createElement('i');
