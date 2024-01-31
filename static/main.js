@@ -699,13 +699,16 @@ function timestampConverter(timestamp) {
         const minutes = Math.floor(timeDiff / (60 * 1000));
         if (minutes < 60) {
             return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-        } else {
+        } 
+        else {
             const hours = Math.floor(minutes / 60);
             return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
         }
-    } else if (timeDiff < 48 * 60 * 60 * 1000) {
+    } 
+    else if (timeDiff < 48 * 60 * 60 * 1000) {
         return 'Yesterday';
-    } else {
+    } 
+    else {
         // Format the date without hours and minutes
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return date.toLocaleString('en-US', options);
