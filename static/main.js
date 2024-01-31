@@ -636,6 +636,8 @@ function updateFeed(feedData) {
         repostCount.className = 'dyn-repost-count';
         repostCount.id = 'repost-count-' + item.id;
         repostCount.innerHTML = ' ' + item.reposts;
+        // * this is providing a valid id
+        console.log('This is for repost', item.id);
 
         statusIcons.appendChild(likeIcon);
         statusIcons.appendChild(likeCount);
