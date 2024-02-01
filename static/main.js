@@ -1157,7 +1157,7 @@ function initMap() {
             marker.setPosition({lat: user_coordinates.user_lat, lng: user_coordinates.user_long});
             marker.setTitle('Current Location')
             marker.setIcon({
-                url: 'static/uploads/marker.svg',
+                url: 'static/uploads/location.svg',
                 scaledSize: new google.maps.Size(30, 30),
             })
 
