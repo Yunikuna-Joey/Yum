@@ -540,147 +540,164 @@ def repost(review_id):
 @app.route('/feed', methods=['GET'])
 @login_required
 def loadFeedPage():
-   username = current_user.username
-   gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
-   # print('This is following gathering', gather_following)
+    username = current_user.username
+    gather_following = [following.friend_id for following in Following.query.filter_by(user_id=current_user.id).all()]
+    # print('This is following gathering', gather_following)
 
-   if gather_following:
-       # Perform join statement for fetching the following
-       following_reviews = db.session.query(Review, Account, Marker)\
-           .join(Account, Review.account_id == Account.id)\
-           .join(Marker, Review.place_id == Marker.place_id)\
-           .filter(Review.account_id.in_(gather_following))\
-           .all()
-
-
-       status_updates = []
-       for review, user, marker in following_reviews:
-           repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
-           status_updates.append({
-               'id': review.id,
-               'content': review.content,
-               'rating': review.rating,
-               'author_display_name': user.display_name,
-               'username': user.username,
-               'timestamp': review.timestamp,
-               'place_title': marker.title,
-               'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
-               'likes': len(review.likes),
-               'reposts': repost_count,
-           })
-       # this is for fetching the followings' reposts
-       reposts = (
-           db.session.query(Review, Repost, Account, Marker)
-           .join(Repost, Review.id == Repost.review_id)
-           .join(Account, Repost.user_id == Account.id)
-           .outerjoin(Marker, Review.place_id == Marker.place_id)
-           .filter(Repost.user_id.in_(gather_following))
-           .all()
-       )
+    if gather_following:
+        # Perform join statement for fetching the following
+        following_reviews = db.session.query(Review, Account, Marker)\
+        .join(Account, Review.account_id == Account.id)\
+        .join(Marker, Review.place_id == Marker.place_id)\
+        .filter(Review.account_id.in_(gather_following))\
+        .all()
 
 
-       reposted_review_data = []
-       for review, repost, reposted_user, marker in reposts:
-           original = (
-               db.session.query(Account)
-               .filter(Account.id == review.account_id)
-               .first()
-           )
+        status_updates = []
+        for review, user, marker in following_reviews:
+            repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+            status_updates.append({
+            'id': review.id,
+            'content': review.content,
+            'rating': review.rating,
+            'author_display_name': user.display_name,
+            'username': user.username,
+            'timestamp': review.timestamp,
+            'place_title': marker.title,
+            'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
+            'likes': len(review.likes),
+            'reposts': repost_count,
+        })
+        # this is for fetching the followings' reposts
+        reposts = (
+            db.session.query(Review, Repost, Account, Marker)
+                .join(Repost, Review.id == Repost.review_id)
+                .join(Account, Repost.user_id == Account.id)
+                .outerjoin(Marker, Review.place_id == Marker.place_id)
+                .filter(Repost.user_id.in_(gather_following))
+                .all()
+        )
 
 
-           reposted_review_data.append({
-               'id': review.id,
-               'content': review.content,
-               'place_title': marker.title if marker else None,
-               'timestamp': repost.timestamp,
-               'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
-               'author_display_name': reposted_user.display_name,
-               'username': reposted_user.username,
-               'oa_display_name': original.display_name,
-               'oa_username': original.username,
-               'rating': review.rating,
-               'likes': len(review.likes),
-               'reposts': 0,
-               'comments': repost.comments if repost else None,
-               'is_repost': True if repost.comments else False,
-           })
+        reposted_review_data = []
+        for review, repost, reposted_user, marker in reposts:
+            original = (
+                db.session.query(Account)
+                .filter(Account.id == review.account_id)
+                .first()
+        )
 
 
-       # this is for current users reviews
-       current_review = Review.query.filter_by(account_id=current_user.id).all()
-       current_reposts = (
-           db.session.query(Review, Repost, Account, Marker)
-           .join(Repost, Review.id == Repost.review_id)
-           .join(Account, Review.account_id == Account.id)
-           .outerjoin(Marker, Review.place_id == Marker.place_id)
-           .filter(Repost.user_id == current_user.id)
-           .all()
-       )
+        reposted_review_data.append({
+            'id': review.id,
+            'content': review.content,
+            'place_title': marker.title if marker else None,
+            'timestamp': repost.timestamp,
+            'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
+            'author_display_name': reposted_user.display_name,
+            'username': reposted_user.username,
+            'oa_display_name': original.display_name,
+            'oa_username': original.username,
+            'rating': review.rating,
+            'likes': len(review.likes),
+            'reposts': 0,
+            'comments': repost.comments if repost else None,
+            'is_repost': True if repost.comments else False,
+        })
 
 
-       current_data = []
-       for review in current_review:
-           repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
-           current_data.append({
-               'id': review.id,
-               'content': review.content,
-               'rating': review.rating,
-               'author_display_name': current_user.display_name,
-               'username': current_user.username,
-               'timestamp': review.timestamp,
-               'place_title': marker.title,
-               'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
-               'likes': len(review.likes),
-               'reposts': repost_count,
-               'is_repost': False,
-           })
-      
+        # this is for current users reviews
+        current_review = Review.query.filter_by(account_id=current_user.id).all()
+        current_reposts = (
+            db.session.query(Review, Repost, Account, Marker)
+            .join(Repost, Review.id == Repost.review_id)
+            .join(Account, Review.account_id == Account.id)
+            .outerjoin(Marker, Review.place_id == Marker.place_id)
+            .filter(Repost.user_id == current_user.id)
+            .all()
+        )
 
 
-       total = reposted_review_data + status_updates + current_data
-       total.sort(key=lambda x:x['timestamp'], reverse=True)
-      
-       miles = 5
+        current_data = []
+        for review in current_review:
+            repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+            current_data.append({
+            'id': review.id,
+            'content': review.content,
+            'rating': review.rating,
+            'author_display_name': current_user.display_name,
+            'username': current_user.username,
+            'timestamp': review.timestamp,
+            'place_title': marker.title,
+            'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
+            'likes': len(review.likes),
+            'reposts': repost_count,
+            'is_repost': False,
+        })
 
-       nearby_reviews = (
-           db.session.query(Review, Account, Marker)
-           .join(Account, Review.account_id == Account.id)
-           .join(Marker, Review.place_id == Marker.place_id)
-           .options(joinedload(Review.likes))
-           .all()
-       )
+        # it is not displaying the current user's reposts on the feed, need to implement logic here for that
+        for review, repost, reposted_user, marker in current_reposts:
+            current_data.append({
+            'id': review.id,
+            'content': review.content,
+            'place_title': marker.title if marker else None,
+            'timestamp': repost.timestamp,
+            'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
+            'author_display_name': reposted_user.display_name,
+            'username': reposted_user.username,
+            'oa_display_name': original.display_name,
+            'oa_username': original.username,
+            'rating': review.rating,
+            'likes': len(review.likes),
+            'reposts': 0,
+            'comments': repost.comments if repost else None,
+            'is_repost': True if repost.comments else False,
+        })
+
+        total = reposted_review_data + status_updates + current_data
+        total.sort(key=lambda x:x['timestamp'], reverse=True)
+
+        miles = 5
+
+        nearby_reviews = (
+            db.session.query(Review, Account, Marker)
+            .join(Account, Review.account_id == Account.id)
+            .join(Marker, Review.place_id == Marker.place_id)
+            .options(joinedload(Review.likes))
+            .all()
+        )
 
 
-       nearby_data = []
-       for review, user, marker in nearby_reviews:
-           lat = request.args.get('lat', type=float)
-           lng = request.args.get('lng', type=float)
+        nearby_data = []
+        for review, user, marker in nearby_reviews:
+            lat = request.args.get('lat', type=float)
+            lng = request.args.get('lng', type=float)
 
 
-           location_user = (lat, lng)
-           location_review = (marker.lat, marker.lng)
-           distance = geodesic(location_user, location_review).miles
+            location_user = (lat, lng)
+            location_review = (marker.lat, marker.lng)
+            distance = geodesic(location_user, location_review).miles
 
 
-           if distance <= miles:
-               repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
-               nearby_data.append({
-                   'id': review.id,
-                   'content': review.content,
-                   'rating': review.rating,
-                   'author_display_name': user.display_name,
-                   'username': user.username,
-                   'timestamp': review.timestamp,
-                   'place_title': marker.title,
-                   'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
-                   'likes': len(review.likes),
-                   'reposts': repost_count,
-               })
+            if distance <= miles:
+                repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
+                nearby_data.append({
+                    'id': review.id,
+                    'content': review.content,
+                    'rating': review.rating,
+                    'author_display_name': user.display_name,
+                    'username': user.username,
+                    'timestamp': review.timestamp,
+                    'place_title': marker.title,
+                    'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
+                    'likes': len(review.likes),
+                    'reposts': repost_count,
+                })
 
 
-       return render_template('feed.html', username=username, status=total, reviews=nearby_data)
-   else:
-       return render_template('feed.html', username=username, status=[], reviews=[])
+            return render_template('feed.html', username=username, status=total, reviews=nearby_data)
+        else:
+            return render_template('feed.html', username=username, status=[], reviews=[])
 
 @app.route('/update_miles', methods=['POST'])
 @login_required
