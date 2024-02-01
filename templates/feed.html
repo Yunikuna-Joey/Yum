@@ -141,7 +141,7 @@
                                 <!-- repost icon -->
                                 <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
 
-                                <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
+                                <span id="repost-count-{{ item.id }}" data-is-repost="{{ item.is_repost }}" class="repost-count"> {{ item.reposts }}</span>
                             </div>
                         </td>
                     </tr>
@@ -154,11 +154,11 @@
         <!-- Repost modal  -->
         <div id="repostModal" class="modal" style="display: none;">
             <div id="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
                 <label for="additionalComments">Additional Comments:</label>
                 <textarea id="additionalComments" rows="4"></textarea>
                 <button onclick="repostReview()">Repost</button>
             </div>
+            <span class="close" onclick="closeModal()">&times;</span>
         </div>
 
         <div class="mileage-container">
@@ -228,7 +228,7 @@
                                 <!-- repost icon -->
                                 <i class='bx bx-repost' onclick="openModal('{{ item.id }}')"></i>
 
-                                <span id="repost-count-{{ item.id }}" class="repost-count"> {{ item.reposts }}</span>
+                                <span id="repost-count-{{ item.id }}" data-is-repost="{{ item.is_repost }}" class="repost-count"> {{ item.reposts }}</span>
                             </div>
                         </td>
                     </tr>

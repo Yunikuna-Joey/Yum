@@ -419,8 +419,9 @@ function undoRepost(reviewId) {
 }
 
 function openModal(reviewId) {
-    var isReposter = document.getElementById('repost-count-' + reviewId).getAttribute('data-is-repost');
+    var isReposter = String(document.getElementById('repost-count-' + reviewId).getAttribute('data-is-repost'));
     console.log('This is repost', isReposter);
+    console.log(typeof isReposter);
 
     if (isReposter === 'True') {
         undoRepost(reviewId);

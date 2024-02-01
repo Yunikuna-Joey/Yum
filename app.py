@@ -567,6 +567,7 @@ def loadFeedPage():
             'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
             'likes': len(review.likes),
             'reposts': repost_count,
+            'is_repost': 'False',
         })
         # this is for fetching the followings' reposts
         reposts = (
@@ -602,7 +603,7 @@ def loadFeedPage():
             'likes': len(review.likes),
             'reposts': 0,
             'comments': repost.comments if repost else None,
-            'is_repost': True if repost.comments else False,
+            'is_repost': 'True' if repost.comments else 'False',
         })
 
 
@@ -632,7 +633,7 @@ def loadFeedPage():
             'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
             'likes': len(review.likes),
             'reposts': repost_count,
-            'is_repost': False,
+            'is_repost': 'False',
         })
 
         # it is not displaying the current user's reposts on the feed, need to implement logic here for that
@@ -651,7 +652,7 @@ def loadFeedPage():
             'likes': len(review.likes),
             'reposts': 0,
             'comments': repost.comments if repost else None,
-            'is_repost': True if repost.comments else False,
+            'is_repost': 'True' if repost.comments else 'False',
         })
 
         total = reposted_review_data + status_updates + current_data
@@ -667,7 +668,7 @@ def loadFeedPage():
             .all()
         )
 
-
+        # no reposts here 
         nearby_data = []
         for review, user, marker in nearby_reviews:
             lat = request.args.get('lat', type=float)
@@ -692,6 +693,7 @@ def loadFeedPage():
                     'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                     'likes': len(review.likes),
                     'reposts': repost_count,
+                    'is_repost': 'True' if repost.comments else 'False',
                 })
 
 
