@@ -15,36 +15,36 @@
     </script>
 </head>
 
-<body>
-    <header>
-        <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
-        <div class="navbar">
-            <div class="logo"><a href="/home">Yum!</a></div>
-            <ul class="links">
+<header>
+    <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
+    <div class="navbar">
+        <div class="logo"><a href="/home">Yum!</a></div>
+        <ul class="links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="#" onclick="loadfeedpage()">Feed</a></li>
+            <li><a href="/friends">Friends</a></li>
+            <li><a href="about">About</a></li>
+        </ul>
+
+        
+        <div class="user-drop">
+            <label for="menu-toggle" id="username">{{ username }}</label>
+            <input type="checkbox" id="menu-toggle" class="hidden">
+            <div id="menu" class="dropdown_menu">
+                <li><a class="action">{{ username }}</a></li>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/profile">Profile</a></li>
-                <li><a href="#" onclick="loadfeedpage()">Feed</a></li>
-                <li><a href="/friends">Friends</a></li>
                 <li><a href="about">About</a></li>
-            </ul>
-
-            
-            <div class="user-drop">
-                <label for="menu-toggle" id="username">{{ username }}</label>
-                <input type="checkbox" id="menu-toggle" class="hidden">
-                <div id="menu" class="dropdown_menu">
-                    <li><a class="action">{{ username }}</a></li>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="about">About</a></li>
-                    <li><a href="settings">Settings</a></li>
-                    <li><a href="logout" onclick="logout(event)">Log Out</a></li>
-                </div>
+                <li><a href="settings">Settings</a></li>
+                <li><a href="logout" onclick="logout(event)">Log Out</a></li>
             </div>
-
         </div>
-    </header>
 
+    </div>
+</header>
+
+<body>
     <div class="mode-container">
         <div class="modes">
             <input type="radio" id="radio-1" name="modes" checked />
@@ -55,11 +55,6 @@
 
             <span class="glider"></span>
         </div>
-
-        <!-- <div class="search-bar">
-            <input type="text" id="user-search" placeholder="Find.." oninput="searchUsers()">
-            <button onclick="clearSearch()"> X </button>
-        </div> -->
     </div>
 
     <div class="container">
