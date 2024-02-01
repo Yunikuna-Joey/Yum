@@ -249,7 +249,7 @@ def get_following_reviews():
         author_info = {
             'author_display_name': author.display_name if author.display_name != current_user.display_name else 'You', 
             'author_username': author.username if author.username != current_user.username else '',
-            'author_picture': author.picture if author.picture else '/static/uploads/default.jpg', 
+            'author_picture': '/static/uploads/' + author.picture if author.picture else '/static/uploads/default.jpg', 
         }
 
         review_info = {

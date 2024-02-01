@@ -1005,6 +1005,19 @@ function logout(event) {
 
     form.submit();
 }
+// help convert ratings into stars
+function stars(rating) {
+    let star = ''; 
+    for (let x = 1; x <= 5; x++) {
+        if (x <= rating) {
+            star += '<i class="fas fa-star"></i>';
+        }
+        else {
+            star += '<i class="far fa-star"></i>';
+        }
+    }
+    return star;
+}
 
 // *Google Maps Functions located here 
 let map; 
@@ -1432,6 +1445,7 @@ function createRestMarker(locationData) {
                 const followingReviewRequest = new XMLHttpRequest(); 
                 followingReviewRequest.open('POST', '/get_following_reviews', true);
                 followingReviewRequest.setRequestHeader('Content-Type', 'application/json');
+                // ** START HERE 
                 followingReviewRequest.onload = function () {
                     if (followingReviewRequest.status === 200) {
                         const followingReviews = JSON.parse(followingReviewRequest.responseText);
@@ -1467,7 +1481,7 @@ function createRestMarker(locationData) {
                                                 <div style="padding: 10px; margin-left: auto;"> ${timestamp} </div> 
                                             </div>
                                             <td style="padding: 5px;">
-                                                ${review.content} - ${review.rating}
+                                                ${review.content} - <i style="color: #DC143C;"> ${stars(review.rating)} </i>
 
                                                 <div class="status-icons" style="margin-top: 10px; font-size: 22px;">
                                                     <i class='bx bx-heart' onclick="likeReview('${review.id}')"></i>
