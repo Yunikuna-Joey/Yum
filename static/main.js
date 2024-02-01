@@ -426,12 +426,18 @@ function openModal(reviewId) {
         undoRepost(reviewId);
     } 
     else {
+        // Add 'blur' class to the status-container
+        document.getElementById('status-container').classList.add('blur');
+
         document.getElementById('repostModal').setAttribute('data-review-id', reviewId);
         document.getElementById('repostModal').style.display = 'block';
     }
 }
 
 function closeModal() {
+    // Remove 'blur' class from the status-container
+    document.getElementById('status-container').classList.remove('blur');
+
     document.getElementById('repostModal').style.display = 'none';
 }
 
@@ -628,6 +634,7 @@ function updateFeed(feedData) {
         repostIcon.className = 'bx bx-repost';
         repostIcon.onclick = (function (itemId) {
             return function () {
+                console.log('This is dynamic icon repost id', itemId);
                 openModal(itemId);
             };
         })(item.id);
@@ -636,8 +643,11 @@ function updateFeed(feedData) {
         repostCount.className = 'dyn-repost-count';
         repostCount.id = 'repost-count-' + item.id;
         repostCount.innerHTML = ' ' + item.reposts;
+        repostCount.setAttribute('data-is-respost', item.id);
         // * this is providing a valid id
         console.log('This is for repost', item.id);
+        // test 
+        console.log('This is testing repostCount id name', repostCount.id);
 
         statusIcons.appendChild(likeIcon);
         statusIcons.appendChild(likeCount);
@@ -667,7 +677,6 @@ function updateFeed(feedData) {
 } // end update feed 
 
 function dynTimeListener() {
-    console.log("test");
     const timeElement = document.querySelectorAll('.timestamp');
     timeElement.forEach(element => {
         const value = element.getAttribute('data-timestamp');
