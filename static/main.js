@@ -1342,7 +1342,7 @@ function createRestMarker(locationData) {
 
                 <form id=review-form>
                     <label for="review-content"> Leave a Review:</label>
-                    <textarea id="review-content" name="review-content" rows="4" cols="50"></textarea><br>
+                    <textarea id="review-content" style="resize: none;" name="review-content" rows="4" cols="50"></textarea><br>
 
                     <label for="review-rating"> Rating: </label>
                     <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
