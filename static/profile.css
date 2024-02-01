@@ -350,6 +350,13 @@ section#hero {
 
 .right-content { 
     flex-grow: 0.1;
+    overflow-x: hidden;
+    max-width: 400px;
+}
+
+.right-content p {
+    max-height: 200px;
+    overflow-y: hidden;
 }
 
 .right-content #star {
