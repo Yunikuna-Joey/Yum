@@ -68,7 +68,7 @@
                         <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="user-picture">
                     {% endif %}
                     <div class="card-content">
-                        <h3> {{ user.display_name }} </h3>
+                        <a href="/profile/{{ user.username }}"><h3> {{ user.display_name }} </h3></a>
                         <p> {{ user.username }} </p>
                         <p> {{ user.bio }} </p>
                     </div>
@@ -85,7 +85,7 @@
                         <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="user-picture">
                     {% endif %}
                     <div class="card-content">
-                        <h3> {{ user.display_name }} </h3>
+                        <a href="/profile/{{ user.username }}"><h3> {{ user.display_name }} </h3></a>
                         <p> {{ user.username }} </p>
                         <p> {{ user.bio }} </p>
                     </div>
