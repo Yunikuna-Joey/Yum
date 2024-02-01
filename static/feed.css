@@ -374,6 +374,13 @@ input[id="radio-2"]:checked ~ .glider {
 
 .right-content { 
     flex-grow: 0.1;
+    overflow-x: hidden;
+    max-width: 400px;
+}
+
+.right-content p {
+    max-height: 200px;
+    overflow-y: hidden;
 }
 
 .right-content #star {
