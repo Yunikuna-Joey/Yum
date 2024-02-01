@@ -631,29 +631,29 @@ function updateFeed(feedData) {
         likeCount.innerHTML = ' ' + item.likes + ' ';
 
         // Create repost icon
-        var repostIcon = document.createElement('i');
-        repostIcon.className = 'bx bx-repost';
-        repostIcon.onclick = (function (itemId) {
-            return function () {
-                console.log('This is dynamic icon repost id', itemId);
-                openModal(itemId);
-            };
-        })(item.id);
+        // var repostIcon = document.createElement('i');
+        // repostIcon.className = 'bx bx-repost';
+        // repostIcon.onclick = (function (itemId) {
+        //     return function () {
+        //         console.log('This is dynamic icon repost id', itemId);
+        //         openModal(itemId);
+        //     };
+        // })(item.id);
 
-        var repostCount = document.createElement('span');
-        repostCount.className = 'dyn-repost-count';
-        repostCount.id = 'repost-count-' + item.id;
-        repostCount.innerHTML = ' ' + item.reposts;
-        repostCount.setAttribute('data-is-respost', item.id);
-        // * this is providing a valid id
-        console.log('This is for repost', item.id);
-        // test 
-        console.log('This is testing repostCount id name', repostCount.id);
+        // var repostCount = document.createElement('span');
+        // repostCount.className = 'dyn-repost-count';
+        // repostCount.id = 'repost-count-' + item.id;
+        // repostCount.innerHTML = ' ' + item.reposts;
+        // repostCount.setAttribute('data-is-respost', item.id);
+        // // * this is providing a valid id
+        // console.log('This is for repost', item.id);
+        // // test 
+        // console.log('This is testing repostCount id name', repostCount.id);
 
         statusIcons.appendChild(likeIcon);
         statusIcons.appendChild(likeCount);
-        statusIcons.appendChild(repostIcon);
-        statusIcons.appendChild(repostCount);
+        // statusIcons.appendChild(repostIcon);
+        // statusIcons.appendChild(repostCount);
 
         // Append child elements to statusDetails
         statusDetails.appendChild(leftContent);
