@@ -898,7 +898,7 @@ function submitforgot() {
     console.log(value)
 
     if (!validateEmail(value)) { 
-        document.getElementById('error-response').innerHTML = 'Not a valid email';
+        document.getElementById('error-response').innerHTML = 'Not a valid email!';
         return;
     }
     

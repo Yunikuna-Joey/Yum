@@ -19,17 +19,8 @@ body {
 
 .wrapper {
     width: 420px;
-    /* add in when you find a better background image*/
-
-    /* 
-
-    background: transparent; 
-    border: 2px solid rgba(255, 255, 255, .2);
-    backdrop-filter: blue(20px); 
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2); 
-
-    */ 
-    background: rgb(218, 164, 209);
+    /* background: rgb(218, 164, 209); */
+    background: #DC143C;
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
@@ -72,26 +63,6 @@ body {
     font-size: 20px; 
 } 
 
-/* .wrapper .remember-forgot {
-    display: flex; 
-    justify-content: space-between;
-    font-size: 14.5px; 
-    margin: -15px 0 15px; 
-}
-
-.remember-forgot label input {
-    accent-color: #fff; 
-    margin-right: 3px; 
-}
-
-.remember-forgot a {
-    color: #fff; 
-    text-decoration: none;
-}
-
-.remember-forgot a:hover {
-    text-decoration: underline;
-} */
 
 .wrapper .btn {
     width: 100%; 
@@ -108,21 +79,6 @@ body {
 }
 
 #error-response {
-    color: red;
+    margin-top: 20px;
+    color: white;
 }
-
-/* .wrapper .register-link {
-    font-size: 14.5px; 
-    text-align: center; 
-    margin: 20px 0 15px;  
-} */
-
-/* .register-link p a {
-    color: #fff; 
-    text-decoration: none; 
-    font-weight: 600;
-} */
-
-/* .register-link p a:hover {
-    text-decoration: underline;
-}  */
