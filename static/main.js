@@ -1242,10 +1242,10 @@ function searchPOI(user_coordinates) {
         location: {lat: user_coordinates.user_lat, lng: user_coordinates.user_long},        // this will be automatically parsed 
         radius: 100000,                                                                       // going to try and make this adjustable 8047 correlates to 5 miles 
         // refer to Places API documenatation for more categories to insert (possibly make buttons to change out the categories as per user request)
-        types: ['food', 'restaurant', 'cafe', 'bakery', 'bar', 'meal_delivery', 'meal_takeaway', 'night_club'], 
+        types: ['food', 'restaurant', 'cafe', 'bakery', 'bar', 'meal_delivery', 'meal_takeaway', 'night_club', 'establishment', 'point_of_interest'], 
 
-        // * keywords is used for looking for specific restaurant names 'Bob's RESTAURANT', 'John's RESTAURANT' and etc
-        keyword: 'coffee dessert restaurants'                          
+        // * keywords is used for looking for specific restaurant names 'Bob's RESTAURANT', 'John's RESTAURANT' and etc (restricts the search results)
+        // keyword: 'coffee dessert restaurants ramen',                          
     };
 
     googPlaceService.nearbySearch(request, callback);
