@@ -179,6 +179,14 @@ function reg_listener() {
             document.getElementById('confirm-password-reg').value
         );
 
+        const displayName = encodeURIComponent( 
+            document.getElementById('display-name').value
+        );
+
+        const username = encodeURIComponent(
+            document.getElementById('username-reg').value
+        );
+
         const email = document.getElementById('email-reg').value;
         const feedback = document.getElementById('error-response');
         const button = document.getElementById('btn');
@@ -187,6 +195,8 @@ function reg_listener() {
         const isValidLength = password.length >= 8; 
         const upperCase = /[A-Z]/.test(password);
         const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        const displen = displayName.length >= 50;
+        const userlen = username.length >= 25;
     
         if (!isValidLength && password.length > 0) {
             feedback.innerText = 'Password must be at least 8 characters long...';
@@ -207,11 +217,39 @@ function reg_listener() {
             feedback.innerText = '';
         }
     
-        button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation || !isValidEmail;   
+        button.disabled = !isValidLength || !upperCase || !hasSymbol || password !== confirmation || !isValidEmail || !userlen || !displen;   
         
         document.getElementById('password-reg').addEventListener('keyup', reg_listener);
         document.getElementById('confirm-password-reg').addEventListener('keyup', reg_listener);
         document.getElementById('email-reg').addEventListener('keyup', reg_listener);
+
+        document.getElementById('display-name').addEventListener('input', function () { 
+            const maxlen = 50; 
+            const currlen = this.value.length;
+            const remaining = maxlen - currlen;
+
+            const response = document.getElementById('char-count');
+            if (remaining >= 0) { 
+                response.textContent = `${remaining} characters remaining`;
+            }
+            else { 
+                response.textContent = 'Exceeded maximum character limit';
+            }
+        });
+
+        document.getElementById('username-reg').addEventListener('input', function() {
+            const maxlen = 25; 
+            const currlen = this.value.length; 
+            const remaining = maxlen - currlen; 
+
+            const response = document.getElementById('char-count');
+            if (remaining >= 0) { 
+                response.textContent = `${remaining} characters remaining`;
+            }
+            else { 
+                response.textContent = 'Exceeded maximum character limit';
+            }
+        });
 }
 
 function searchUser() {
