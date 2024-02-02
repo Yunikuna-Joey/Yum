@@ -707,8 +707,8 @@ def loadFeedPage():
 
 
             return render_template('feed.html', username=username, status=total, reviews=nearby_data)
-        else:
-            return render_template('feed.html', username=username, status=[], reviews=[])
+    else:
+        return render_template('feed.html', username=username, status=[], reviews=[])
 
 @app.route('/update_miles', methods=['POST'])
 @login_required

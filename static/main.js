@@ -1368,36 +1368,45 @@ function createRestMarker(locationData) {
         addMarkerModel(locationData);  
         // locationData.marker_id is undefined
         // console.log("This is locationData", locationData);
+        // * goes with the third content var 
+        const placeTypes = locationData.types ? locationData.types.join(', ') : 'Not available';
 
         // 'place' information window 
         const infowindow = new google.maps.InfoWindow({
             // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
-            content: `
-                <strong>${locationData.name}</strong><br>
-                Rating: ${locationData.rating || 'Not available'}<br>
-                Reviews: ${locationData.reviewCount || 0}<br>
-                Type: ${customType}
+            
+            // ** this is my original content 
+            // content: `
+            //     <strong>${locationData.name}</strong><br>
+            //     Rating: ${locationData.rating || 'Not available'}<br>
+            //     Reviews: ${locationData.reviewCount || 0}<br>
+            //     Type: ${customType}
 
-                <form id=review-form>
-                    <label for="review-content"> Leave a Review:</label>
-                    <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
-                    <br>
+            //     <form id=review-form>
+            //         <label for="review-content"> Leave a Review:</label>
+            //         <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
+            //         <br>
 
-                    <label for="review-rating"> Rating: </label>
-                    <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
+            //         <label for="review-rating"> Rating: </label>
+            //         <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
 
-                    <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
+            //         <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
 
-                    <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
-                </form>
-            `,
+            //         <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
+            //     </form>
+            // `,
 
             // * this will list the other types associated with a marker 
             // * [work with this to achieve targeted behavior]
+            content: `<strong>${locationData.name}</strong><br>
+                Rating: ${locationData.rating || 'Not available'}<br>
+                Reviews: ${locationData.reviewCount || 0}<br>
+                Types: ${placeTypes}`,
+                
             // content: `<strong>${locationData.name}</strong><br>
-            //   Rating: ${locationData.rating || 'Not available'}<br>
-            //   Reviews: ${locationData.reviewCount || 0}<br>
-            //   Type: ${locationData.types ? locationData.types[0] : 'Not available'}`,
+            //     Rating: ${locationData.rating || 'Not available'}<br>
+            //     Reviews: ${locationData.reviewCount || 0}<br>
+            //     Type: ${locationData.types ? locationData.types[0] : 'Not available'}`,
         }); 
 
         marker.addListener('click', function() {
