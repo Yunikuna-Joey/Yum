@@ -189,28 +189,6 @@ header {
     display: none;
 }
 
-.action_btn {
-    background-color: orange;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border: none;
-    outline: none;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: scale 0.2s ease;
-}
-
-.action_btn:hover {
-    transform: scale(1.05);
-    color: #fff;
-}
-
-.action_btn:active {
-    transform: scale(0.95);
-}
-
 .user-drop {
     position: relative;
     z-index: 1;
@@ -220,26 +198,18 @@ header {
     display: none;
     position: absolute;
     top: 100%;
+    left: 0;
     right: 0;
-    margin-top: 10px;
-    /* background: rgba(255, 255, 255, 0.1); */
+    transform: translateX(-50%);
+    background: #FFFFF0;
     backdrop-filter: blur(15px);
     border-radius: 10px;
-    transform: translateX(-50%); /* Center the menu horizontally */
+    margin-top: 0;
+    width: 100px;
 }
 
 .user-drop:hover #menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    width: 150px; /* Adjust as needed */
-    position: absolute;
-    top: 100%;
-    left: 50%; /* Center the menu horizontally */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    border-radius: 10px;
-    z-index: 2;
+    display: block;
 }
 
 /* Additional styling for clarity */
@@ -251,14 +221,9 @@ header {
 }
 
 #menu li {
+    padding: 0.7rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-#menu .action_btn {
-    width: 100%;
-    display: flex;
     justify-content: center;
 }
 
