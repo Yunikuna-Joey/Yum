@@ -2,6 +2,7 @@ import json
 import random
 from datetime import datetime, timezone, timedelta
 from urllib import request
+from urllib.parse import unquote
 from flask import Flask, jsonify, redirect, url_for, request, render_template, session, request, Response, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
@@ -278,7 +279,9 @@ def register():
     if request.method == 'POST': 
         data = request.json 
 
-        displayName = bleach.clean(data.get('displayName', ''), 
+        dec_name = unquote(data.get('displayName', ''))
+
+        displayName = bleach.clean(dec_name, 
             tags=[], 
             attributes={}, 
             css_sanitizer=css_sanitizer, 
@@ -321,6 +324,8 @@ def register():
 
         if user: 
             return jsonify({'error': 'That name has been taken!'})
+        elif '' in username:
+            return jsonify({'error': 'Username cannot contain any spaces!'})
         elif user_email:
             return jsonify({'error': 'Email already in use'})
         elif not re.match(r"[^@]+@[^@]+\.[^@]+", email):
