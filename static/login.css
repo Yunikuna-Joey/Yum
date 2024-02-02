@@ -18,9 +18,6 @@ body {
 
 .wrapper {
     width: 420px;
-    /* background: rgb(218, 164, 209); */
-    /* background: rgb(255, 99, 71); */
-    /* background: rgb(217, 83, 79); */
     background: rgb(220, 20, 60);
     color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);

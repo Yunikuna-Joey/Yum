@@ -15,18 +15,9 @@ body {
     background: #FFFFF0;
     background-size: cover;
     background-position: center;
-} .wrapper {
+}
+.wrapper {
     width: 420px;
-    /* add in when you find a better background image*/
-
-    /* 
-
-    background: transparent; 
-    border: 2px solid rgba(255, 255, 255, .2);
-    backdrop-filter: blue(20px); 
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2); 
-
-    */ 
     background: rgb(218, 164, 209);
     color: #fff;
     border-radius: 10px;

@@ -2,20 +2,18 @@
     '.' = class selector 
     '#' = id selector
 */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 * {
     margin: 0; 
     padding: 0; 
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
     height: 100vh;
-    /* background-color: #000;  */
     background: #FFFFF0;
-    /* background-image: url('image.jpg');  */
-    /* background-image: url('https://images.wallpaperscraft.com/image/single/color_background_surface_18481_1920x1080.jpg'); */
     background-size: cover;
     background-position: center;
     
@@ -33,7 +31,7 @@ a {
 }
 
 a:hover {
-    color: orange;
+    color: #E19895;
 }
 
 /* Header */

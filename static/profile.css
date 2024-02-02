@@ -2,12 +2,13 @@
     '.' = class selector 
     '#' = id selector
 */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 * {
     margin: 0; 
     padding: 0; 
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -118,22 +119,6 @@ header {
 /* Hide the checkbox input */
 .hidden {
     display: none;
-}
-
-/* HERO */
-section#hero {
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-}
-
-#hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
 }
 
 /* *Search bar styling here */
