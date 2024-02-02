@@ -1342,12 +1342,15 @@ function createRestMarker(locationData) {
 
                 <form id=review-form>
                     <label for="review-content"> Leave a Review:</label>
-                    <textarea id="review-content" style="resize: none;" name="review-content" rows="4" cols="50"></textarea><br>
+                    <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
+                    <br>
 
                     <label for="review-rating"> Rating: </label>
                     <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
 
-                    <button type="button" id="submit-review-btn">Submit Review</button>
+                    <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
+
+                    <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
                 </form>
             `,
 
@@ -1358,8 +1361,6 @@ function createRestMarker(locationData) {
             //   Reviews: ${locationData.reviewCount || 0}<br>
             //   Type: ${locationData.types ? locationData.types[0] : 'Not available'}`,
         }); 
-
-        // let isOpen = false;
 
         marker.addListener('click', function() {
             const markerWindow = document.getElementById('markerwindow');
@@ -1411,10 +1412,18 @@ function createRestMarker(locationData) {
     
                 infowindow.open(map, marker);
 
+                // ** possible do not need this listener (repeat of line 1395)
                 infowindow.addListener('domready', function () {
                     const id = locationData.place_id;
                     // console.log('This id is', id);
-                    // ** PREV 
+                    const textarea = document.getElementById('review-content');
+                    const limit = document.getElementById('char-count');
+
+                    textarea.addEventListener('input', function () {
+                        const remaining = 300 - textarea.value.length;
+                        limit.textContent = `Characters left: ${remaining}`;
+                    });
+
                     const button = document.getElementById('submit-review-btn');
                     button.addEventListener('click', function () {
                         submitReview(locationData.place_id);
@@ -1530,11 +1539,16 @@ function submitReview(markerId) {
     const rating = document.getElementById('review-rating'); 
     const ratingValue = parseInt(rating.value, 10); 
 
+    // clears any existing error message to prevent spamming 
+    const existerror = document.querySelectorAll('.err-msg');
+    existerror.forEach(errorMessage => errorMessage.remove());
+
     if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
         const errorMessage = document.createElement('div');
         errorMessage.className = 'err-msg';
         errorMessage.textContent = 'Please enter a valid rating (1 - 5)';
-        errorMessage.style.color = 'red';
+        errorMessage.style.color = '#DC143C';
+        errorMessage.style.marginTop = '10px';
 
         const reviewForm = document.getElementById('review-form');
         reviewForm.appendChild(errorMessage);

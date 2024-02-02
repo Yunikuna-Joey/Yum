@@ -311,7 +311,7 @@ input[id="radio-2"]:checked ~ .glider {
     display: flex;
     height: 54px;
     width: 200px;
-    background-color: #DC143C;;
+    background-color: #DC143C;
     color: white;
     z-index: 1;
     border-radius: 99px;
