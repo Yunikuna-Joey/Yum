@@ -11,7 +11,7 @@ from flask_admin.contrib.sqla import ModelView
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_migrate import Migrate
-from sqlalchemy import or_, func
+from sqlalchemy import or_, func, and_
 from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -474,10 +474,14 @@ def unfollow_user(user_id):
 @login_required
 def search_user(): 
     search_term = request.args.get('term')
-
-    match = Account.query.filter(or_(
-        Account.username.like(f'{search_term}%'),
-        Account.username.like(f'{search_term.capitalize()}%')
+    
+    # this new query will exclude the current user so they cannot search themselves up
+    match = Account.query.filter(and_(
+        or_(
+            Account.username.like(f'{search_term}%'),
+            Account.username.like(f'{search_term.capitalize()}%')
+        ),
+        Account.id != current_user.id  
     )).all()
 
     user_list = [{'id': user.id, 'username': user.username} for user in match]
