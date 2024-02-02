@@ -1454,7 +1454,7 @@ function createRestMarker(locationData) {
                 const followingReviewRequest = new XMLHttpRequest(); 
                 followingReviewRequest.open('POST', '/get_following_reviews', true);
                 followingReviewRequest.setRequestHeader('Content-Type', 'application/json');
-                // ** START HERE 
+                
                 followingReviewRequest.onload = function () {
                     if (followingReviewRequest.status === 200) {
                         const followingReviews = JSON.parse(followingReviewRequest.responseText);
@@ -1515,6 +1515,9 @@ function createRestMarker(locationData) {
                         }
                         markerWindow.innerHTML = markerContent;
                         markerWindow.style.display = 'block';
+
+                        // ** apply styling here [NEED TESTING]
+                        markerWindow.style.overflowY = 'auto';
                     }
                     else {
                         console.error('Error fetching following reviews: ', followingReviewRequest.status);
