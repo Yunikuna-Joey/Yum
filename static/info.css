@@ -105,9 +105,15 @@ a:hover {
 
 .profile-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 20px auto;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
 .profile-info {
