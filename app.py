@@ -203,6 +203,7 @@ def logout():
 @app.route('/store') 
 def loadstorepage(): 
     username = current_user.username
+    
     return render_template('info.html', username=username)
 
 @app.route('/home')
