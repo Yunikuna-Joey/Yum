@@ -164,9 +164,9 @@ a:hover {
 }
 
 
-/* Responsible for the psuedo glider for the categories */
+/* Responsible for the psuedo glider for the categories */ 
+
 .mode-container {
-    margin-top: 20px;
     position: absolute;
     left: 0;
     right: 0;
@@ -180,7 +180,8 @@ a:hover {
     position: relative;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
-    padding: 0.25rem;
+    /* adjust padding to resize the slider menu */
+    padding: 0.25rem;   
     border-radius: 99px;
 }
 
@@ -188,6 +189,7 @@ a:hover {
     z-index: 2;
 }
 
+/* This removes the bubble next to radio items  */
 input[type="radio"] {
     display: none;
 }
@@ -202,24 +204,13 @@ input[type="radio"] {
     font-weight: 400;
     border-radius: 99px;
     cursor: pointer;
-    transition: color 0.15s ease-in;
+    transition: color 0.15s ease-in; 
 }
 
 input[type="radio"]:checked + label {
     color: white;
 }
 
-.glider {
-    position: absolute;
-    display: flex;
-    height: 54px;
-    width: 200px;
-    background-color: #DC143C;
-    color: white;
-    z-index: 1;
-    border-radius: 99px;
-    transition: 0.25s ease-out;
-}
 
 input[id="radio-1"]:checked ~ .glider {
     transform: translateX(0);
@@ -241,34 +232,21 @@ input[id="radio-5"]:checked ~ .glider {
     transform: translateX(400%);
 }
 
+.glider {
+    position: absolute;
+    display: flex;
+    height: 54px;
+    width: 200px;
+    background-color: #DC143C;
+    color: white;
+    z-index: 1;
+    border-radius: 99px;
+    transition: 0.25s ease-out;
+}
+
 @media (max-width: 700px) {
     .tabs {
         transform: scale(0.6);
     }
 }
 
-.content {
-    display: none;
-    text-align: center;
-    margin-top: 150px;
-}
-
-#radio-1:checked ~ .store-content1 {
-    display: block;
-}
-
-#radio-2:checked ~ .store-content2 {
-    display: block;
-}
-
-#radio-3:checked ~ .store-content3 {
-    display: block;
-}
-
-#radio-4:checked ~ .store-content4 {
-    display: block;
-}
-
-#radio-5:checked ~ .store-content5 {
-    display: block;
-}

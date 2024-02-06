@@ -346,6 +346,32 @@ function getCSRFToken() {
     return '';
 }
 
+// * Testing listener for showing and hiding content 
+function infoListener() { 
+    const buttons = document.querySelectorAll('.modes input[type="radio"]');
+    const reviewContent = document.querySelector('.store-content');
+    const menuContent = document.querySelector('.menu-content');
+
+    function updateContent() {
+        if (buttons[0].checked) {
+            reviewContent.style.display = 'flex';
+            menuContent.style.display = 'none';
+        }
+
+        else {
+            reviewContent.style.display = 'none';
+            menuContent.style.display = 'flex'; 
+        }
+    }
+
+    updateContent();
+
+    buttons.forEach(function (button) {
+        button.addEventListener('change', updateContent);
+    })
+    console.log('Event Listener info');
+}
+
 // * Like a review 
 function likeReview(reviewId) {
     console.log('review id is', reviewId);

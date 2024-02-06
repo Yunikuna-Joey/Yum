@@ -8,40 +8,43 @@
     <script src="../static/main.js"></script>
 </head>
 
-<body>
-    <header>
-        <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
-        <div class="navbar">
-            <div class="logo"><a href="/home">Yum!</a></div>
-            <ul class="links">
+<header>
+    <!-- Temporary navbar, not sure if it should be kept / if the contents should be kept -->
+    <div class="navbar">
+        <div class="logo"><a href="/home">Yum!</a></div>
+        <ul class="links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="#" onclick="loadfeedpage()">Feed</a></li>
+            <li><a href="/friends">Friends</a></li>
+            <li><a href="/store">About</a></li>
+        </ul>
+        <!-- Top right corner -->
+        <div class="search-bar">
+            <input type="text" id="term" class="search-input" placeholder="Search users...">
+            <button class="search-button"><i class='bx bx-search'></i></button>
+            <div id="search-results" class="search-results"></div>
+        </div>
+        
+        <div class="user-drop">
+            <label for="menu-toggle" id="username">{{ username }}</label>
+            <input type="checkbox" id="menu-toggle" class="hidden">
+            <div id="menu" class="dropdown_menu">
+                <li><a class="action">{{ username }}</a></li>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/profile">Profile</a></li>
-                <li><a href="#" onclick="loadfeedpage()">Feed</a></li>
-                <li><a href="/friends">Friends</a></li>
-                <li><a href="/store">About</a></li>
-            </ul>
-            <!-- Top right corner -->
-            <div class="search-bar">
-                <input type="text" id="term" class="search-input" placeholder="Search users...">
-                <button class="search-button"><i class='bx bx-search'></i></button>
-                <div id="search-results" class="search-results"></div>
-            </div>
-            
-            <div class="user-drop">
-                <label for="menu-toggle" id="username">{{ username }}</label>
-                <input type="checkbox" id="menu-toggle" class="hidden">
-                <div id="menu" class="dropdown_menu">
-                    <li><a class="action">{{ username }}</a></li>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="about">About</a></li>
-                    <li><a href="settings">Settings</a></li>
-                    <li><a href="logout" onclick="logout(event)">Log Out</a></li>
-                </div>
+                <li><a href="about">About</a></li>
+                <li><a href="settings">Settings</a></li>
+                <li><a href="logout" onclick="logout(event)">Log Out</a></li>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
+
+
+
+<body>
     <div class="profile-container">
         <div class="profile-name"> Testing store name </div>
         <div class="profile_picture">
@@ -71,49 +74,58 @@
     </div>
 
     <div class="mode-container">
-        <div class="modes" onclick="handleClick(event)">
+        <div class="modes">
             <input type="radio" id="radio-1" name="modes" checked />
             <label class="mode" for="radio-1"> Reviews </label>
-
-            <input type="radio" id="radio-2" name="modes"/>
+        
+            <input type="radio" id="radio-2" name="modes" />
             <label class="mode" for="radio-2"> Food </label>
-
-            <input type="radio" id="radio-3" name="modes"/>
+        
+            <input type="radio" id="radio-3" name="modes" />
             <label class="mode" for="radio-3"> Menu </label>
-
-            <input type="radio" id="radio-4" name="modes"/>
+        
+            <input type="radio" id="radio-4" name="modes" />
             <label class="mode" for="radio-4"> Interior </label>
-
-            <input type="radio" id="radio-5" name="modes"/>
+        
+            <input type="radio" id="radio-5" name="modes" />
             <label class="mode" for="radio-5"> Exterior </label>
-
+        
             <span class="glider"></span>
         </div>
     </div>
     
-    <div class="store-content1 content">
-        <p> This is going to hold ox`x`ther peoples reviews </p>
-        <p> Going to need to make a table here </p>
+    <div class="store-content">
+        <div id="review-content" class="content">
+            <p> This is going to hold other peoples reviews </p>
+            <p> Going to need to make a table here </p>
+        </div>
+    
+        <div id="food-content" class="content">
+            <p> This is going to be a grid for pictures to go into, possible 3x3 or 4x4 </p>
+        </div>
+    
+        <div id="menu-content" class="content">
+            <p> This is going to be a grid for pictures to go into, possible 3x3 or 4x4 </p>
+        </div>
+    
+        <div id="interior-content" class="content">
+            <p> This is going to be a grid for pictures to go into, possible 3x3 or 4x4 </p>
+        </div>
+    
+        <div id="exterior-content" class="content">
+            <p> This is going to be a grid for pictures to go into, possible 3x3 or 4x4 </p>
+        </div>
+    </div>
+</body>
+
+<body>
+    <div>
     </div>
 
-    <div class="store-content2 content">
-        <p> This is going to hold other peoples reviews </p>
-        <p> Going to need to make a table here </p>
+    <div>
     </div>
-
-    <div class="store-content3 content">
-        <p> This is going to hold other peoples reviews </p>
-        <p> Going to need to make a table here </p>
-    </div>
-
-    <div class="store-content4 content">
-        <p> This is going to hold other peoples reviews </p>
-        <p> Going to need to make a table here </p>
-    </div>
-
-    <div class="store-content5 content">
-        <p> This is going to hold other peoples reviews </p>
-        <p> Going to need to make a table here </p>
+    
+    <div>
     </div>
 </body>
 
