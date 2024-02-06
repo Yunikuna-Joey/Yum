@@ -246,3 +246,29 @@ input[id="radio-5"]:checked ~ .glider {
         transform: scale(0.6);
     }
 }
+
+.content {
+    display: none;
+    text-align: center;
+    margin-top: 150px;
+}
+
+#radio-1:checked ~ .store-content1 {
+    display: block;
+}
+
+#radio-2:checked ~ .store-content2 {
+    display: block;
+}
+
+#radio-3:checked ~ .store-content3 {
+    display: block;
+}
+
+#radio-4:checked ~ .store-content4 {
+    display: block;
+}
+
+#radio-5:checked ~ .store-content5 {
+    display: block;
+}
