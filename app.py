@@ -203,8 +203,11 @@ def logout():
 @app.route('/store') 
 def loadstorepage(): 
     username = current_user.username
+    low = 'static/uploads/lowprice.svg'
+    med = 'static/uploads/medprice.svg'
+    high = 'static/uploads/highprice.svg'
     
-    return render_template('info.html', username=username)
+    return render_template('info.html', username=username, low=low, med=med, high=high)
 
 @app.route('/home')
 @login_required
