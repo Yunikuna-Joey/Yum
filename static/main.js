@@ -349,18 +349,51 @@ function getCSRFToken() {
 // * Testing listener for showing and hiding content 
 function infoListener() { 
     const buttons = document.querySelectorAll('.modes input[type="radio"]');
-    const reviewContent = document.querySelector('.store-content');
+    const reviewContent = document.querySelector('.review-content');
+    const foodContent = document.querySelector('.food-content');
     const menuContent = document.querySelector('.menu-content');
+    const interiorContent = document.querySelector('.interior-content');
+    const exteriorContent = document.querySelector('.exterior-content');
 
     function updateContent() {
         if (buttons[0].checked) {
             reviewContent.style.display = 'flex';
+            foodContent.style.display = 'none';
             menuContent.style.display = 'none';
+            interiorContent.style.display = 'none';
+            exteriorContent.style.display = 'none';
+        }
+
+        else if (buttons[1].checked) {
+            reviewContent.style.display = 'none';
+            foodContent.style.display = 'flex';
+            menuContent.style.display = 'none';
+            interiorContent.style.display = 'none';
+            exteriorContent.style.display = 'none';
+        }
+
+        else if (buttons[2].checked) {
+            reviewContent.style.display = 'none';
+            foodContent.style.display = 'none';
+            menuContent.style.display = 'flex';
+            interiorContent.style.display = 'none';
+            exteriorContent.style.display = 'none';
+        }
+
+        else if (buttons[3].checked) {
+            reviewContent.style.display = 'none';
+            foodContent.style.display = 'none';
+            menuContent.style.display = 'none';
+            interiorContent.style.display = 'flex';
+            exteriorContent.style.display = 'none';
         }
 
         else {
             reviewContent.style.display = 'none';
-            menuContent.style.display = 'flex'; 
+            foodContent.style.display = 'none';
+            menuContent.style.display = 'none';
+            interiorContent.style.display = 'none';
+            exteriorContent.style.display = 'flex';
         }
     }
 

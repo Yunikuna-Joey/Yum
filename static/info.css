@@ -250,3 +250,8 @@ input[id="radio-5"]:checked ~ .glider {
     }
 }
 
+.store-content {
+    margin-top: 150px;
+    margin-left: 250px;
+    text-align: center;
+}
