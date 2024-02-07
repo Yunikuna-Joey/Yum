@@ -636,26 +636,26 @@ def loadFeedPage():
                 db.session.query(Account)
                 .filter(Account.id == review.account_id)
                 .first()
-        )
+            )
 
 
-        reposted_review_data.append({
-            'id': review.id,
-            'content': review.content,
-            'place_title': marker.title if marker else None,
-            'marker_id': marker.id if marker else None,
-            'timestamp': repost.timestamp,
-            'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
-            'author_display_name': reposted_user.display_name,
-            'username': reposted_user.username,
-            'oa_display_name': original.display_name,
-            'oa_username': original.username,
-            'rating': review.rating,
-            'likes': len(review.likes),
-            'reposts': 0,
-            'comments': repost.comments if repost else None,
-            'is_repost': 'True' if repost.comments else 'False',
-        })
+            reposted_review_data.append({
+                'id': review.id,
+                'content': review.content,
+                'place_title': marker.title if marker else None,
+                'marker_id': marker.id if marker else None,
+                'timestamp': repost.timestamp if repost else None,
+                'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
+                'author_display_name': reposted_user.display_name,
+                'username': reposted_user.username,
+                'oa_display_name': original.display_name,
+                'oa_username': original.username,
+                'rating': review.rating,
+                'likes': len(review.likes),
+                'reposts': 0,
+                'comments': repost.comments if repost else None,
+                'is_repost': 'True' if repost.comments else 'False',
+            })
 
 
         # this is for current users reviews
@@ -746,8 +746,8 @@ def loadFeedPage():
                     'marker_id': marker.id,
                     'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                     'likes': len(review.likes),
-                    'reposts': repost_count,
-                    'is_repost': 'True' if repost.comments else 'False',
+                    'reposts': repost_count if review else 0,
+                    # 'is_repost': 'True' if repost.comments else 'False',
                 })
 
 
