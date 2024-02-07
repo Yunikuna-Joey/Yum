@@ -125,8 +125,8 @@
                             <p> {{ review.content }} </p>
                         </div>
                         <div class="status-icons">
-                            <i class='bx bx-heart'></i>
-                            <span id="like-count" class="like-count"> 0 </span>
+                            <i class='bx bx-heart' onclick="likeReview('{{ review.id }}')"></i>
+                            <span id="like-count-{{ review.id }}" class="like-count"> {{ review.like_count}} </span>
                         </div>
                     </div>
                 </div>

@@ -216,6 +216,8 @@ def loadstorepage(marker_id):
     for review in reviews: 
         user = Account.query.get(review.account_id)
         review.user_picture = '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg'
+        like_count = db.session.query(func.count(Like.id)).filter(Like.review_id == review.id).scalar()
+        review.like_count = like_count
 
     print('This is reviews', reviews)
     print('This is the type for variable reviews', type(reviews))
@@ -237,6 +239,8 @@ def maploadstorepage(place_id):
     for review in reviews: 
         user = Account.query.get(review.account_id)
         review.user_picture = '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg'
+        like_count = db.session.query(func.count(Like.id)).filter(Like.review_id == review.id).scalar()
+        review.like_count = like_count
 
     return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
 
