@@ -93,15 +93,41 @@
             <span class="glider"></span>
         </div>
     </div>
+
+    <div id="image-modal" class="image-modal">
+        <span class="close">&times;</span>
+        <img class="image-content" id="img01">
+    </div>
     
     <div class="store-content">
         <div class="review-content">
-            <p> This is going to hold other peoples reviews </p>
-            <p> Going to need to make a table here </p>
+            <div class="status-feed">
+                <div class="status-update">
+                    <div class="user-info">
+                        <img src="profile.jpg" alt="Profile Picture">
+                        <span class="username">User Name</span>
+                    </div>
+                    <div class="status-text">
+                        <p> Review here </p>
+                    </div>
+                    <div class="status-icons">
+                        <p> icons are here </p>
+                    </div>
+                </div>
+            </div>
         </div>
     
         <div class="food-content">
-            <p> This is going to be a grid for pictures to go into, possible 3x3 or 4x4 </p>
+            <div class="grid-container">
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+            </div>
         </div>
     
         <div class="menu-content">
@@ -121,6 +147,7 @@
 <script>
     window.onload = function () { 
         infoListener();
+        imageInfoListener()
     }
 </script>
 </html>

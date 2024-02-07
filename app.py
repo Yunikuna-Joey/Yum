@@ -206,8 +206,9 @@ def loadstorepage():
     low = 'static/uploads/lowprice.svg'
     med = 'static/uploads/medprice.svg'
     high = 'static/uploads/highprice.svg'
+    test = 'static/uploads/minitoad.jpg'
     
-    return render_template('info.html', username=username, low=low, med=med, high=high)
+    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test)
 
 @app.route('/home')
 @login_required

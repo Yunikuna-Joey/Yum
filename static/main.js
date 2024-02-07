@@ -405,6 +405,28 @@ function infoListener() {
     console.log('Event Listener info');
 }
 
+function imageInfoListener() { 
+    // grab the modal where we want to place it
+    var modal = document.getElementById('image-modal');
+    // placeholder image within the modal
+    var modalImg = document.getElementById('img01');
+    // select all of the pictures within the grid (every item) to clickable 
+    var gridItems = document.querySelectorAll('.grid-item img');
+
+    gridItems.forEach(function(item) {
+        item.onclick = function () { 
+            modal.style.display = 'block';
+            modalImg.src = this.src;
+        }
+    })
+
+    var span = document.getElementsByClassName("close")[0];
+
+    span.onclick = function () { 
+        modal.style.display = 'none';
+    }
+}
+
 // * Like a review 
 function likeReview(reviewId) {
     console.log('review id is', reviewId);

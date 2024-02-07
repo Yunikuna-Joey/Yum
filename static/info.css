@@ -255,3 +255,97 @@ input[id="radio-5"]:checked ~ .glider {
     margin-left: 250px;
     text-align: center;
 }
+
+/* Styling for a new review tab */
+.status-feed {
+    width: 80%;
+    margin-right: 50px;
+}
+
+.status-update {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info .username {
+    font-weight: bold;
+}
+
+.status-icons {
+    margin-top: 10px;
+}
+
+.status-icons button {
+    margin-right: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.status-icons button:hover {
+    background-color: #e0e0e0;
+}
+
+/* grid container for all things photos */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the minimum and maximum width of grid items */
+    grid-gap: 10px; /* Adjust the gap between grid items */
+    width: 80%;
+}
+  
+.grid-item img {
+    width: 100%; /* Make the images fill the grid items */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer;
+}
+
+.image-modal { 
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.image-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    max-height: 80%;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
