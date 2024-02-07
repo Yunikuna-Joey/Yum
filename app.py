@@ -197,23 +197,31 @@ def logout():
 @app.route('/store/<int:marker_id>', methods=['GET']) 
 def loadstorepage(marker_id): 
     username = current_user.username
-    low = 'static/uploads/lowprice.svg'
-    med = 'static/uploads/medprice.svg'
-    high = 'static/uploads/highprice.svg'
+    low = '/static/uploads/lowprice.svg'
+    med = '/static/uploads/medprice.svg'
+    high = '/static/uploads/highprice.svg'
     # test = 'static/uploads/minitoad.jpg'
-    test = 'static/uploads/car2.jpg'
+    test = '/static/uploads/car2.jpg'
 
     # Make a query to the Marker model
     marker = Marker.query.get(marker_id)
+    print('This is name of restaurant ', marker.title)
 
     # Make a query to the Review model to match marker_id == place_id
     reviews = Review.query.filter_by(place_id=marker.place_id).all()
+
+    review_count = db.session.query(func.count(Review.id)).filter(Review.place_id == marker.place_id).scalar()
+    average_rating = db.session.query(func.avg(Review.rating)).filter(Review.place_id == marker.place_id).scalar()
+
+    for review in reviews: 
+        user = Account.query.get(review.account_id)
+        review.user_picture = '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg'
 
     print('This is reviews', reviews)
     print('This is the type for variable reviews', type(reviews))
 
     # return the reviews into the template 
-    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test, marker=marker, reviews=reviews)
+    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
 
 @app.route('/home')
 @login_required

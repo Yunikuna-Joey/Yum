@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Name Here</title>
+    <title>{{ marker.title }}</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="../static/info.css">
     <script src="../static/main.js"></script>
@@ -48,7 +48,7 @@
 
 <body>
     <div class="profile-container">
-        <div class="profile-name"> Testing store name </div>
+        <div class="profile-name"> {{ marker.title }} </div>
         <div class="profile_picture">
             <div class="image-container">
                 <img class="profile-image" src="" alt="Profile Picture"> 
@@ -59,12 +59,12 @@
             <div class="follow-stats">
                 <div class="stat">
                     <p class="stat-label">Reviews</p>
-                    <p class="stat-count"> Value Here </p>
+                    <p class="stat-count"> {{ count }} </p>
                 </div>
 
                 <div class="stat">
                     <p class="stat-label">Average Rating</p>
-                    <p class="stat-count"> Value Here </p> 
+                    <p class="stat-count"> {{ avg }} </p> 
                 </div>
 
                 <div class="stat">
@@ -107,7 +107,7 @@
             <div class="status-feed">
                 <div class="status-update">
                     <div class="user-info">
-                        <img src="profile.jpg" alt="Profile Picture">
+                        <img src="{{ review.user_picture }}" alt="Profile Picture">
                         <div class="info">
                             <span class="displayname"> {{ review.author.display_name }} </span>
                             <p class="username"> @{{ review.author.username }} </p>
