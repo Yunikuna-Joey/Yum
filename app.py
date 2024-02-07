@@ -674,19 +674,19 @@ def loadFeedPage():
         for review in current_review:
             repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
             current_data.append({
-            'id': review.id,
-            'content': review.content,
-            'rating': review.rating,
-            'author_display_name': current_user.display_name,
-            'username': current_user.username,
-            'timestamp': review.timestamp,
-            'place_title': marker.title,
-            'marker_id': marker.id,
-            'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
-            'likes': len(review.likes),
-            'reposts': repost_count,
-            'is_repost': 'False',
-        })
+                'id': review.id,
+                'content': review.content,
+                'rating': review.rating,
+                'author_display_name': current_user.display_name,
+                'username': current_user.username,
+                'timestamp': review.timestamp,
+                'place_title': marker.title,
+                'marker_id': marker.id,
+                'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
+                'likes': len(review.likes),
+                'reposts': repost_count,
+                'is_repost': 'False',
+            })
 
         # it is not displaying the current user's reposts on the feed, need to implement logic here for that
         for review, repost, reposted_user, marker in current_reposts:
@@ -696,22 +696,22 @@ def loadFeedPage():
                 .first()
             )
             current_data.append({
-            'id': review.id,
-            'content': review.content,
-            'place_title': marker.title if marker else None,
-            'marker_id': marker.id if marker else None,
-            'timestamp': repost.timestamp,
-            'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
-            'author_display_name': reposted_user.display_name,
-            'username': reposted_user.username,
-            'oa_display_name': original.display_name,
-            'oa_username': original.username,
-            'rating': review.rating,
-            'likes': len(review.likes),
-            'reposts': 0,
-            'comments': repost.comments if repost else None,
-            'is_repost': 'True' if repost.comments else 'False',
-        })
+                'id': review.id,
+                'content': review.content,
+                'place_title': marker.title if marker else None,
+                'marker_id': marker.id if marker else None,
+                'timestamp': repost.timestamp,
+                'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
+                'author_display_name': reposted_user.display_name,
+                'username': reposted_user.username,
+                'oa_display_name': original.display_name,
+                'oa_username': original.username,
+                'rating': review.rating,
+                'likes': len(review.likes),
+                'reposts': 0,
+                'comments': repost.comments if repost else None,
+                'is_repost': 'True' if repost.comments else 'False',
+            })
 
         total = reposted_review_data + status_updates + current_data
         total.sort(key=lambda x:x['timestamp'], reverse=True)
