@@ -294,8 +294,19 @@ input[id="radio-5"]:checked ~ .glider {
     margin-left: 5px;
 }
 
+.timestamp {
+    margin-left: auto;
+}
+
+.status-text {
+    margin-top: 25px;
+    text-align: left;
+}
+
 .status-icons {
     margin-top: 10px;
+    text-align: left;
+    font-size: 20px;
 }
 
 .status-icons button {
