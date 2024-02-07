@@ -1410,6 +1410,7 @@ function addMarkerModel(markerData) {
         lng: markerData.geometry.location.lng(), 
         title: markerData.name,
         place_id: markerData.place_id,
+        price_level: markerData.price_level,
         address: markerData.vicinity,
     };
 

@@ -140,6 +140,7 @@ class Marker(db.Model):
     title = db.Column(db.String, nullable=False)
     address = db.Column(db.String)
     place_id = db.Column(db.String)
+    price_level = db.Column(db.Integer, nullable=True)
     lat = db.Column(db.Float, nullable=False)
     lng = db.Column(db.Float, nullable=False)
 
@@ -149,6 +150,7 @@ class Marker(db.Model):
             'title': self.title,
             'address': self.address,
             'place_id': self.place_id,
+            'price_level': self.price_level,
             'lat': self.lat, 
             'lng': self.lng, 
         }
@@ -403,7 +405,7 @@ def add_marker():
     if exist_marker: 
         return jsonify({'message': 'Marker already exists', 'marker_id': exist_marker.id})
     
-    new_marker = Marker(lat=data['lat'], lng=data['lng'], title=data.get('title'), place_id=data.get('place_id'), address=data.get('address'))
+    new_marker = Marker(lat=data['lat'], lng=data['lng'], title=data.get('title'), place_id=data.get('place_id'), address=data.get('address'), price_level=data.get('price_level'))
 
     try: 
         db.session.add(new_marker)
