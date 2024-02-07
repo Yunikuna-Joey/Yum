@@ -690,6 +690,11 @@ def loadFeedPage():
 
         # it is not displaying the current user's reposts on the feed, need to implement logic here for that
         for review, repost, reposted_user, marker in current_reposts:
+            original = (
+                db.session.query(Account)
+                .filter(Account.id == review.account_id)
+                .first()
+            )
             current_data.append({
             'id': review.id,
             'content': review.content,
