@@ -149,21 +149,6 @@ header {
     display: none;
 }
 
-section#hero {
-    height: calc(100vh - 60px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-}
-
-#hero h1 {                                                                                                                                                              
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
 .search-bar {
     position: relative;
     display: flex;
@@ -192,7 +177,6 @@ section#hero {
     right: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
-
 }
 
 .search-results {
