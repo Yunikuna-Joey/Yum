@@ -316,7 +316,7 @@ input[id="radio-5"]:checked ~ .glider {
 /* Styling for a new review tab */
 .status-feed {
     width: 80%;
-    margin-right: 50px;
+    margin-right: 100px;
 }
 
 .status-update {

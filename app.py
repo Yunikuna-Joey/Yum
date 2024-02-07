@@ -223,6 +223,23 @@ def loadstorepage(marker_id):
     # return the reviews into the template 
     return render_template('info.html', username=username, low=low, med=med, high=high, photo=test, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
 
+@app.route('/mapstore/<string:place_id>', methods=['GET'])
+def maploadstorepage(place_id): 
+    username = current_user.username
+    
+    marker = Marker.query.filter_by(place_id=place_id).first()
+
+    reviews = Review.query.filter_by(place_id=marker.place_id).all()
+
+    review_count = db.session.query(func.count(Review.id)).filter(Review.place_id == marker.place_id).scalar()
+    average_rating = db.session.query(func.avg(Review.rating)).filter(Review.place_id == marker.place_id).scalar()
+
+    for review in reviews: 
+        user = Account.query.get(review.account_id)
+        review.user_picture = '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg'
+
+    return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
+
 @app.route('/home')
 @login_required
 def home(): 

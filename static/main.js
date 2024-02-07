@@ -1544,6 +1544,7 @@ function createRestMarker(locationData) {
                 infowindow.addListener('domready', function () {
                     const id = locationData.place_id;
                     // console.log('This id is', id);
+                    console.log('This is locationdata object', locationData);
                     const textarea = document.getElementById('review-content');
                     const limit = document.getElementById('char-count');
 
@@ -1560,7 +1561,7 @@ function createRestMarker(locationData) {
                 
                 // we need to have following reviews located in here 
                 markerContent = `                
-                    <strong>${locationData.name}</strong><br>
+                    <a href="/mapstore/${locationData.place_id}"><strong>${locationData.name}</strong></a><br>
                     Rating: ${locationData.rating || 'Not available'}<br>
                     Reviews: ${locationData.reviewCount || 0}<br>
                     Type: ${customType}<br>
