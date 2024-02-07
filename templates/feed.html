@@ -26,7 +26,7 @@
             <li><a href="/profile">Profile</a></li>
             <li><a href="#" onclick="loadfeedpage()">Feed</a></li>
             <li><a href="/friends">Friends</a></li>
-            <li><a href="about">About</a></li>
+            <li><a href="/store">About</a></li>
         </ul>
         <!-- Top right corner -->
         <div class="search-bar">
@@ -114,7 +114,7 @@
                             <div class="status-details">
                                 <div class="left-content">
                                     <i class='bx bxs-map-pin'></i>
-                                    {{ item.place_title }}<br>
+                                    <a href="{{ url_for('loadstorepage', marker_id=item.place_id) }}">{{ item.place_title }}</a><br>
                                 </div>
                             
                                 <div class="middle-bar"></div>

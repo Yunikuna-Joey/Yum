@@ -111,12 +111,6 @@ class Account(UserMixin, db.Model):
 
     def check_password(self, password): 
         return check_password_hash(self.password_hash, password)
-    
-    # def password_auth(self, password): 
-    #     return self.password == password
-
-    # def acc_status_auth(self): 
-    #     return self.acc_status
 
 class Review(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
@@ -200,16 +194,26 @@ def logout():
     logout_user()
     return render_template('login.html')
 
-@app.route('/store') 
-def loadstorepage(): 
+@app.route('/store/<int:marker_id>', methods=['GET']) 
+def loadstorepage(marker_id): 
     username = current_user.username
     low = 'static/uploads/lowprice.svg'
     med = 'static/uploads/medprice.svg'
     high = 'static/uploads/highprice.svg'
     # test = 'static/uploads/minitoad.jpg'
     test = 'static/uploads/car2.jpg'
-    
-    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test)
+
+    # Make a query to the Marker model
+    marker = Marker.query.get(marker_id)
+
+    # Make a query to the Review model to match marker_id == place_id
+    reviews = Review.query.filter_by(place_id=marker.place_id).all()
+
+    print('This is reviews', reviews)
+    print('This is the type for variable reviews', type(reviews))
+
+    # return the reviews into the template 
+    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test, marker=marker, reviews=reviews)
 
 @app.route('/home')
 @login_required
@@ -584,6 +588,7 @@ def loadFeedPage():
             'username': user.username,
             'timestamp': review.timestamp,
             'place_title': marker.title,
+            'place_id': marker.id,
             'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
             'likes': len(review.likes),
             'reposts': repost_count,
@@ -613,6 +618,7 @@ def loadFeedPage():
             'id': review.id,
             'content': review.content,
             'place_title': marker.title if marker else None,
+            'place_id': marker.id if marker else None,
             'timestamp': repost.timestamp,
             'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
             'author_display_name': reposted_user.display_name,
@@ -650,6 +656,7 @@ def loadFeedPage():
             'username': current_user.username,
             'timestamp': review.timestamp,
             'place_title': marker.title,
+            'place_id': marker.id,
             'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
             'likes': len(review.likes),
             'reposts': repost_count,
@@ -662,6 +669,7 @@ def loadFeedPage():
             'id': review.id,
             'content': review.content,
             'place_title': marker.title if marker else None,
+            'place_id': marker.id if marker else None,
             'timestamp': repost.timestamp,
             'profile_picture': '/static/uploads/' + reposted_user.picture if reposted_user.picture else '/static/uploads/default.jpg',
             'author_display_name': reposted_user.display_name,
@@ -710,6 +718,7 @@ def loadFeedPage():
                     'username': user.username,
                     'timestamp': review.timestamp,
                     'place_title': marker.title,
+                    'place_id': marker.id,
                     'profile_picture': '/static/uploads/' + user.picture if user.picture else '/static/uploads/default.jpg',
                     'likes': len(review.likes),
                     'reposts': repost_count,

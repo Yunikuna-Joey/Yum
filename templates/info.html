@@ -7,6 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="../static/info.css">
     <script src="../static/main.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 
 <header>
@@ -101,19 +102,28 @@
     </div>
     
     <div class="store-content">
+        {% for review in reviews %}
         <div class="review-content">
             <div class="status-feed">
                 <div class="status-update">
                     <div class="user-info">
                         <img src="profile.jpg" alt="Profile Picture">
                         <div class="info">
-                            <span class="displayname">Display Name</span>
-                            <p class="username"> @username </p>
+                            <span class="displayname"> {{ review.author.display_name }} </span>
+                            <p class="username"> @{{ review.author.username }} </p>
                         </div>
-                        <div class="timestamp"> 12 hours ago </div>
+                        <div class="timestamp" data-timestamp="{{ review.timestamp }}"> {{ review.timestamp }} </div>
                     </div>
                     <div class="status-text">
+                        {% for i in range(1, 6) %}
+                            {% if i <= review.rating %}
+                                <i id="star" class="fas fa-star"></i>  
+                            {% else %}
+                                <i id="star" class="far fa-star"></i>  
+                            {% endif %}
+                        {% endfor %}
                         <p> Review here, just testing a longer review for front end looks </p>
+                        <p> {{ reviews.content }} </p>
                     </div>
                     <div class="status-icons">
                         <i class='bx bx-heart'></i>
@@ -122,6 +132,7 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
     
         <div class="food-content">
             <div class="grid-container">
@@ -180,7 +191,8 @@
 <script>
     window.onload = function () { 
         infoListener();
-        imageInfoListener()
+        imageInfoListener();
     }
+    timeListener();
 </script>
 </html>

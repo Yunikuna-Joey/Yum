@@ -355,6 +355,10 @@ input[id="radio-5"]:checked ~ .glider {
     margin-left: auto;
 }
 
+.status-text #star { 
+    color: #DC143C;
+}
+
 .status-text {
     margin-top: 25px;
     text-align: left;
