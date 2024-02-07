@@ -149,7 +149,7 @@
                         <div class="status-details">
                             <div class="left-content">
                                 <i class='bx bxs-map-pin'></i>
-                                {{ item.place_title }}<br>
+                                <a href="{{ url_for('loadstorepage', marker_id=item.marker_id) }}">{{ item.place_title }}</a><br>
                             </div>
                            
                             <div class="middle-bar"></div>
