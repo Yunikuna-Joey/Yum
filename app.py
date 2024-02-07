@@ -347,7 +347,7 @@ def register():
 
         if user: 
             return jsonify({'error': 'That name has been taken!'})
-        elif '' in username:
+        elif any(char.isspace() for char in username):
             return jsonify({'error': 'Username cannot contain any spaces!'})
         elif user_email:
             return jsonify({'error': 'Email already in use'})

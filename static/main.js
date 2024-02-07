@@ -195,8 +195,8 @@ function reg_listener() {
         const isValidLength = password.length >= 8; 
         const upperCase = /[A-Z]/.test(password);
         const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-        const displen = displayName.length >= 50;
-        const userlen = username.length >= 25;
+        const displen = displayName.length <= 50 && displayName.length > 0;
+        const userlen = username.length <= 25 && username.length > 0;
     
         if (!isValidLength && password.length > 0) {
             feedback.innerText = 'Password must be at least 8 characters long...';
@@ -1457,32 +1457,32 @@ function createRestMarker(locationData) {
             // content: `<strong>${place.name}</strong><br>Global Rating: ${place.rating || 'Not available'}`,
             
             // ** this is my original content 
-            // content: `
-            //     <strong>${locationData.name}</strong><br>
-            //     Rating: ${locationData.rating || 'Not available'}<br>
-            //     Reviews: ${locationData.reviewCount || 0}<br>
-            //     Type: ${customType}
+            content: `
+                <strong>${locationData.name}</strong><br>
+                Rating: ${locationData.rating || 'Not available'}<br>
+                Reviews: ${locationData.reviewCount || 0}<br>
+                Type: ${customType}
 
-            //     <form id=review-form>
-            //         <label for="review-content"> Leave a Review:</label>
-            //         <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
-            //         <br>
+                <form id=review-form>
+                    <label for="review-content"> Leave a Review:</label>
+                    <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
+                    <br>
 
-            //         <label for="review-rating"> Rating: </label>
-            //         <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
+                    <label for="review-rating"> Rating: </label>
+                    <input type="number" id="review-rating" name="review-rating" min="1" max="5" required><br>
 
-            //         <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
+                    <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
 
-            //         <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
-            //     </form>
-            // `,
+                    <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
+                </form>
+            `,
 
             // * this will list the other types associated with a marker 
             // * [work with this to achieve targeted behavior]
-            content: `<strong>${locationData.name}</strong><br>
-                Rating: ${locationData.rating || 'Not available'}<br>
-                Reviews: ${locationData.reviewCount || 0}<br>
-                Types: ${placeTypes}`,
+            // content: `<strong>${locationData.name}</strong><br>
+            //     Rating: ${locationData.rating || 'Not available'}<br>
+            //     Reviews: ${locationData.reviewCount || 0}<br>
+            //     Types: ${placeTypes}`,
                 
             // content: `<strong>${locationData.name}</strong><br>
             //     Rating: ${locationData.rating || 'Not available'}<br>
