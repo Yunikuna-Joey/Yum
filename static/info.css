@@ -270,6 +270,12 @@ input[id="radio-5"]:checked ~ .glider {
     margin-bottom: 10px;
 }
 
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
 .user-info img {
     width: 40px;
     height: 40px;
@@ -277,8 +283,15 @@ input[id="radio-5"]:checked ~ .glider {
     margin-right: 10px;
 }
 
-.user-info .username {
+.user-info .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-info .displayname {
     font-weight: bold;
+    margin-left: 5px;
 }
 
 .status-icons {
