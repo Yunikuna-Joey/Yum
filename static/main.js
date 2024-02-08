@@ -1465,8 +1465,8 @@ function createRestMarker(locationData) {
                 Type: ${customType}
 
                 <form id=review-form>
-                    <label for="review-content"> Leave a Review:</label>
-                    <textarea id="review-content" maxlength="300" style="resize: none;" name="review-content" rows="4" cols="50" required></textarea>
+                    <label for="review-content" style="display: block; margin-bottom: 5px;">Leave a Review:</label>
+                    <textarea id="review-content" maxlength="300" style="resize: none; margin-bottom: 10px;" name="review-content" rows="4" cols="50" required></textarea>
                     <br>
 
                     <label for="review-rating"> Rating: </label>
@@ -1474,7 +1474,9 @@ function createRestMarker(locationData) {
 
                     <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
 
-                    <button type="button" style="margin-top: 10px;" id="submit-review-btn">Submit Review</button>
+                    <button type="button" style="margin-top: 10px; padding: 5px 15px; background-color: #DC143C; border-radius: 20px; border: 1px solid #CCCCCC;" id="submit-review-btn">
+                        Submit Review
+                    </button>
                 </form>
             `,
 
