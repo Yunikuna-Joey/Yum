@@ -199,15 +199,20 @@ def logout():
 @app.route('/store/<int:marker_id>', methods=['GET']) 
 def loadstorepage(marker_id): 
     username = current_user.username
-    low = '/static/uploads/lowprice.svg'
-    med = '/static/uploads/medprice.svg'
-    high = '/static/uploads/highprice.svg'
+
     # test = 'static/uploads/minitoad.jpg'
     test = '/static/uploads/car2.jpg'
 
     # Make a query to the Marker model
     marker = Marker.query.get(marker_id)
     print('This is name of restaurant ', marker.title)
+
+    if marker.price_level == 2: 
+        logo = '/static/uploads/medprice.svg' 
+    elif marker.price_level == 3: 
+        logo =  '/static/uploads/highprice.svg'
+    else: 
+        logo = '/static/uploads/lowprice.svg'
 
     # Make a query to the Review model to match marker_id == place_id
     reviews = Review.query.filter_by(place_id=marker.place_id).all()
@@ -225,13 +230,21 @@ def loadstorepage(marker_id):
     print('This is the type for variable reviews', type(reviews))
 
     # return the reviews into the template 
-    return render_template('info.html', username=username, low=low, med=med, high=high, photo=test, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
+    return render_template('info.html', username=username, logo=logo, photo=test, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
 
 @app.route('/mapstore/<string:place_id>', methods=['GET'])
 def maploadstorepage(place_id): 
     username = current_user.username
     
     marker = Marker.query.filter_by(place_id=place_id).first()
+
+    if marker.price_level == 2: 
+        logo = '/static/uploads/medprice.svg' 
+    elif marker.price_level == 3: 
+        logo =  '/static/uploads/highprice.svg'
+    else: 
+        logo = '/static/uploads/lowprice.svg' 
+
 
     reviews = Review.query.filter_by(place_id=marker.place_id).all()
 
@@ -244,7 +257,7 @@ def maploadstorepage(place_id):
         like_count = db.session.query(func.count(Like.id)).filter(Like.review_id == review.id).scalar()
         review.like_count = like_count
 
-    return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
+    return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating, logo=logo)
 
 @app.route('/home')
 @login_required
