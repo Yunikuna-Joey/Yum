@@ -17,7 +17,7 @@ from flask_wtf.csrf import CSRFProtect
 # from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from sqlalchemy.orm import Session, joinedload, aliased
+from sqlalchemy.orm import Session, joinedload, aliased, relationship
 from markupsafe import escape
 import re
 from validate_email_address import validate_email
@@ -180,6 +180,21 @@ class Repost(db.Model):
     comments = db.Column(db.Text, nullable=True)
     review = db.relationship('Review', backref=db.backref('repost', lazy=True))
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+class Images(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(255), nullable=False)
+    place_id = db.Column(db.String(255), nullable=False)
+
+    marker = relationship('Marker', backref='images', lazy=True)
+
+    def to_dict(self): 
+        return {
+            'id': self.id, 
+            'url': self.url,
+            'place_id': self.id
+        }
+
 
 
 @login_manager.user_loader
