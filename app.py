@@ -33,6 +33,8 @@ from bleach.css_sanitizer import CSSSanitizer
 from math import radians, sin, cos, sqrt, atan2
 from geopy.distance import geodesic
 
+import requests
+
 # empty list means no css allowed
 css_sanitizer = CSSSanitizer(allowed_css_properties=[])
 
@@ -186,7 +188,7 @@ class Images(db.Model):
     url = db.Column(db.String(255), nullable=False)
     place_id = db.Column(db.String(255), nullable=False)
 
-    marker = relationship('Marker', backref='images', lazy=True)
+    # marker = relationship('Marker', backref='images', lazy=True)
 
     def to_dict(self): 
         return {
@@ -211,9 +213,30 @@ def logout():
     logout_user()
     return render_template('login.html')
 
+def fetch_photos(place_id): 
+    key = os.getenv('KEY')
+    url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=photos&key={key}'
+
+    try: 
+        response = requests.get(url)
+        data = response.json()
+        # if successful client request 
+        if response.status_code == 200: 
+            photo = data['result']['photos']
+            return photo
+
+        else: 
+            print('Failed to fetch photos: ', data.get('error_message'))
+            return []
+        
+    except Exception as e: 
+        print('Error fetching photos:', e)
+        return []
+
 @app.route('/store/<int:marker_id>', methods=['GET']) 
 def loadstorepage(marker_id): 
     username = current_user.username
+    key = os.getenv('KEY')
 
     # test = 'static/uploads/minitoad.jpg'
     test = '/static/uploads/car2.jpg'
@@ -222,10 +245,13 @@ def loadstorepage(marker_id):
     marker = Marker.query.get(marker_id)
     print('This is name of restaurant ', marker.title)
 
+    photos = fetch_photos(marker.place_id)
+    print('This is photos', photos)
+
     if marker.price_level == 2: 
         logo = '/static/uploads/medprice.svg' 
     elif marker.price_level == 3: 
-        logo =  '/static/uploads/highprice.svg'
+        logo = '/static/uploads/highprice.svg'
     else: 
         logo = '/static/uploads/lowprice.svg'
 
@@ -245,7 +271,7 @@ def loadstorepage(marker_id):
     print('This is the type for variable reviews', type(reviews))
 
     # return the reviews into the template 
-    return render_template('info.html', username=username, logo=logo, photo=test, marker=marker, reviews=reviews, count=review_count, avg=average_rating)
+    return render_template('info.html', username=username, logo=logo, marker=marker, reviews=reviews, count=review_count, avg=average_rating, gallery=photos, key=key)
 
 @app.route('/mapstore/<string:place_id>', methods=['GET'])
 def maploadstorepage(place_id): 

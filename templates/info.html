@@ -135,14 +135,9 @@
     
         <div class="food-content">
             <div class="grid-container">
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% for photo in gallery %}
+                    <div class="grid-item"><img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{ photo.reference }}&key={{ key }}" alt="Photo"></div>
+                {% endfor %}
             </div>
         </div>
     
