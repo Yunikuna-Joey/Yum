@@ -173,6 +173,23 @@ a:hover {
     margin-bottom: 10px;
 }
 
+.profile-picture {
+    width: 200px;
+    height: 200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    transform: scale(1.7);
+}
+
 .profile-info {
     /* margin(top, right, bottom, left) */
     margin: 0 20px;
@@ -213,6 +230,7 @@ a:hover {
     border-radius: 50%;
     width: 100px;
     height: 100px;
+    display: block;
     /* Move the circle down from the top and centered horizontally */
     /* margin: 20px 300px;  */
     /* margin(top, right, bottom, left) */

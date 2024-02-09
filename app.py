@@ -197,8 +197,6 @@ class Images(db.Model):
             'place_id': self.id
         }
 
-
-
 @login_manager.user_loader
 def load_user(user_id): 
     return Account.query.get(int(user_id))
@@ -213,25 +211,30 @@ def logout():
     logout_user()
     return render_template('login.html')
 
-def fetch_photos(place_id): 
+    
+def fetch_place(place_id):
     key = os.getenv('KEY')
-    url = f'https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=photos&key={key}'
+    url = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={place_id}&fields=photos&key={key}"
 
-    try: 
+    photo_references = []
+
+    try:
         response = requests.get(url)
-        data = response.json()
-        # if successful client request 
-        if response.status_code == 200: 
-            photo = data['result']['photos']
-            return photo
+        if response.status_code == 200:
+            data = response.json()
+            print('This is data', data)
+            photos = data.get('result', {}).get('photos', [])
+            photo_references.extend([photo['photo_reference'] for photo in photos])
+            
+            next_page_token = data.get('next_page_token')
+            print('This is next page token', next_page_token)
 
-        else: 
-            print('Failed to fetch photos: ', data.get('error_message'))
-            return []
-        
-    except Exception as e: 
-        print('Error fetching photos:', e)
+
+    except Exception as e:
+        print('Error fetching place details:', e)
         return []
+    
+    return photo_references
 
 @app.route('/store/<int:marker_id>', methods=['GET']) 
 def loadstorepage(marker_id): 
@@ -242,15 +245,13 @@ def loadstorepage(marker_id):
     marker = Marker.query.get(marker_id)
     print('This is name of restaurant ', marker.title)
 
-    photos = fetch_photos(marker.place_id)
+    photos = fetch_place(marker.place_id)
     print('This is photos', photos)
 
     photo_gallery = []
-    for photo in photos: 
-        if 'photo_reference' in photo: 
-            photo_gallery.append(
-                f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo['photo_reference']}&key={key}"
-            )
+    for photo_reference in photos:
+        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=1080&photoreference={photo_reference}&key={key}"
+        photo_gallery.append(photo_url)
 
     if marker.price_level == 2: 
         logo = '/static/uploads/medprice.svg' 
@@ -283,15 +284,13 @@ def maploadstorepage(place_id):
     key = os.getenv('KEY')
     
     marker = Marker.query.filter_by(place_id=place_id).first()
-    photos = fetch_photos(place_id)
+    photos = fetch_place(place_id)
     print('This is photos', photos)
 
     photo_gallery = []
-    for photo in photos: 
-        if 'photo_reference' in photo: 
-            photo_gallery.append(
-                f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo['photo_reference']}&key={key}"
-            )
+    for photo_reference in photos:
+        photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference={photo_reference}&key={key}"
+        photo_gallery.append(photo_url)
 
     if marker.price_level == 2: 
         logo = '/static/uploads/medprice.svg' 
