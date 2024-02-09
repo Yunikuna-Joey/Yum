@@ -183,19 +183,19 @@ class Repost(db.Model):
     review = db.relationship('Review', backref=db.backref('repost', lazy=True))
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
-class Images(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(255), nullable=False)
-    place_id = db.Column(db.String(255), nullable=False)
+# class Images(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     url = db.Column(db.String(255), nullable=False)
+#     place_id = db.Column(db.String(255), nullable=False)
 
-    # marker = relationship('Marker', backref='images', lazy=True)
+#     # marker = relationship('Marker', backref='images', lazy=True)
 
-    def to_dict(self): 
-        return {
-            'id': self.id, 
-            'url': self.url,
-            'place_id': self.id
-        }
+#     def to_dict(self): 
+#         return {
+#             'id': self.id, 
+#             'url': self.url,
+#             'place_id': self.id
+#         }
 
 @login_manager.user_loader
 def load_user(user_id): 
