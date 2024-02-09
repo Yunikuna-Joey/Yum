@@ -248,6 +248,13 @@ def loadstorepage(marker_id):
     photos = fetch_photos(marker.place_id)
     print('This is photos', photos)
 
+    photo_gallery = []
+    for photo in photos: 
+        if 'photo_reference' in photo: 
+            photo_gallery.append(
+                f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo['photo_reference']}&key={key}"
+            )
+
     if marker.price_level == 2: 
         logo = '/static/uploads/medprice.svg' 
     elif marker.price_level == 3: 
@@ -271,13 +278,23 @@ def loadstorepage(marker_id):
     print('This is the type for variable reviews', type(reviews))
 
     # return the reviews into the template 
-    return render_template('info.html', username=username, logo=logo, marker=marker, reviews=reviews, count=review_count, avg=average_rating, gallery=photos, key=key)
+    return render_template('info.html', username=username, logo=logo, marker=marker, reviews=reviews, count=review_count, avg=average_rating, gallery=photo_gallery)
 
 @app.route('/mapstore/<string:place_id>', methods=['GET'])
 def maploadstorepage(place_id): 
     username = current_user.username
+    key = os.getenv('KEY')
     
     marker = Marker.query.filter_by(place_id=place_id).first()
+    photos = fetch_photos(place_id)
+    print('This is photos', photos)
+
+    photo_gallery = []
+    for photo in photos: 
+        if 'photo_reference' in photo: 
+            photo_gallery.append(
+                f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo['photo_reference']}&key={key}"
+            )
 
     if marker.price_level == 2: 
         logo = '/static/uploads/medprice.svg' 
@@ -298,7 +315,7 @@ def maploadstorepage(place_id):
         like_count = db.session.query(func.count(Like.id)).filter(Like.review_id == review.id).scalar()
         review.like_count = like_count
 
-    return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating, logo=logo)
+    return render_template('info.html', username=username, marker=marker, reviews=reviews, count=review_count, avg=average_rating, logo=logo, gallery=photo_gallery)
 
 @app.route('/home')
 @login_required
@@ -730,6 +747,7 @@ def loadFeedPage():
 
         current_data = []
         for review in current_review:
+            marker = Marker.query.filter_by(place_id=review.place_id).first()
             repost_count = db.session.query(func.count(Repost.id)).filter(Repost.review_id == review.id).scalar()
             current_data.append({
                 'id': review.id,
@@ -738,8 +756,8 @@ def loadFeedPage():
                 'author_display_name': current_user.display_name,
                 'username': current_user.username,
                 'timestamp': review.timestamp,
-                'place_title': marker.title,
-                'marker_id': marker.id,
+                'place_title': marker.title if marker else None,
+                'marker_id': marker.id if marker else None,
                 'profile_picture': '/static/uploads/' + current_user.picture if current_user.picture else '/static/uploads/default.jpg',
                 'likes': len(review.likes),
                 'reposts': repost_count,
@@ -748,11 +766,6 @@ def loadFeedPage():
 
         # it is not displaying the current user's reposts on the feed, need to implement logic here for that
         for review, repost, reposted_user, marker in current_reposts:
-            # original = (
-            #     db.session.query(Account)
-            #     .filter(Account.id == review.account_id)
-            #     .first()
-            # )
             current_data.append({
                 'id': review.id,
                 'content': review.content,

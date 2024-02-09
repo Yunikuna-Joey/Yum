@@ -1474,7 +1474,7 @@ function createRestMarker(locationData) {
 
                     <div id="char-count" style="margin-top: 10px; color: #DC143C;"> </div>
 
-                    <button type="button" style="margin-top: 10px; padding: 5px 15px; background-color: #DC143C; border-radius: 20px; border: 1px solid #CCCCCC;" id="submit-review-btn">
+                    <button type="button" style="margin-top: 10px; padding: 5px 15px; cursor: pointer; background-color: #DC143C; border-radius: 20px; border: 1px solid #CCCCCC;" id="submit-review-btn">
                         Submit Review
                     </button>
                 </form>
