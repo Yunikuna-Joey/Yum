@@ -238,9 +238,6 @@ def loadstorepage(marker_id):
     username = current_user.username
     key = os.getenv('KEY')
 
-    # test = 'static/uploads/minitoad.jpg'
-    test = '/static/uploads/car2.jpg'
-
     # Make a query to the Marker model
     marker = Marker.query.get(marker_id)
     print('This is name of restaurant ', marker.title)

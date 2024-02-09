@@ -143,40 +143,25 @@
     
         <div class="menu-content">
             <div class="grid-container">
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% for photo in gallery %}
+                    <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% endfor %}
             </div>
         </div>
     
         <div class="interior-content">
             <div class="grid-container">
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% for photo in gallery %}
+                    <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% endfor %}
             </div>
         </div>
     
         <div class="exterior-content">
             <div class="grid-container">
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
-                <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% for photo in gallery %}
+                    <div class="grid-item"><img src="{{ photo }}" alt="Photo"></div>
+                {% endfor %}
             </div>
         </div>
     </div>
