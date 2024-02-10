@@ -205,6 +205,11 @@ def load_user(user_id):
 def loadloginpage(): 
     return render_template('login.html')
 
+@app.route('/about')
+def loadaboutpage(): 
+    photo = '/static/uploads/avatar.png'
+    return render_template('about.html', photo=photo)
+
 @app.route('/logout', methods=['POST'])
 @login_required 
 def logout(): 
