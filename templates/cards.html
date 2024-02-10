@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../static/main.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/cards.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Friends</title>
 
     <script>
         window.onload = function () {
             tabListener();
             scrollListener();
+            searchUser();
         }
     </script>
 </head>
@@ -26,6 +29,12 @@
             <li><a href="/friends">Friends</a></li>
             <li><a href="/about">About</a></li>
         </ul>
+
+        <div class="search-bar">
+            <input type="text" id="term" class="search-input" placeholder="Search users...">
+            <button class="search-button"><i class='bx bx-search'></i></button>
+            <div id="search-results" class="search-results"></div>
+        </div>
 
         
         <div class="user-drop">
