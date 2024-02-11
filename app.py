@@ -332,7 +332,7 @@ def home():
     # # this will grab all revies from current user and their following
     # reviews = Review.query.filter(Review.account_id.in_([current_user.id] + following)).all()
 
-    return render_template('home.html', username=username, key=key, map=mapid)
+    return render_template('index.html', username=username, key=key, map=mapid)
 
 
 # not necessary for sanzing
