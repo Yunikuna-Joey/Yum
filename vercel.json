@@ -1,5 +1,9 @@
 {
+    "buildCommands": "nextBuild",
+
     "rewrites": [
       { "source": "/(.*)", "destination": "/templates/index.html" }
     ]
+
+
 }
