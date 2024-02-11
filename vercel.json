@@ -1,5 +1,6 @@
 {
-  "routes": [
-    { "source": "/(.*)", "destination": "/templates/login.html" }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/templates/login.html" }, 
+    { "source": "/loadregisterpage", "destination": "/templates/register.html"}
   ]
 }
