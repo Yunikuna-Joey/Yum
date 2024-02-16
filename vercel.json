@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/templates/login.html" }, 
-    { "source": "/loadregisterpage", "destination": "/templates/register.html" }
-  ]
-}
