@@ -227,13 +227,12 @@ def fetch_place(place_id):
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            print('This is data', data)
+            # print('This is data', data)
             photos = data.get('result', {}).get('photos', [])
             photo_references.extend([photo['photo_reference'] for photo in photos])
             
-            next_page_token = data.get('next_page_token')
-            print('This is next page token', next_page_token)
-
+            # next_page_token = data.get('next_page_token')
+            # print('This is next page token', next_page_token)
 
     except Exception as e:
         print('Error fetching place details:', e)
